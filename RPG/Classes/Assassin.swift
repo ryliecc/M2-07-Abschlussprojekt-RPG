@@ -8,8 +8,9 @@
 import Foundation
 
 class Assassin: Hero {
+    let shadowJab: Attack = Attack(name: "Shadow Jab", powerMultiplier: 1, manaCost: 0)
     let quietDeath: Attack = Attack(name: "Quiet Death", powerMultiplier: 1.5, manaCost: 5)
     init() {
-        super.init(name: "Assassin", maxHealthPoints: 20, healthPoints: 20, maxManaPoints: 10, manaPoints: 10, attacks: [quietDeath], attackPower: 8, defense: 10)
+        super.init(name: "Assassin", maxHealthPoints: 20, healthPoints: 20, maxManaPoints: 10, manaPoints: 10, attacks: [shadowJab, quietDeath], attackPower: 8, defense: 10)
     }
 }
