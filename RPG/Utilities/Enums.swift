@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+enum AttackType {
+    case damage
+    case heal
+    case trap
+    case manaRestore
+}

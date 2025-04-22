@@ -11,4 +11,5 @@ struct Attack {
     let name: String
     let powerMultiplier: Double
     let manaCost: Double
+    let type: AttackType
 }
