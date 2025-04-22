@@ -8,7 +8,8 @@
 import Foundation
 
 class Thief: Hero {
+    let backStab: Attack = Attack(name: "Backstab", powerMultiplier: 1.3, manaCost: 2)
     init() {
-        super.init(name: "Thief", initialHealthPoints: 20, healthPoints: 20, initialManaPoints: 12, manaPoints: 12, attackList: ["Backstab", "Poison Dagger", "Trap"])
+        super.init(name: "Thief", maxHealthPoints: 20, healthPoints: 20, maxManaPoints: 12, manaPoints: 12, attacks: [backStab], attackPower: 4, defense: 10)
     }
 }

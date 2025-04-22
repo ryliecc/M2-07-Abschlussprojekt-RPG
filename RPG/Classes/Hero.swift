@@ -8,12 +8,7 @@
 import Foundation
 
 class Hero: Character {
-    let initialManaPoints: Double
-    let manaPoints: Double
-    
-    init(name: String, initialHealthPoints: Double, healthPoints: Double, initialManaPoints: Double, manaPoints: Double, attackList: [String] = []) {
-        self.initialManaPoints = initialManaPoints
-        self.manaPoints = manaPoints
-        super.init(name: name, initialHealthPoints: initialHealthPoints, healthPoints: healthPoints, attackList: attackList)
+    override init(name: String, maxHealthPoints: Double, healthPoints: Double, maxManaPoints: Double, manaPoints: Double, attacks: [Attack] = [], attackPower: Double, defense: Double) {
+        super.init(name: name, maxHealthPoints: maxHealthPoints, healthPoints: healthPoints, maxManaPoints: maxManaPoints, manaPoints: manaPoints, attacks: attacks, attackPower: attackPower, defense: defense)
     }
 }
