@@ -12,4 +12,8 @@ enum AttackType {
     case heal
     case trap
     case manaRestore
+    case buffAttack
+    case buffDefense
+    case debuffAttack
+    case debuffDefense
 }
