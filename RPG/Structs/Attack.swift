@@ -7,9 +7,13 @@
 
 import Foundation
 
-struct Attack {
+struct Attack: CustomStringConvertible {
     let name: String
     let powerMultiplier: Double
     let manaCost: Double
     let type: AttackType
+    let infoText: String
+    var description: String {
+        "\(name):\n\(infoText)\nMP Cost: \(manaCost)"
+    }
 }
