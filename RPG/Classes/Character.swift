@@ -32,7 +32,7 @@ class Character: CustomStringConvertible, Equatable {
     }
     
     var description: String {
-        "\(name)\nHP: \(healthPoints)/\(maxHealthPoints)\nMP: \(manaPoints)/\(maxManaPoints)"
+        "\(name)\nHP: \(healthPoints.roundedDown)/\(maxHealthPoints.roundedDown)\nMP: \(manaPoints.roundedDown)/\(maxManaPoints.roundedDown)"
     }
     
     func takeDamage(_ amount: Double, from attacker: Character) {
@@ -40,10 +40,10 @@ class Character: CustomStringConvertible, Equatable {
             hasTrap = false
             print("\(name)'s trap is triggered.")
             attacker.takeDamage(trapDamage, from: self)
-            print("\(attacker.name) takes \(trapDamage) damage from the trap.")
+            print("\(attacker.name) takes \(trapDamage.roundedDown) damage from the trap.")
         }
         healthPoints = max(0, healthPoints - amount)
-        print("It deals \(amount) damage.")
+        print("It deals \(amount.roundedDown) damage.")
     }
     
     func attack(_ attack: Attack, on target: Character) {
@@ -61,11 +61,11 @@ class Character: CustomStringConvertible, Equatable {
         case .heal:
             let healAmount = self.attackPower * attack.powerMultiplier
             target.healthPoints = min(target.maxHealthPoints, target.healthPoints + healAmount)
-            print("\(name) heals \(self == target ? "themselves" : target.name) for \(healAmount) HP.")
+            print("\(name) heals \(self == target ? "themselves" : target.name) for \(healAmount.roundedDown) HP.")
         case .manaRestore:
             let manaAmount = self.attackPower * attack.powerMultiplier
             target.manaPoints = min(target.maxManaPoints, target.manaPoints + manaAmount)
-            print("\(name) restores \(manaAmount) MP to \(self == target ? "themselves" : target.name).")
+            print("\(name) restores \(manaAmount.roundedDown) MP to \(self == target ? "themselves" : target.name).")
         case .trap:
             target.hasTrap = true
             target.trapDamage = self.attackPower * attack.powerMultiplier
@@ -73,19 +73,19 @@ class Character: CustomStringConvertible, Equatable {
         case .buffAttack:
             let buffAmount = self.attackPower * attack.powerMultiplier
             target.attackPower += buffAmount
-            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") attack power by \(buffAmount).")
+            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") attack power by \(buffAmount.roundedDown).")
         case .buffDefense:
             let buffAmount = self.attackPower * attack.powerMultiplier
             target.defense += buffAmount
-            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") defense by \(buffAmount).")
+            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") defense by \(buffAmount.roundedDown).")
         case .debuffAttack:
             let buffAmount = self.attackPower * attack.powerMultiplier
             target.attackPower = max(0, target.attackPower - buffAmount)
-            print("\(name) weakens \(target.name)'s attack power by \(buffAmount).")
+            print("\(name) weakens \(target.name)'s attack power by \(buffAmount.roundedDown).")
         case .debuffDefense:
             let buffAmount = self.attackPower * attack.powerMultiplier
             target.defense = max(0, target.defense - buffAmount)
-            print("\(name) reduces \(target.name)'s defense by \(buffAmount).")
+            print("\(name) reduces \(target.name)'s defense by \(buffAmount.roundedDown).")
         case .ultimate:
             if !hasUsedUltimate {
                 print("\(name) uses ultimate attack \(attack.name).")
