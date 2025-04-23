@@ -11,5 +11,5 @@ struct Item {
     let name: String
     let attackPoints: Double
     let defensePoints: Double
-    let numberOfUsages: Int
+    var numberOfUsages: Int
 }
