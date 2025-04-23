@@ -31,6 +31,10 @@ struct Bag {
         return items[originalIndex]
     }
     
+    mutating func addItem(_ item: Item) {
+        items.append(item)
+    }
+    
     private func enterInteger() -> Int {
                 let input: Int? = Int(readLine()!)
                 if input == nil {
