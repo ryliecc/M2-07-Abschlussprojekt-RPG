@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+protocol Levelable {
+    var experiencePoints: Int { get set }
+    var level: Int { get set }
+    var experienceNeededForNextLevel: Int { get }
+    
+    mutating func gainExperience(_ amount: Int)
+    mutating func levelUp()
+}

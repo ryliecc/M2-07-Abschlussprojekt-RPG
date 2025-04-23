@@ -9,9 +9,9 @@ import Foundation
 
 class Character: CustomStringConvertible, Equatable {
     let name: String
-    let maxHealthPoints: Double
+    var maxHealthPoints: Double
     var healthPoints: Double
-    let maxManaPoints: Double
+    var maxManaPoints: Double
     var manaPoints: Double
     var attacks: [Attack]
     var attackPower: Double
