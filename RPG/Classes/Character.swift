@@ -32,7 +32,9 @@ class Character: CustomStringConvertible, Equatable {
     }
     
     var description: String {
-        "\(name)\nHP: \(healthPoints.roundedDown)/\(maxHealthPoints.roundedDown)\nMP: \(manaPoints.roundedDown)/\(maxManaPoints.roundedDown)"
+        let healthPointsBar = "HP".progressBar(for: healthPoints, maxValue: maxHealthPoints)
+        let manaPointsBar = "MP".progressBar(for: manaPoints, maxValue: maxManaPoints)
+        return "\(name)\n\(healthPointsBar)\n\(manaPointsBar)"
     }
     
     func takeDamage(_ amount: Double, from attacker: Character) {
