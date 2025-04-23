@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+extension Double {
+    var roundedDown: Int {
+        Int(floor(self))
+    }
+}
