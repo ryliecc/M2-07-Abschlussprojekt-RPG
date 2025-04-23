@@ -7,9 +7,14 @@
 
 import Foundation
 
-struct Item {
+struct Item: CustomStringConvertible {
     let name: String
     let attackPoints: Double
     let defensePoints: Double
     var numberOfUsages: Int
+    let infoText: String
+    
+    var description: String {
+        "\(numberOfUsages)x \(name): \(infoText)"
+    }
 }

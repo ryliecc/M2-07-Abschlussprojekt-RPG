@@ -7,14 +7,18 @@
 
 import Foundation
 
-struct Bag {
+struct Bag: CustomStringConvertible {
     var items: [Item]
+    
+    var description: String {
+        return "The bag contains the following items:\n" + items.map { $0.description }.joined(separator: "\n")
+    }
     
     mutating func menu(_ hero: Hero) -> Item? {
         print("The following items are available:")
         let availableItems = items.enumerated().filter { $0.element.numberOfUsages >= 1 }
         for (index, item) in availableItems.enumerated() {
-            print("[\(index + 1)] \(item.element.name)")
+            print("[\(index + 1)] \(item.element.name) (\(item.element.numberOfUsages) left)")
         }
         print("[\(availableItems.count + 1)] Go back")
         print("Which item should \(hero.name) use?")
