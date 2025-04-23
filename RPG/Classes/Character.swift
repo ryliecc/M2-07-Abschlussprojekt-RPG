@@ -18,6 +18,7 @@ class Character: CustomStringConvertible, Equatable {
     var defense: Double
     var hasTrap: Bool = false
     var trapDamage: Double = 0
+    var hasUsedUltimate = false
     
     init(name: String, maxHealthPoints: Double, healthPoints: Double, maxManaPoints: Double, manaPoints: Double, attacks: [Attack] = [], attackPower: Double, defense: Double) {
         self.name = name
@@ -42,6 +43,7 @@ class Character: CustomStringConvertible, Equatable {
             print("\(attacker.name) takes \(trapDamage) damage from the trap.")
         }
         healthPoints = max(0, healthPoints - amount)
+        print("It deals \(amount) damage.")
     }
     
     func attack(_ attack: Attack, on target: Character) {
@@ -56,7 +58,6 @@ class Character: CustomStringConvertible, Equatable {
         case .damage:
             let totalDamage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)
             target.takeDamage(totalDamage, from: self)
-            print("It deals \(totalDamage) damage.")
         case .heal:
             let healAmount = self.attackPower * attack.powerMultiplier
             target.healthPoints = min(target.maxHealthPoints, target.healthPoints + healAmount)
@@ -85,6 +86,17 @@ class Character: CustomStringConvertible, Equatable {
             let buffAmount = self.attackPower * attack.powerMultiplier
             target.defense = max(0, target.defense - buffAmount)
             print("\(name) reduces \(target.name)'s defense by \(buffAmount).")
+        case .ultimate:
+            if !hasUsedUltimate {
+                print("\(name) uses ultimate attack \(attack.name).")
+                hasUsedUltimate = true
+                let totalDamage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)
+                            target.takeDamage(totalDamage, from: self)
+            } else {
+                print("\(name) tries to use ultimate attack again, but this attack can only be used once.")
+            }
+        default:
+            return
         }
     }
     

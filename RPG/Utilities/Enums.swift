@@ -16,4 +16,7 @@ enum AttackType {
     case buffDefense
     case debuffAttack
     case debuffDefense
+    case areaDamage
+    case ultimate
+    case curse
 }
