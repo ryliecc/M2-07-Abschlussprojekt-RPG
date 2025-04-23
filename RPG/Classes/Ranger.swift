@@ -13,6 +13,6 @@ class Ranger: Hero {
     let eaglesEye: Attack = Attack(name: "Eagle's Eye", powerMultiplier: 0.6, manaCost: 3, type: .buffAttack, infoText: "Focuses the ranger's aim, empowering the next strikes.")
     let forestVeil: Attack = Attack(name: "Forest Veil", powerMultiplier: 0.8, manaCost: 3, type: .buffDefense, infoText: "The ranger draws on nature’s protection to harden their defenses.")
     init() {
-        super.init(name: "Ranger", maxHealthPoints: 18, healthPoints: 18, maxManaPoints: 18, manaPoints: 18, attacks: [arrowShot, rainOfThorns, eaglesEye, forestVeil], attackPower: 9, defense: 6)
+        super.init(name: "Ranger", maxHealthPoints: 18, maxManaPoints: 18, attacks: [arrowShot, rainOfThorns, eaglesEye, forestVeil], attackPower: 9, defense: 6)
     }
 }

@@ -13,6 +13,6 @@ class Thief: Hero {
     let spikeTrap: Attack = Attack(name: "Spike Trap", powerMultiplier: 1.0, manaCost: 4, type: .trap, infoText: "Lays a hidden trap that springs on the next attacker.")
     let smokeBomb: Attack = Attack(name: "Smoke Bomb", powerMultiplier: 0.8, manaCost: 3, type: .debuffAttack, infoText: "A cloud of smoke disorients the foe, dulling their attacks.")
     init() {
-        super.init(name: "Thief", maxHealthPoints: 20, healthPoints: 20, maxManaPoints: 12, manaPoints: 12, attacks: [quickSlash, backStab, spikeTrap, smokeBomb], attackPower: 4, defense: 10)
+        super.init(name: "Thief", maxHealthPoints: 20, maxManaPoints: 12, attacks: [quickSlash, backStab, spikeTrap, smokeBomb], attackPower: 4, defense: 10)
     }
 }

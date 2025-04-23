@@ -13,6 +13,6 @@ class Assassin: Hero {
     let shadowFocus: Attack = Attack(name: "Shadow Focus", powerMultiplier: 0.8, manaCost: 3, type: .buffAttack, infoText: "The assassin sharpens their senses, increasing attack precision.")
     let poisonedBlade: Attack = Attack(name: "Poisoned Blade", powerMultiplier: 0.6, manaCost: 4, type: .debuffDefense, infoText: "Coats the weapon in venom, weakening the enemy’s defenses.")
     init() {
-        super.init(name: "Assassin", maxHealthPoints: 20, healthPoints: 20, maxManaPoints: 10, manaPoints: 10, attacks: [shadowJab, quietDeath, shadowFocus, poisonedBlade], attackPower: 8, defense: 10)
+        super.init(name: "Assassin", maxHealthPoints: 20, maxManaPoints: 10, attacks: [shadowJab, quietDeath, shadowFocus, poisonedBlade], attackPower: 8, defense: 10)
     }
 }

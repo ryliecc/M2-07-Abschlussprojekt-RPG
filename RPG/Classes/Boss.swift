@@ -22,6 +22,6 @@ class Boss: Opponent {
     var henchman: Henchman?
     
     func callHenchman() -> Henchman {
-        return Henchman(name: "Henchman", maxHealthPoints: 10, healthPoints: 10, maxManaPoints: 5, manaPoints: 5, attackPower: 5, defense: 4)
+        return Henchman(name: "Henchman", maxHealthPoints: 10, maxManaPoints: 5, attackPower: 5, defense: 4)
     }
 }
