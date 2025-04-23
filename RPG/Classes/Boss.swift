@@ -13,6 +13,9 @@ class Boss: Opponent {
             if healthPoints <= maxHealthPoints / 2 && oldValue > maxHealthPoints / 2 && henchman == nil {
                 henchman = callHenchman()
             }
+            if healthPoints == 0 && oldValue > 0 {
+                henchman?.isFueledByRevenge = true
+            }
         }
     }
     
