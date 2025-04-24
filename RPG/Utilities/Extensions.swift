@@ -26,3 +26,9 @@ extension String {
         return "~~~\(self)~~~"
     }
 }
+
+extension Character {
+    var isAlive: Bool {
+        healthPoints > 0
+    }
+}
