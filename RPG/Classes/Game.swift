@@ -39,8 +39,34 @@ class Game {
         }
     }
     
-    func fight(opponent: Opponent) {
-        print("\(opponent.name) appears. The fight begins!")
+    func enterInteger(min: Int, max: Int) -> Int {
+        print("Please enter the number of your choice.")
+        var input: Int? = Int(readLine()!)
+        while input == nil || input! < min || input! > max {
+            print("Wrong input. Please try again.")
+            input = Int(readLine()!)
+        }
+        return input!
+    }
+    
+    func printTurnMenu(_ hero: Hero) {
+        print("It is \(hero.name)'s turn. What should they do?\n[1] Attack\n[2] Use Item")
+        let choice: Int = enterInteger(min: 1, max: 2)
+        if choice == 1 {
+            // open attack menu and attack
+        }
+        if choice == 2 {
+            let item: Item? = bag.menu(hero)
+            if item == nil {
+                printTurnMenu(hero)
+            } else {
+                // use Item
+            }
+        }
+    }
+    
+    func fight() {
+        print("\(currentOpponents[0].name) appears. The fight begins!")
         fightIsRunning = true
         var roundCounter: Int = 0
         while fightIsRunning {
@@ -49,6 +75,21 @@ class Game {
                 print("Round \(roundCounter)".highlight())
                 printAllStatusInfos()
                 party.shuffle()
+                for hero in party {
+                    printTurnMenu(hero)
+                    guard checkIfBothSidesCanFight() else {
+                        fightIsRunning = false
+                        return
+                    }
+                }
+                for opponent in currentOpponents {
+                    print("\(opponent.name) will soon attack here.")
+                    // let opponents attack
+                    guard checkIfBothSidesCanFight() else {
+                        fightIsRunning = false
+                        return
+                    }
+                }
             } else {
                 fightIsRunning = false
             }
