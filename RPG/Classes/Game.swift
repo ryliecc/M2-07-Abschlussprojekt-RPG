@@ -39,21 +39,27 @@ class Game {
         }
     }
     
-    func enterInteger(min: Int, max: Int) -> Int {
-        print("Please enter the number of your choice.")
-        var input: Int? = Int(readLine()!)
-        while input == nil || input! < min || input! > max {
-            print("Wrong input. Please try again.")
-            input = Int(readLine()!)
-        }
-        return input!
-    }
-    
     func printTurnMenu(_ hero: Hero) {
         print("It is \(hero.name)'s turn. What should they do?\n[1] Attack\n[2] Use Item")
         let choice: Int = enterInteger(min: 1, max: 2)
         if choice == 1 {
-            // open attack menu and attack
+            let chosenAttack: Attack? = hero.chooseAttack()
+            if chosenAttack == nil {
+                printTurnMenu(hero)
+            } else {
+                switch chosenAttack!.type {
+                case .damage, .debuffAttack, .debuffDefense, .ultimate, .areaDamage:
+                    if currentOpponents.count > 1 {
+                        let chosenOpponent: Character? = hero.chooseTarget(possibleTargets: currentOpponents)
+                        chosenOpponent == nil ? printTurnMenu(hero) : hero.attack(chosenAttack!, on: chosenOpponent!)
+                    } else {
+                        hero.attack(chosenAttack!, on: currentOpponents[0])
+                    }
+                case .buffAttack, .buffDefense, .heal, .manaRestore, .trap:
+                    let chosenHero: Character? = hero.chooseTarget(possibleTargets: party)
+                    chosenHero == nil ? printTurnMenu(hero) : hero.attack(chosenAttack!, on: chosenHero!)
+                }
+            }
         }
         if choice == 2 {
             let item: Item? = bag.menu(hero)

@@ -35,6 +35,34 @@ class Hero: Character, Levelable {
         manaPoints = maxManaPoints
     }
     
+    func chooseAttack() -> Attack? {
+        print("Choose an attack:")
+        for (index, attack) in attacks.enumerated() {
+            print("[\(index + 1)] \(attack.name)\n\(attack.infoText)")
+        }
+        print("[\(attacks.count + 1)] Go back")
+        let chosenIndex: Int = enterInteger(min: 1, max: attacks.count + 1) - 1
+        if chosenIndex == attacks.count {
+            return nil
+        }
+        let chosenAttack: Attack = attacks[chosenIndex]
+        return chosenAttack
+    }
+    
+    func chooseTarget(possibleTargets: [Character]) -> Character? {
+        print("Choose the target.")
+        for (index, possibleTarget) in possibleTargets.enumerated() {
+            print("[\(index + 1)] \(possibleTarget.name)")
+        }
+        print("[\(possibleTargets.count + 1)] Go back")
+        let chosenIndex: Int = enterInteger(min: 1, max: possibleTargets.count + 1) - 1
+        if chosenIndex == possibleTargets.count {
+            return nil
+        } else {
+            return possibleTargets[chosenIndex]
+        }
+    }
+    
     override init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack] = [], attackPower: Double, defense: Double) {
         super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: attacks, attackPower: attackPower, defense: defense)
     }
