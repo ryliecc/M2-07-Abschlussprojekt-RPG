@@ -22,11 +22,7 @@ struct Bag: CustomStringConvertible {
         }
         print("[\(availableItems.count + 1)] Go back")
         print("Which item should \(hero.name) use?")
-        var chosenIndex = enterInteger() - 1
-        while chosenIndex < 0 || chosenIndex > availableItems.count {
-            print("Wrong input. Please try again.")
-            chosenIndex = enterInteger() - 1
-        }
+        var chosenIndex = enterInteger(min: 1, max: availableItems.count + 1) - 1
         if chosenIndex == availableItems.count {
             return nil
         }
@@ -38,13 +34,4 @@ struct Bag: CustomStringConvertible {
     mutating func addItem(_ item: Item) {
         items.append(item)
     }
-    
-    private func enterInteger() -> Int {
-                let input: Int? = Int(readLine()!)
-                if input == nil {
-                    return 0
-                } else {
-                    return input!
-                }
-            }
 }
