@@ -69,6 +69,13 @@ class Game {
                 // use Item
             }
         }
+        if hero.equippedItem != nil {
+            hero.equippedRoundCounter -= 1
+            if hero.equippedRoundCounter < 0 {
+                print("\(hero.equippedItem!.name) is used up. The temporary effects have ended.")
+                hero.equippedItem = nil
+            }
+        }
     }
     
     func fight() {

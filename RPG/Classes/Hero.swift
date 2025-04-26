@@ -8,13 +8,37 @@
 import Foundation
 
 class Hero: Character, Levelable {
+    
     var experiencePoints: Int = 0
-    
     var level: Int = 1
-    
     var experienceNeededForNextLevel: Int {
         level * 100
     }
+    
+    var equippedItem: Item? {
+        didSet {
+            if let newItem = equippedItem {
+                applyItemEffects(newItem)
+            }
+            if let oldItem = oldValue {
+                removeItemEffects(oldItem)
+            }
+        }
+    }
+    var equippedRoundCounter: Int = 0
+    
+    private func applyItemEffects(_ newItem: Item) {
+        attackPower += newItem.attackPoints
+        defense += newItem.defensePoints
+        equippedRoundCounter = newItem.numberOfUsages
+    }
+    
+    private func removeItemEffects(_ oldItem: Item) {
+        attackPower -= oldItem.attackPoints
+        defense -= oldItem.defensePoints
+        equippedRoundCounter = 0
+    }
+    
     
     func gainExperience(_ amount: Int) {
         experiencePoints += amount
@@ -27,8 +51,10 @@ class Hero: Character, Levelable {
     func levelUp() {
         level += 1
         print("\(name) hase leveled up to level \(level)!")
-        attackPower += 5
-        defense += 3
+        baseAttackPower += 5
+        attackPower = baseAttackPower
+        baseDefense += 3
+        defense = baseDefense
         maxHealthPoints += 10
         healthPoints = maxHealthPoints
         maxManaPoints += 5

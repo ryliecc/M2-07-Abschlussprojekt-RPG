@@ -14,8 +14,12 @@ class Character: CustomStringConvertible, Equatable {
     var maxManaPoints: Double
     var manaPoints: Double
     var attacks: [Attack]
+    
+    var baseAttackPower: Double
     var attackPower: Double
+    var baseDefense: Double
     var defense: Double
+    
     var hasTrap: Bool = false
     var trapDamage: Double = 0
     var hasUsedUltimate = false
@@ -27,7 +31,9 @@ class Character: CustomStringConvertible, Equatable {
         self.maxManaPoints = maxManaPoints
         self.manaPoints = maxManaPoints
         self.attacks = attacks
+        self.baseAttackPower = attackPower
         self.attackPower = attackPower
+        self.baseDefense = defense
         self.defense = defense
     }
     
