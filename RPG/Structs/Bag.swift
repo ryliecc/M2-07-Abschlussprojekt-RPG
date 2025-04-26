@@ -22,7 +22,7 @@ struct Bag: CustomStringConvertible {
         }
         print("[\(availableItems.count + 1)] Go back")
         print("Which item should \(hero.name) use?")
-        var chosenIndex = enterInteger(min: 1, max: availableItems.count + 1) - 1
+        let chosenIndex = enterInteger(min: 1, max: availableItems.count + 1) - 1
         if chosenIndex == availableItems.count {
             return nil
         }

@@ -13,6 +13,8 @@ struct Item: CustomStringConvertible {
     let defensePoints: Double
     var numberOfUsages: Int
     let infoText: String
+    let isConsumable: Bool
+    let isEquippable: Bool
     
     var description: String {
         "\(numberOfUsages)x \(name): \(infoText)"
