@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Game {
+class Game: BossDelegate {
     
     var party: [Hero] = []
     
@@ -18,9 +18,17 @@ class Game {
     
     var bag: Bag = Bag(items: [])
     
+    static var boss1: Boss = Boss(name: "Boss", maxHealthPoints: 40, maxManaPoints: 15, attackPower: 9, defense: 7)
+    
+    var currentBoss: Boss
+    var currentHenchman: Henchman? {
+        return currentBoss.henchman
+    }
     var currentOpponents: [Opponent] = []
     
-    var fightIsRunning: Bool = false
+    func bossCalledHenchman() {
+        currentOpponents.append(currentHenchman!)
+    }
     
     func checkIfBothSidesCanFight() -> Bool {
         if party.contains(where: { $0.isAlive }) && currentOpponents.contains(where: { $0.isAlive }) {
@@ -82,14 +90,13 @@ class Game {
                 hero.equippedItem = nil
             }
         }
-        currentOpponents.removeAll { opponent in
-            !opponent.isAlive
-        }
+        currentOpponents = currentOpponents.filter { $0.isAlive }
     }
     
     func fight() {
-        print("\(currentOpponents[0].name) appears. The fight begins!")
-        fightIsRunning = true
+        print("\(currentBoss.name) appears. The fight begins!")
+        currentOpponents = [currentBoss]
+        var fightIsRunning: Bool = true
         var roundCounter: Int = 0
         while fightIsRunning {
             if checkIfBothSidesCanFight() {
@@ -105,12 +112,23 @@ class Game {
                     }
                 }
                 for opponent in currentOpponents {
-                    print("\(opponent.name) will soon attack here.")
-                    // let opponents attack
+                    let availableTargets: [Hero] = party.filter { $0.isAlive }
+                    let randomAttack = opponent.chooseRandomAttack()
+                    switch randomAttack.type {
+                    case .areaDamage:
+                        opponent.attack(randomAttack, on: availableTargets)
+                    case .damage, .debuffAttack, .debuffDefense, .ultimate:
+                        opponent.attack(randomAttack, on: availableTargets.randomElement()!)
+                    case .buffAttack, .buffDefense, .heal, .manaRestore:
+                        opponent.attack(randomAttack, on: currentOpponents.randomElement()!)
+                    case .trap:
+                        opponent.attack(randomAttack, on: opponent)
+                    }
                     guard checkIfBothSidesCanFight() else {
                         fightIsRunning = false
                         return
                     }
+                    currentOpponents = currentOpponents.filter { $0.isAlive }
                 }
             } else {
                 fightIsRunning = false
@@ -121,5 +139,7 @@ class Game {
     
     func run() {}
     
-    init() {}
+    init(firstBoss: Boss = boss1) {
+        self.currentBoss = firstBoss
+    }
 }

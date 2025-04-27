@@ -15,3 +15,7 @@ protocol Levelable {
     mutating func gainExperience(_ amount: Int)
     mutating func levelUp()
 }
+
+protocol BossDelegate: AnyObject {
+    func bossCalledHenchman()
+}

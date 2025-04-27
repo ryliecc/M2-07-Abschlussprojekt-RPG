@@ -11,7 +11,7 @@ class Boss: Opponent {
     override var healthPoints: Double {
         didSet {
             if healthPoints <= maxHealthPoints / 2 && oldValue > maxHealthPoints / 2 && henchman == nil {
-                henchman = callHenchman()
+                callHenchman()
             }
             if healthPoints == 0 && oldValue > 0 {
                 henchman?.isFueledByRevenge = true
@@ -20,8 +20,13 @@ class Boss: Opponent {
     }
     
     var henchman: Henchman?
+    let dedicatedHenchman: Henchman = Henchman(name: "Henchman", maxHealthPoints: 10, maxManaPoints: 5, attackPower: 5, defense: 4)
     
-    func callHenchman() -> Henchman {
-        return Henchman(name: "Henchman", maxHealthPoints: 10, maxManaPoints: 5, attackPower: 5, defense: 4)
+    weak var delegate: BossDelegate?
+    
+    func callHenchman() {
+        print("\(name) summons help. \(dedicatedHenchman.name) appears.")
+        henchman = dedicatedHenchman
+        delegate?.bossCalledHenchman()
     }
 }

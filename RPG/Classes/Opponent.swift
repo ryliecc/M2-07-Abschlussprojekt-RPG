@@ -9,6 +9,15 @@ import Foundation
 
 class Opponent: Character {
     
+    func chooseRandomAttack() -> Attack {
+        if !hasUsedUltimate {
+            return attacks.randomElement()!
+        } else {
+            let availableAttacks: [Attack] = attacks.filter { $0.type != .ultimate }
+            return availableAttacks.randomElement()!
+        }
+    }
+    
     func attack(_ attack: Attack, on targets: [Character]) {
         guard manaPoints >= attack.manaCost else {
             print("\(name) tried to use \(attack.name), but didn't have enough mana. The attack failed.")
@@ -25,23 +34,8 @@ class Opponent: Character {
                 print("\(attack.name) hits \(target.name).")
                 target.takeDamage(damage, from: self)
             }
-        case .ultimate:
-            if !hasUsedUltimate {
-                hasUsedUltimate = true
-                if let target = targets.randomElement() {
-                    print("\(name) uses ultimate attack \(attack.name).")
-                    let damage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)
-                    print("\(name) hits \(target.name) with \(attack.name).")
-                    target.takeDamage(damage, from: self)
-                }
-            } else {
-                print("\(name) tries to use ultimate attack again, but this attack can only be used once.")
-            }
         case .heal:
-            var target: Character
-            repeat {
-                target = targets.randomElement()!
-            } while target == self
+            var target: Character = targets.randomElement()!
             let healAmount = self.attackPower * attack.powerMultiplier
             target.healthPoints = min(target.maxHealthPoints, target.healthPoints + healAmount)
             print("\(name) heals \(target.name) for \(healAmount.roundedDown) HP.")
