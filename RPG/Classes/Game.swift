@@ -16,10 +16,6 @@ class Game: BossDelegate {
     var hero3: Hero = Sorcerer()
     var hero4: Hero = Thief()
     
-    static var item1: Item = Item(name: "Health Potion", attackPoints: 0, defensePoints: 0, healthPoints: 5, manaPoints: 0, numberOfUsages: 1, isConsumable: true, isEquippable: false, infoText: "A small bottle with a silver shimmery liquid inside. Some people say it has healing properties.", actionText: "The hero feels much better. 5 HP were restored.")
-    static var item2: Item = Item(name: "Silver Sword", attackPoints: 5, defensePoints: 2, healthPoints: 0, manaPoints: 0, numberOfUsages: 4, isConsumable: false, isEquippable: true, infoText: "A beautiful heavy sword, forged by Dwarfs. It carries the strength of the bravest warriors of all time.", actionText: "The hero feels way stronger. Attacks are now 5 points stronger and defense was increased by 2 points.")
-    static var item3: Item = Item(name: "Mana Potion", attackPoints: 0, defensePoints: 0, healthPoints: 0, manaPoints: 10, numberOfUsages: 1, isConsumable: true, isEquippable: false, infoText: "A deep blue liquid inside a weirdly-shaped bottle. Magicians and witches like to use it to refresh a little when they have practiced more magic than usual.", actionText: "The hero feels their magical powers come back instantly. Their MP was increased by 10.")
-    
     var bag: Bag = Bag(items: [])
     
     static var boss1: Boss = DarkKnight()
@@ -38,6 +34,17 @@ class Game: BossDelegate {
         return currentBoss.henchman
     }
     var currentOpponents: [Opponent] = []
+    
+    func generateStarterItems() {
+        let randomNumber = Int.random(in: 5...7)
+        var randomItems: [Item] = []
+        
+        for _ in 0..<randomNumber {
+            let randomItem = ItemLibrary.randomItem()
+            randomItems.append(randomItem)
+        }
+        bag.items = randomItems
+    }
     
     func bossCalledHenchman() {
         currentOpponents.append(currentHenchman!)
@@ -152,12 +159,12 @@ class Game: BossDelegate {
     }
     
     func run() {
+        generateStarterItems()
         party = [hero1, hero2, hero3, hero4]
         fight()
     }
     
-    init(starterItems: [Item] = [item1, item1, item2, item3]) {
-        self.bag.items = starterItems
+    init() {
         self.currentBoss = undefeatedBosses.randomElement()!
     }
 }
