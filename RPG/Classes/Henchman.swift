@@ -16,12 +16,17 @@ class Henchman: Opponent {
         }
     }
     
-    let wrathUnleashed: Attack = Attack(name: "Wrath Unleashed", powerMultiplier: 1.2, manaCost: 5, type: .areaDamage, infoText: "The henchman explodes in a storm of fury, unleashing wrath upon all who dared defy their master.")
+    let revengeAttack: Attack
     
     func takeRevenge() {
         attackPower += 15
         defense += 15
-        attacks.append(wrathUnleashed)
+        attacks.append(revengeAttack)
         print("\(name) is fueled by revenge! Their power surges!")
+    }
+    
+    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, standardAttacks: [Attack], attackPower: Double, defense: Double, revengeAttack: Attack) {
+        self.revengeAttack = revengeAttack
+        super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: standardAttacks, attackPower: attackPower, defense: defense)
     }
 }

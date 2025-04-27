@@ -22,9 +22,17 @@ class Game: BossDelegate {
     
     var bag: Bag = Bag(items: [])
     
-    static var boss1: Boss = Boss(name: "Boss", maxHealthPoints: 40, maxManaPoints: 15, attacks: [Attack(name: "Exampleattack", powerMultiplier: 1.2, manaCost: 2, type: .damage, infoText: "Something about attacks."), Attack(name: "Second Example Attack", powerMultiplier: 0.8, manaCost: 0, type: .areaDamage, infoText: "Area damage example"), Attack(name: "Ultimate Hit", powerMultiplier: 1.5, manaCost: 10, type: .ultimate, infoText: "An ultimate attack")], attackPower: 9, defense: 7)
+    static var boss1: Boss = DarkKnight()
+    static var boss2: Boss = FrostKing()
+    static var boss3: Boss = InfernalDemon()
     
-    var currentBoss: Boss
+    var undefeatedBosses: [Boss] = [boss1, boss2, boss3]
+    
+    var currentBoss: Boss {
+        didSet {
+            currentBoss.delegate = self
+        }
+    }
     var currentHenchman: Henchman? {
         return currentBoss.henchman
     }
@@ -147,9 +155,8 @@ class Game: BossDelegate {
         fight()
     }
     
-    init(firstBoss: Boss = boss1, starterItems: [Item] = [item1, item1, item2, item3]) {
+    init(starterItems: [Item] = [item1, item1, item2, item3]) {
         self.bag.items = starterItems
-        self.currentBoss = firstBoss
-        self.currentBoss.delegate = self
+        self.currentBoss = undefeatedBosses.randomElement()!
     }
 }

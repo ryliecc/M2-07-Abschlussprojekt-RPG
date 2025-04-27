@@ -20,7 +20,7 @@ class Boss: Opponent {
     }
     
     var henchman: Henchman?
-    let dedicatedHenchman: Henchman = Henchman(name: "Henchman", maxHealthPoints: 10, maxManaPoints: 5, attacks: [Attack(name: "Henchman attack", powerMultiplier: 1.2, manaCost: 0, type: .damage, infoText: "A henchman attack"), Attack(name: "Strong Henchman Attack", powerMultiplier: 1.6, manaCost: 2, type: .damage, infoText: "A strong henchman attack")], attackPower: 5, defense: 4)
+    let dedicatedHenchman: Henchman
     
     weak var delegate: BossDelegate?
     
@@ -28,5 +28,10 @@ class Boss: Opponent {
         print("\(name) summons help. \(dedicatedHenchman.name) appears.")
         henchman = dedicatedHenchman
         delegate?.bossCalledHenchman()
+    }
+    
+    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack] = [], attackPower: Double, defense: Double, dedicatedHenchman: Henchman) {
+        self.dedicatedHenchman = dedicatedHenchman
+        super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: attacks, attackPower: attackPower, defense: defense)
     }
 }

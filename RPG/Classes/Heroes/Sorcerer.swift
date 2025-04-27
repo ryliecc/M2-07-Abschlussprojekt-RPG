@@ -13,6 +13,7 @@ class Sorcerer: Hero {
     let arcaneHeal: Attack = Attack(name: "Arcane Heal", powerMultiplier: 1, manaCost: 5, type: .heal, infoText: "Channels ancient magic to mend wounds and restore vitality.")
     let manaInfusion: Attack = Attack(name: "Mana Infusion", powerMultiplier: 1.2, manaCost: 5, type: .manaRestore, infoText: "Taps into the arcane flow to replenish magical reserves.")
     let curseOfWeakness: Attack = Attack(name: "Curse of Weakness", powerMultiplier: 0.8, manaCost: 4, type: .debuffAttack, infoText: "A dark incantation that saps the enemy’s strength.")
+    
     init() {
         super.init(name: "Sorcerer", maxHealthPoints: 25, maxManaPoints: 20, attacks: [spark, chaosBolt, arcaneHeal, manaInfusion, curseOfWeakness], attackPower: 7, defense: 6)
     }
