@@ -48,10 +48,9 @@ class Character: CustomStringConvertible, Equatable {
             hasTrap = false
             print("\(name)'s trap is triggered.")
             attacker.takeDamage(trapDamage, from: self)
-            print("\(attacker.name) takes \(trapDamage.roundedDown) damage from the trap.")
         }
-        healthPoints = max(0, healthPoints - amount)
         print("It deals \(amount.roundedDown) damage.")
+        healthPoints = max(0, healthPoints - amount)
     }
     
     func attack(_ attack: Attack, on target: Character) {

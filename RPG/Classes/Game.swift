@@ -16,9 +16,13 @@ class Game: BossDelegate {
     var hero3: Hero = Sorcerer()
     var hero4: Hero = Thief()
     
+    static var item1: Item = Item(name: "Health Potion", attackPoints: 0, defensePoints: 0, healthPoints: 5, manaPoints: 0, numberOfUsages: 1, isConsumable: true, isEquippable: false, infoText: "A small bottle with a silver shimmery liquid inside. Some people say it has healing properties.", actionText: "The hero feels much better. 5 HP were restored.")
+    static var item2: Item = Item(name: "Silver Sword", attackPoints: 5, defensePoints: 2, healthPoints: 0, manaPoints: 0, numberOfUsages: 4, isConsumable: false, isEquippable: true, infoText: "A beautiful heavy sword, forged by Dwarfs. It carries the strength of the bravest warriors of all time.", actionText: "The hero feels way stronger. Attacks are now 5 points stronger and defense was increased by 2 points.")
+    static var item3: Item = Item(name: "Mana Potion", attackPoints: 0, defensePoints: 0, healthPoints: 0, manaPoints: 10, numberOfUsages: 1, isConsumable: true, isEquippable: false, infoText: "A deep blue liquid inside a weirdly-shaped bottle. Magicians and witches like to use it to refresh a little when they have practiced more magic than usual.", actionText: "The hero feels their magical powers come back instantly. Their MP was increased by 10.")
+    
     var bag: Bag = Bag(items: [])
     
-    static var boss1: Boss = Boss(name: "Boss", maxHealthPoints: 40, maxManaPoints: 15, attackPower: 9, defense: 7)
+    static var boss1: Boss = Boss(name: "Boss", maxHealthPoints: 40, maxManaPoints: 15, attacks: [Attack(name: "Exampleattack", powerMultiplier: 1.2, manaCost: 2, type: .damage, infoText: "Something about attacks."), Attack(name: "Second Example Attack", powerMultiplier: 0.8, manaCost: 0, type: .areaDamage, infoText: "Area damage example"), Attack(name: "Ultimate Hit", powerMultiplier: 1.5, manaCost: 10, type: .ultimate, infoText: "An ultimate attack")], attackPower: 9, defense: 7)
     
     var currentBoss: Boss
     var currentHenchman: Henchman? {
@@ -137,9 +141,13 @@ class Game: BossDelegate {
         party.contains(where: { $0.isAlive }) ? print("You won!") : print("You lost!")
     }
     
-    func run() {}
+    func run() {
+        party = [hero1, hero2, hero3, hero4]
+        fight()
+    }
     
-    init(firstBoss: Boss = boss1) {
+    init(firstBoss: Boss = boss1, starterItems: [Item] = [item1, item1, item2, item3]) {
+        self.bag.items = starterItems
         self.currentBoss = firstBoss
     }
 }

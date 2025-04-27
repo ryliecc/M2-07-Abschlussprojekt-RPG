@@ -105,7 +105,7 @@ class Hero: Character, Levelable {
             manaPoints = min(maxManaPoints, manaPoints + item.manaPoints)
         }
         if item.isEquippable {
-            print("\(name) equipps \(item.name).")
+            print("\(name) equips \(item.name).")
             print(item.actionText)
             equippedItem = item
         }
