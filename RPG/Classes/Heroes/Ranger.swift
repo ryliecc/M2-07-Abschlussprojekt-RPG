@@ -8,12 +8,12 @@
 import Foundation
 
 class Ranger: Hero {
-    let arrowShot: Attack = Attack(name: "Arrow Shot", powerMultiplier: 1.0, manaCost: 0, type: .damage, infoText: "A precise arrow fired with deadly accuracy.")
-    let rainOfThorns: Attack = Attack(name: "Rain of Thorns", powerMultiplier: 1.3, manaCost: 4, type: .damage, infoText: "A flurry of sharp arrows rains down upon the enemy.")
-    let eaglesEye: Attack = Attack(name: "Eagle's Eye", powerMultiplier: 0.6, manaCost: 3, type: .buffAttack, infoText: "Focuses the ranger's aim, empowering the next strikes.")
-    let forestVeil: Attack = Attack(name: "Forest Veil", powerMultiplier: 0.8, manaCost: 3, type: .buffDefense, infoText: "The ranger draws on nature’s protection to harden their defenses.")
+    let arrowShot: Attack = Attack(name: "Arrow Shot", powerMultiplier: 1.1, manaCost: 0, type: .damage, infoText: "A swift shot that strikes with deadly accuracy from a distance.")
+    let rainOfThorns: Attack = Attack(name: "Rain of Thorns", powerMultiplier: 1.4, manaCost: 4, type: .damage, infoText: "A flurry of arrows that rain down, damaging all enemies in range.")
+    let eaglesEye: Attack = Attack(name: "Eagle's Eye", powerMultiplier: 0.8, manaCost: 3, type: .buffAttack, infoText: "A steady focus that sharpens the ranger's aim, increasing attack power for the next few shots.")
+    let forestVeil: Attack = Attack(name: "Forest Veil", powerMultiplier: 0.8, manaCost: 3, type: .buffDefense, infoText: "The ranger calls upon nature to protect them, boosting their defense for a while.")
     
     init() {
-        super.init(name: "Ranger", maxHealthPoints: 18, maxManaPoints: 18, attacks: [arrowShot, rainOfThorns, eaglesEye, forestVeil], attackPower: 9, defense: 6)
+        super.init(name: "Ranger", maxHealthPoints: 20, maxManaPoints: 18, attacks: [arrowShot, rainOfThorns, eaglesEye, forestVeil], attackPower: 9, defense: 8)
     }
 }

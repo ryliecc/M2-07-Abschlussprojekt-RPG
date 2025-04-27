@@ -8,12 +8,12 @@
 import Foundation
 
 class Thief: Hero {
-    let quickSlash: Attack = Attack(name: "Quick Slash", powerMultiplier: 1.0, manaCost: 0, type: .damage, infoText: "A fast and nimble attack aimed at exposed spots.")
-    let backStab: Attack = Attack(name: "Backstab", powerMultiplier: 1.3, manaCost: 2, type: .damage, infoText: "Strikes from behind, exploiting the enemy’s blind spot.")
-    let spikeTrap: Attack = Attack(name: "Spike Trap", powerMultiplier: 1.0, manaCost: 4, type: .trap, infoText: "Lays a hidden trap that springs on the next attacker.")
-    let smokeBomb: Attack = Attack(name: "Smoke Bomb", powerMultiplier: 0.8, manaCost: 3, type: .debuffAttack, infoText: "A cloud of smoke disorients the foe, dulling their attacks.")
+    let quickSlash: Attack = Attack(name: "Quick Slash", powerMultiplier: 1.1, manaCost: 0, type: .damage, infoText: "A rapid slash designed to exploit openings.")
+    let backStab: Attack = Attack(name: "Backstab", powerMultiplier: 1.5, manaCost: 2, type: .damage, infoText: "A deadly strike from behind, hitting vital spots.")
+    let spikeTrap: Attack = Attack(name: "Spike Trap", powerMultiplier: 1.0, manaCost: 4, type: .trap, infoText: "Sets a trap that springs on the next enemy to cross it, dealing significant damage.")
+    let smokeBomb: Attack = Attack(name: "Smoke Bomb", powerMultiplier: 0.7, manaCost: 3, type: .debuffAttack, infoText: "Throws a smoke bomb that disorients the enemy, reducing their attack accuracy.")
     
     init() {
-        super.init(name: "Thief", maxHealthPoints: 20, maxManaPoints: 12, attacks: [quickSlash, backStab, spikeTrap, smokeBomb], attackPower: 4, defense: 10)
+        super.init(name: "Thief", maxHealthPoints: 20, maxManaPoints: 14, attacks: [quickSlash, backStab, spikeTrap, smokeBomb], attackPower: 5, defense: 10)
     }
 }
