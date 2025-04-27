@@ -43,4 +43,8 @@ class Opponent: Character {
             }
         }
     }
+    
+    override func copy() -> Opponent {
+        return Opponent(name: self.name, maxHealthPoints: self.maxHealthPoints, maxManaPoints: self.maxManaPoints, attacks: self.attacks, attackPower: self.attackPower, defense: self.defense)
+    }
 }

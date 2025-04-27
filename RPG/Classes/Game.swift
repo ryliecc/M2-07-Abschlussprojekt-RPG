@@ -10,6 +10,7 @@ import Foundation
 class Game: BossDelegate {
     
     var party: [Hero] = []
+    var coins: Int = 0
     
     var hero1: Hero = Assassin()
     var hero2: Hero = Ranger()
@@ -18,14 +19,7 @@ class Game: BossDelegate {
     
     var bag: Bag = Bag(items: [])
     
-    static var boss1: Boss = DarkKnight()
-    static var boss2: Boss = FrostKing()
-    static var boss3: Boss = InfernalDemon()
-    static var boss4: Boss = StormDragon()
-    
-    var undefeatedBosses: [Boss] = [boss1, boss2, boss3, boss4]
-    
-    var currentBoss: Boss {
+    var currentBoss: Boss = BossLibrary.randomBoss() {
         didSet {
             currentBoss.delegate = self
         }
@@ -35,15 +29,67 @@ class Game: BossDelegate {
     }
     var currentOpponents: [Opponent] = []
     
-    func generateStarterItems() {
-        let randomNumber = Int.random(in: 5...7)
-        var randomItems: [Item] = []
-        
-        for _ in 0..<randomNumber {
-            let randomItem = ItemLibrary.randomItem()
-            randomItems.append(randomItem)
+    var currentTime: TimeOfDay = .day {
+        didSet {
+            if currentTime == .night {
+                generateCheckpoints()
+            }
+            if currentTime == .day {
+                //generateTavern()
+            }
         }
-        bag.items = randomItems
+    }
+    var nextCheckpoints: [Checkpoint] = []
+    
+    func generateCheckpoints() {
+        let numberOfCheckpoints = Int.random(in: 3...5)
+        var checkpoints: [Checkpoint] = []
+        for _ in 0..<numberOfCheckpoints - 1 {
+            checkpoints.append(Checkpoint.generateRandomCheckpoint())
+        }
+        if !checkpoints.contains(where: { $0.type == .bossBattle }) {
+            let randomBossBattleCheckpoint: Checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss()))
+        } else {
+            checkpoints.append(Checkpoint.generateRandomCheckpoint())
+        }
+    }
+    
+    func openTreasureBox(type: TreasureType, items: [Item], coins: Int) {
+        print("You found a treasure box. Let's see what's in there...")
+        switch type {
+        case .item:
+            for item in items {
+                print("You found \(item.name).")
+                bag.items.append(item)
+                print("\(item.name) was added to your bag.")
+            }
+        case .coins:
+            print("You found \(coins) gold coins!")
+            self.coins += coins
+        }
+    }
+    
+    func travel() {
+        for checkpoint in nextCheckpoints {
+            switch checkpoint.details {
+            case .battle(let opponent):
+                prepareRegularFight(opponent)
+                fight()
+            case .bossBattle(let boss):
+                prepareBossFight(boss)
+                fight()
+            case .treasure(let type, let items, let coins):
+                openTreasureBox(type: type, items: items, coins: coins)
+            case .shop(let type, let items):
+                print("Oh wow, a shop! I wish someone would write the necessary code to actually go shopping...")
+            }
+        }
+        print("That was a very long day! Time to relax at the local tavern.")
+        currentTime = .night
+    }
+    
+    func generateStarterItems() {
+        bag.items =  ItemLibrary.randomItems(amount: Int.random(in: 5...7))
     }
     
     func bossCalledHenchman() {
@@ -114,9 +160,32 @@ class Game: BossDelegate {
         currentOpponents = currentOpponents.filter { $0.isAlive }
     }
     
+    func prepareBossFight(_ boss: Boss? = nil) {
+        if boss != nil {
+            currentBoss = boss!
+            currentOpponents = [currentBoss]
+        } else {
+            currentBoss = BossLibrary.randomBoss()
+            currentOpponents = [currentBoss]
+        }
+    }
+    
+    func prepareRegularFight(_ opponent: Opponent? = nil) {
+        let amountOfOpponents = Int.random(in: 1...3)
+        currentOpponents = []
+        let newOpponent: Opponent
+        if opponent != nil {
+            newOpponent = opponent!
+        } else {
+            newOpponent = OpponentLibrary.randomOpponent()
+        }
+        for _ in 0..<amountOfOpponents {
+            currentOpponents.append(newOpponent.copy())
+        }
+    }
+    
     func fight() {
-        print("\(currentBoss.name) appears. The fight begins!")
-        currentOpponents = [currentBoss]
+        print("\(currentOpponents[0].name) appears. The fight begins!")
         var fightIsRunning: Bool = true
         var roundCounter: Int = 0
         while fightIsRunning {
@@ -159,12 +228,19 @@ class Game: BossDelegate {
     }
     
     func run() {
+        var gameIsRunning: Bool = true
         generateStarterItems()
         party = [hero1, hero2, hero3, hero4]
+        prepareBossFight()
         fight()
+        while gameIsRunning {
+            if currentTime == .day {
+                travel()
+            } else {
+                //visitTavern()
+            }
+        }
     }
     
-    init() {
-        self.currentBoss = undefeatedBosses.randomElement()!
-    }
+    init() {}
 }

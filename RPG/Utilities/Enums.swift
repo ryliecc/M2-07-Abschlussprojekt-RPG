@@ -19,3 +19,33 @@ enum AttackType {
     case areaDamage
     case ultimate
 }
+
+enum CheckpointType: CaseIterable {
+    case battle
+    case bossBattle
+    case treasure
+    case shop
+}
+
+enum CheckpointDetails {
+    case battle(opponent: Opponent)
+    case bossBattle(boss: Boss)
+    case treasure(type: TreasureType, items: [Item], coins: Int)
+    case shop(type: ShopType, items: [Item])
+}
+
+enum TimeOfDay {
+    case day
+    case night
+}
+
+enum TreasureType: CaseIterable {
+    case item
+    case coins
+}
+
+enum ShopType: CaseIterable {
+    case equippable
+    case consumable
+    case rare
+}

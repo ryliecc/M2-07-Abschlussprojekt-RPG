@@ -30,7 +30,18 @@ struct ItemLibrary {
     
     static var allItems: [Item] = [healingPotion, manaElixir, ironShield, sharpenedSword, vitalityHerb, cursedAmulet, lightCloak, berserkerTonic, phoenixFeather, knightGauntlets]
     
+    static var equippableItems: [Item] = allItems.filter { $0.isEquippable }
+    static var consumableItems: [Item] = allItems.filter { $0.isConsumable }
+    static var rareItems: [Item] = [cursedAmulet, phoenixFeather]
+    
     static func randomItem() -> Item {
         return allItems.randomElement()!
+    }
+    static func randomItems(amount: Int) -> [Item] {
+        var items: [Item] = []
+        for _ in 0..<amount {
+            items.append(randomItem())
+        }
+        return items
     }
 }
