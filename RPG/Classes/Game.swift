@@ -66,7 +66,9 @@ class Game {
             if item == nil {
                 printTurnMenu(hero)
             } else {
-                // use Item
+                let itemIndex = bag.items.firstIndex(where: { $0.name == item!.name })!
+                bag.items.remove(at: itemIndex)
+                hero.useItem(item!)
             }
         }
         if hero.equippedItem != nil {

@@ -9,14 +9,21 @@ import Foundation
 
 struct Item: CustomStringConvertible {
     let name: String
+    
     let attackPoints: Double
     let defensePoints: Double
+    let healthPoints: Double
+    let manaPoints: Double
+    
     var numberOfUsages: Int
-    let infoText: String
+    
     let isConsumable: Bool
     let isEquippable: Bool
     
+    let infoText: String
+    let actionText: String
+    
     var description: String {
-        "\(numberOfUsages)x \(name): \(infoText)"
+        "\(name)\(isEquippable ? " (lasts \(numberOfUsages) rounds)" : ""):\n\(infoText)"
     }
 }

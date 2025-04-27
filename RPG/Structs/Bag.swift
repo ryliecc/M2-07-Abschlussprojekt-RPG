@@ -9,26 +9,45 @@ import Foundation
 
 struct Bag: CustomStringConvertible {
     var items: [Item]
+    var groupedItems: [String: [Item]] {
+        Dictionary(grouping: items, by: { $0.name })
+    }
     
     var description: String {
         return "The bag contains the following items:\n" + items.map { $0.description }.joined(separator: "\n")
     }
     
     mutating func menu(_ hero: Hero) -> Item? {
-        print("The following items are available:")
-        let availableItems = items.enumerated().filter { $0.element.numberOfUsages >= 1 }
-        for (index, item) in availableItems.enumerated() {
-            print("[\(index + 1)] \(item.element.name) (\(item.element.numberOfUsages) left)")
-        }
-        print("[\(availableItems.count + 1)] Go back")
-        print("Which item should \(hero.name) use?")
-        let chosenIndex = enterInteger(min: 1, max: availableItems.count + 1) - 1
-        if chosenIndex == availableItems.count {
+        if items.count == 0 {
+            print("Your bag is empty.")
             return nil
         }
-        let originalIndex = availableItems[chosenIndex].offset
-        items[originalIndex].numberOfUsages -= 1
-        return items[originalIndex]
+        print("The following items are available:")
+        var itemCounter: Int = 1
+        var options: [(String)] = []
+        for (name, items) in groupedItems {
+            options.append(name)
+            let currentItem: Item = items.first!
+            print("[\(itemCounter)] \(items.count)x \(currentItem.description)")
+            itemCounter += 1
+        }
+        print("[\(itemCounter)] Go back")
+        print("Which item should \(hero.name) use?")
+        let chosenOption = enterInteger(min: 1, max: itemCounter)
+        if chosenOption == itemCounter {
+            return nil
+        }
+        let chosenItem = items.first(where: { $0.name == options[chosenOption - 1] })
+        if chosenItem!.isEquippable && hero.equippedItem != nil {
+            print("\(hero.name) already has \(hero.equippedItem!.name) equipped. Are you sure you want to equip \(chosenItem!.name) instead? The effects of \(hero.equippedItem!.name) are gonna last \(hero.equippedRoundCounter) more rounds if not.")
+            if confirmation() {
+                hero.equippedItem = nil
+                return chosenItem
+            } else {
+                return menu(hero)
+            }
+        }
+        return chosenItem
     }
     
     mutating func addItem(_ item: Item) {

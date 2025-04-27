@@ -89,6 +89,28 @@ class Hero: Character, Levelable {
         }
     }
     
+    func useItem(_ item: Item) {
+        if item.isConsumable {
+            print("\(name) consumes \(item.name).")
+            print(item.actionText)
+            attackPower += item.attackPoints
+            defense += item.defensePoints
+            if healthPoints < maxHealthPoints && healthPoints + item.healthPoints >= maxHealthPoints {
+                print("HP of \(name) fully restored!")
+            }
+            healthPoints = min(maxHealthPoints, healthPoints + item.healthPoints)
+            if manaPoints < maxManaPoints && manaPoints + item.manaPoints >= maxManaPoints {
+                print("MP of \(name) fully restored!")
+            }
+            manaPoints = min(maxManaPoints, manaPoints + item.manaPoints)
+        }
+        if item.isEquippable {
+            print("\(name) equipps \(item.name).")
+            print(item.actionText)
+            equippedItem = item
+        }
+    }
+    
     override init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack] = [], attackPower: Double, defense: Double) {
         super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: attacks, attackPower: attackPower, defense: defense)
     }

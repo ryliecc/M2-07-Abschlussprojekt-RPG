@@ -16,3 +16,17 @@ func enterInteger(min: Int, max: Int) -> Int {
     }
     return input!
 }
+
+func confirmation() -> Bool {
+    print("(y/n)")
+    var input = readLine()!
+    while input != "y" && input != "n" {
+        print("Wrong input. Please try again.")
+        input = readLine()!
+    }
+    if input == "y" {
+        return true
+    } else {
+        return false
+    }
+}
