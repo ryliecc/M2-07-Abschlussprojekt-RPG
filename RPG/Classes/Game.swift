@@ -40,6 +40,10 @@ class Game {
     }
     
     func printTurnMenu(_ hero: Hero) {
+        if !hero.isAlive {
+            print("\(hero.name) is K.O. and can not fight.")
+            return
+        }
         print("It is \(hero.name)'s turn. What should they do?\n[1] Attack\n[2] Use Item")
         let choice: Int = enterInteger(min: 1, max: 2)
         if choice == 1 {
@@ -77,6 +81,9 @@ class Game {
                 print("\(hero.equippedItem!.name) is used up. The temporary effects have ended.")
                 hero.equippedItem = nil
             }
+        }
+        currentOpponents.removeAll { opponent in
+            !opponent.isAlive
         }
     }
     
