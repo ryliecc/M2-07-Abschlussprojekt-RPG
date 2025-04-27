@@ -25,8 +25,9 @@ class Game: BossDelegate {
     static var boss1: Boss = DarkKnight()
     static var boss2: Boss = FrostKing()
     static var boss3: Boss = InfernalDemon()
+    static var boss4: Boss = StormDragon()
     
-    var undefeatedBosses: [Boss] = [boss1, boss2, boss3]
+    var undefeatedBosses: [Boss] = [boss1, boss2, boss3, boss4]
     
     var currentBoss: Boss {
         didSet {

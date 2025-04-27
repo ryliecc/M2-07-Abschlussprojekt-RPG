@@ -24,7 +24,7 @@ class Character: CustomStringConvertible, Equatable {
     var trapDamage: Double = 0
     var hasUsedUltimate = false
     
-    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack] = [], attackPower: Double, defense: Double) {
+    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double) {
         self.name = name
         self.maxHealthPoints = maxHealthPoints
         self.healthPoints = maxHealthPoints
