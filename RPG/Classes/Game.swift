@@ -32,6 +32,7 @@ class Game: BossDelegate {
     
     func bossCalledHenchman() {
         currentOpponents.append(currentHenchman!)
+        print("\(currentHenchman!.name) joined the fight.")
     }
     
     func checkIfBothSidesCanFight() -> Bool {
@@ -53,7 +54,7 @@ class Game: BossDelegate {
     
     func printTurnMenu(_ hero: Hero) {
         if !hero.isAlive {
-            print("\(hero.name) is K.O. and can not fight.")
+            print("\(hero.name) is K.O. and cannot fight.")
             return
         }
         print("It is \(hero.name)'s turn. What should they do?\n[1] Attack\n[2] Use Item")
@@ -106,13 +107,13 @@ class Game: BossDelegate {
             if checkIfBothSidesCanFight() {
                 roundCounter += 1
                 print("Round \(roundCounter)".highlight())
-                printAllStatusInfos()
                 party.shuffle()
+                printAllStatusInfos()
                 for hero in party {
                     printTurnMenu(hero)
-                    guard checkIfBothSidesCanFight() else {
+                    if !checkIfBothSidesCanFight() {
                         fightIsRunning = false
-                        return
+                        break
                     }
                 }
                 for opponent in currentOpponents {
@@ -128,9 +129,9 @@ class Game: BossDelegate {
                     case .trap:
                         opponent.attack(randomAttack, on: opponent)
                     }
-                    guard checkIfBothSidesCanFight() else {
+                    if !checkIfBothSidesCanFight() {
                         fightIsRunning = false
-                        return
+                        break
                     }
                     currentOpponents = currentOpponents.filter { $0.isAlive }
                 }
@@ -149,5 +150,6 @@ class Game: BossDelegate {
     init(firstBoss: Boss = boss1, starterItems: [Item] = [item1, item1, item2, item3]) {
         self.bag.items = starterItems
         self.currentBoss = firstBoss
+        self.currentBoss.delegate = self
     }
 }

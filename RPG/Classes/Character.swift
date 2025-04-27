@@ -46,19 +46,19 @@ class Character: CustomStringConvertible, Equatable {
     func takeDamage(_ amount: Double, from attacker: Character) {
         if hasTrap {
             hasTrap = false
-            print("\(name)'s trap is triggered.")
+            print("\(name)'s trap is triggered and hurts \(attacker.name).")
             attacker.takeDamage(trapDamage, from: self)
+        } else {
+            print("It deals \(amount.roundedDown) damage.")
+            if healthPoints - amount <= 0 {
+                print("\(name) died and cannot keep fighting.")
+            }
+            healthPoints = max(0, healthPoints - amount)
         }
-        print("It deals \(amount.roundedDown) damage.")
-        healthPoints = max(0, healthPoints - amount)
     }
     
     func attack(_ attack: Attack, on target: Character) {
-        guard self.manaPoints >= attack.manaCost else {
-            print("\(name) does not have enough MP to perform to use \(attack.name)!")
-            return
-        }
-        manaPoints = max(0, manaPoints - attack.manaCost)
+        manaPoints -= attack.manaCost
         print("\(name) uses \(attack.name) on \(self == target ? "themself" : target.name).")
         
         switch attack.type {
@@ -98,7 +98,7 @@ class Character: CustomStringConvertible, Equatable {
                 print("\(name) uses ultimate attack \(attack.name).")
                 hasUsedUltimate = true
                 let totalDamage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)
-                            target.takeDamage(totalDamage, from: self)
+                target.takeDamage(totalDamage, from: self)
             } else {
                 print("\(name) tries to use ultimate attack again, but this attack can only be used once.")
             }

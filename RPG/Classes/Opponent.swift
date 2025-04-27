@@ -10,20 +10,16 @@ import Foundation
 class Opponent: Character {
     
     func chooseRandomAttack() -> Attack {
+        var availableAttacks: [Attack] = attacks.filter { $0.manaCost <= manaPoints }
         if !hasUsedUltimate {
-            return attacks.randomElement()!
+            return availableAttacks.randomElement()!
         } else {
-            let availableAttacks: [Attack] = attacks.filter { $0.type != .ultimate }
+            availableAttacks = availableAttacks.filter { $0.type != .ultimate }
             return availableAttacks.randomElement()!
         }
     }
     
     func attack(_ attack: Attack, on targets: [Character]) {
-        guard manaPoints >= attack.manaCost else {
-            print("\(name) tried to use \(attack.name), but didn't have enough mana. The attack failed.")
-            return
-        }
-        
         manaPoints -= attack.manaCost
         
         switch attack.type {
@@ -35,7 +31,7 @@ class Opponent: Character {
                 target.takeDamage(damage, from: self)
             }
         case .heal:
-            var target: Character = targets.randomElement()!
+            let target: Character = targets.randomElement()!
             let healAmount = self.attackPower * attack.powerMultiplier
             target.healthPoints = min(target.maxHealthPoints, target.healthPoints + healAmount)
             print("\(name) heals \(target.name) for \(healAmount.roundedDown) HP.")

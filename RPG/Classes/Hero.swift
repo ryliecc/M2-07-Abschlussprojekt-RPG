@@ -72,7 +72,12 @@ class Hero: Character, Levelable {
             return nil
         }
         let chosenAttack: Attack = attacks[chosenIndex]
-        return chosenAttack
+        if chosenAttack.manaCost > manaPoints {
+            print("\(name) does not have enough MP to perform \(chosenAttack.name)!")
+            return chooseAttack()
+        } else {
+            return chosenAttack
+        }
     }
     
     func chooseTarget(possibleTargets: [Character]) -> Character? {
