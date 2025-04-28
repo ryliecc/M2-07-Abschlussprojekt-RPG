@@ -32,7 +32,7 @@ class Shop {
     }
     
     func menu(_ party: Party) {
-        print("Welcome to the shop. The following items are available:")
+        print("Welcome to the shop.\(hasSale ? " Everything is 50% on sale today!" : "") The following items are available:")
         for (index, item) in itemsForSale.enumerated() {
             print("[\(index + 1)] \(item.name)\n\(item.infoText)\nPrice: \(String(describing: itemPrices[item.name])) Coins")
         }
