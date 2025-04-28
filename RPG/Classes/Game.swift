@@ -9,15 +9,8 @@ import Foundation
 
 class Game: BossDelegate {
     
-    var party: [Hero] = []
-    var coins: Int = 0
-    
-    var hero1: Hero = Assassin()
-    var hero2: Hero = Ranger()
-    var hero3: Hero = Sorcerer()
-    var hero4: Hero = Thief()
-    
-    var bag: Bag = Bag(items: [])
+    let initalHeroes: [Hero] = [Assassin(), Ranger(), Sorcerer(), Thief()]
+    var party: Party
     
     var currentBoss: Boss = BossLibrary.randomBoss() {
         didSet {
@@ -60,12 +53,12 @@ class Game: BossDelegate {
         case .item:
             for item in items {
                 print("You found \(item.name).")
-                bag.items.append(item)
+                party.addItem(item)
                 print("\(item.name) was added to your bag.")
             }
         case .coins:
             print("You found \(coins) gold coins!")
-            self.coins += coins
+            party.earnCoins(coins)
         }
     }
     
@@ -80,8 +73,10 @@ class Game: BossDelegate {
                 fight()
             case .treasure(let type, let items, let coins):
                 openTreasureBox(type: type, items: items, coins: coins)
-            case .shop(let type, let items):
-                print("Oh wow, a shop! I wish someone would write the necessary code to actually go shopping...")
+            case .shop(let type):
+                let shop = Shop(type: type)
+                shop.generateItems()
+                shop.menu(party)
             }
         }
         print("That was a very long day! Time to relax at the local tavern.")
@@ -89,7 +84,10 @@ class Game: BossDelegate {
     }
     
     func generateStarterItems() {
-        bag.items =  ItemLibrary.randomItems(amount: Int.random(in: 5...7))
+        let starterItems = ItemLibrary.randomItems(amount: Int.random(in: 5...7))
+        for item in starterItems {
+            party.addItem(item)
+        }
     }
     
     func bossCalledHenchman() {
@@ -98,7 +96,7 @@ class Game: BossDelegate {
     }
     
     func checkIfBothSidesCanFight() -> Bool {
-        if party.contains(where: { $0.isAlive }) && currentOpponents.contains(where: { $0.isAlive }) {
+        if party.members.contains(where: { $0.isAlive }) && currentOpponents.contains(where: { $0.isAlive }) {
             return true
         } else {
             return false
@@ -106,7 +104,7 @@ class Game: BossDelegate {
     }
     
     func printAllStatusInfos() {
-        party.forEach {
+        party.members.forEach {
             print($0)
         }
         currentOpponents.forEach {
@@ -135,18 +133,17 @@ class Game: BossDelegate {
                         hero.attack(chosenAttack!, on: currentOpponents[0])
                     }
                 case .buffAttack, .buffDefense, .heal, .manaRestore, .trap:
-                    let chosenHero: Character? = hero.chooseTarget(possibleTargets: party)
+                    let chosenHero: Character? = hero.chooseTarget(possibleTargets: party.members)
                     chosenHero == nil ? printTurnMenu(hero) : hero.attack(chosenAttack!, on: chosenHero!)
                 }
             }
         }
         if choice == 2 {
-            let item: Item? = bag.menu(hero)
+            let item: Item? = party.bag.menu(hero)
             if item == nil {
                 printTurnMenu(hero)
             } else {
-                let itemIndex = bag.items.firstIndex(where: { $0.name == item!.name })!
-                bag.items.remove(at: itemIndex)
+                party.removeItem(item!)
                 hero.useItem(item!)
             }
         }
@@ -192,9 +189,9 @@ class Game: BossDelegate {
             if checkIfBothSidesCanFight() {
                 roundCounter += 1
                 print("Round \(roundCounter)".highlight())
-                party.shuffle()
+                party.members.shuffle()
                 printAllStatusInfos()
-                for hero in party {
+                for hero in party.members {
                     printTurnMenu(hero)
                     if !checkIfBothSidesCanFight() {
                         fightIsRunning = false
@@ -202,7 +199,7 @@ class Game: BossDelegate {
                     }
                 }
                 for opponent in currentOpponents {
-                    let availableTargets: [Hero] = party.filter { $0.isAlive }
+                    let availableTargets: [Hero] = party.members.filter { $0.isAlive }
                     let randomAttack = opponent.chooseRandomAttack()
                     switch randomAttack.type {
                     case .areaDamage:
@@ -224,13 +221,12 @@ class Game: BossDelegate {
                 fightIsRunning = false
             }
         }
-        party.contains(where: { $0.isAlive }) ? print("You won!") : print("You lost!")
+        party.isAbleToFight ? print("You won!") : print("You lost!")
     }
     
     func run() {
         var gameIsRunning: Bool = true
         generateStarterItems()
-        party = [hero1, hero2, hero3, hero4]
         prepareBossFight()
         fight()
         while gameIsRunning {
@@ -242,5 +238,7 @@ class Game: BossDelegate {
         }
     }
     
-    init() {}
+    init() {
+        self.party = Party(initialHeroes: initalHeroes)
+    }
 }

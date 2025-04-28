@@ -34,6 +34,19 @@ struct ItemLibrary {
     static var consumableItems: [Item] = allItems.filter { $0.isConsumable }
     static var rareItems: [Item] = [cursedAmulet, phoenixFeather]
     
+    static var itemPrices: [String:Int] = [
+        "Healing Potion":10,
+        "Mana Elixir":10,
+        "Iron Shield":25,
+        "Sharpened Sword":25,
+        "Vitality Herb":18,
+        "Cursed Amulet":40,
+        "Light Cloak":25,
+        "Berserker Tonic":30,
+        "Phoenix Feather":80,
+        "Knight Gauntlets":25
+    ]
+    
     static func randomItem() -> Item {
         return allItems.randomElement()!
     }

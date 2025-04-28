@@ -31,7 +31,7 @@ enum CheckpointDetails {
     case battle(opponent: Opponent)
     case bossBattle(boss: Boss)
     case treasure(type: TreasureType, items: [Item], coins: Int)
-    case shop(type: ShopType, items: [Item])
+    case shop(type: ShopType)
 }
 
 enum TimeOfDay {
