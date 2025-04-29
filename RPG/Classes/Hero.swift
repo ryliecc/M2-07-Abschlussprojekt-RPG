@@ -28,15 +28,15 @@ class Hero: Character, Levelable {
     var equippedRoundCounter: Int = 0
     
     private func applyItemEffects(_ newItem: Item) {
-        attackPower += newItem.attackPoints
-        defense += newItem.defensePoints
         equippedRoundCounter = newItem.numberOfUsages
+        let buff = Buff(attackPoints: newItem.attackPoints, defensePoints: newItem.defensePoints, healthPoints: newItem.healthPoints, manaPoints: newItem.manaPoints, isFromAttack: false)
+        applyBuff(buff)
     }
     
     private func removeItemEffects(_ oldItem: Item) {
-        attackPower -= oldItem.attackPoints
-        defense -= oldItem.defensePoints
-        equippedRoundCounter = 0
+        if let oldBuff = buffs.first(where: { $0.equalsItem(oldItem) }) {
+            removeBuff(oldBuff)
+        }
     }
     
     

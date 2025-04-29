@@ -71,9 +71,15 @@ class Game: BossDelegate {
                 amount = Int.random(in: 1...3)
                 prepareRegularFight(amount)
                 fight()
+                for member in party.members {
+                    member.healAfterFight()
+                }
             case .bossBattle(let boss):
                 prepareBossFight(boss)
                 fight()
+                for member in party.members {
+                    member.healAfterFight()
+                }
             case .treasure(let type, let items, let coins):
                 openTreasureBox(type: type, items: items, coins: coins)
             case .shop(let type):

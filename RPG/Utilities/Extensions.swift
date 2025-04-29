@@ -36,3 +36,13 @@ extension Character {
         healthPoints > 0
     }
 }
+
+extension Buff {
+    func equalsItem(_ item: Item) -> Bool {
+        return !self.isFromAttack && self.attackPoints == item.attackPoints && self.defensePoints == item.defensePoints && self.healthPoints == item.healthPoints && self.manaPoints == item.manaPoints
+    }
+    
+    func equalsBuff(_ buff: Buff) -> Bool {
+        return self.isFromAttack == buff.isFromAttack && self.attackPoints == buff.attackPoints && self.defensePoints == buff.defensePoints && self.healthPoints == buff.healthPoints && self.defensePoints == buff.defensePoints
+    }
+}

@@ -9,15 +9,16 @@ import Foundation
 
 class Character: CustomStringConvertible, Equatable {
     let name: String
+    
     var maxHealthPoints: Double
     var healthPoints: Double
     var maxManaPoints: Double
     var manaPoints: Double
-    var attacks: [Attack]
     
-    var baseAttackPower: Double
+    var attacks: [Attack]
+    var buffs: [Buff] = []
+    
     var attackPower: Double
-    var baseDefense: Double
     var defense: Double
     
     var hasTrap: Bool = false
@@ -31,9 +32,7 @@ class Character: CustomStringConvertible, Equatable {
         self.maxManaPoints = maxManaPoints
         self.manaPoints = maxManaPoints
         self.attacks = attacks
-        self.baseAttackPower = attackPower
         self.attackPower = attackPower
-        self.baseDefense = defense
         self.defense = defense
     }
     
@@ -41,6 +40,41 @@ class Character: CustomStringConvertible, Equatable {
         let healthPointsBar = "HP".progressBar(for: healthPoints, maxValue: maxHealthPoints)
         let manaPointsBar = "MP".progressBar(for: manaPoints, maxValue: maxManaPoints)
         return "\(name)\n\(healthPointsBar)\n\(manaPointsBar)"
+    }
+    
+    func healAfterFight() {
+        for buff in buffs {
+            if buff.isFromAttack {
+                removeBuff(buff)
+            }
+        }
+    }
+    
+    func healOverNight() {
+        self.healthPoints = self.maxHealthPoints
+        self.manaPoints = self.maxManaPoints
+    }
+    
+    func applyBuff(_ buff: Buff) {
+        self.attackPower += buff.attackPoints
+        self.defense += buff.defensePoints
+        self.healthPoints += buff.healthPoints
+        self.maxHealthPoints += buff.healthPoints
+        self.manaPoints += buff.manaPoints
+        self.maxManaPoints += self.manaPoints
+        buffs.append(buff)
+    }
+    
+    func removeBuff(_ oldBuff: Buff) {
+        if let oldIndex = buffs.firstIndex(where: { $0.equalsBuff(oldBuff) }) {
+            self.attackPower -= oldBuff.attackPoints
+            self.defense -= oldBuff.defensePoints
+            self.maxHealthPoints -= self.healthPoints
+            self.healthPoints -= self.healthPoints
+            self.maxManaPoints -= self.manaPoints
+            self.manaPoints -= self.manaPoints
+            buffs.remove(at: oldIndex)
+        }
     }
     
     func takeDamage(_ amount: Double, from attacker: Character) {
@@ -78,21 +112,21 @@ class Character: CustomStringConvertible, Equatable {
             target.trapDamage = self.attackPower * attack.powerMultiplier
             print("\(name) sets a trap in front of \(self == target ? "themself" : target.name)!")
         case .buffAttack:
-            let buffAmount = self.attackPower * attack.powerMultiplier
-            target.attackPower += buffAmount
-            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") attack power by \(buffAmount.roundedUp).")
+            let buff = Buff(attackPoints: self.attackPower * attack.powerMultiplier, defensePoints: 0, healthPoints: 0, manaPoints: 0, isFromAttack: true)
+            target.applyBuff(buff)
+            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") attack power by \(buff.attackPoints.roundedUp).")
         case .buffDefense:
-            let buffAmount = self.attackPower * attack.powerMultiplier
-            target.defense += buffAmount
-            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") defense by \(buffAmount.roundedUp).")
+            let buff = Buff(attackPoints: 0, defensePoints: self.attackPower * attack.powerMultiplier, healthPoints: 0, manaPoints: 0, isFromAttack: true)
+            target.applyBuff(buff)
+            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") defense by \(buff.defensePoints.roundedUp).")
         case .debuffAttack:
-            let buffAmount = self.attackPower * attack.powerMultiplier
-            target.attackPower = max(0, target.attackPower - buffAmount)
-            print("\(name) weakens \(target.name)'s attack power by \(buffAmount.roundedDown).")
+            let buff = Buff(attackPoints: self.attackPower * attack.powerMultiplier * -1, defensePoints: 0, healthPoints: 0, manaPoints: 0, isFromAttack: true)
+            target.applyBuff(buff)
+            print("\(name) weakens \(target.name)'s attack power by \((buff.attackPoints * -1).roundedDown).")
         case .debuffDefense:
-            let buffAmount = self.attackPower * attack.powerMultiplier
-            target.defense = max(0, target.defense - buffAmount)
-            print("\(name) reduces \(target.name)'s defense by \(buffAmount.roundedDown).")
+            let buff = Buff(attackPoints: 0, defensePoints: self.attackPower * attack.powerMultiplier * -1, healthPoints: 0, manaPoints: 0, isFromAttack: true)
+            target.applyBuff(buff)
+            print("\(name) reduces \(target.name)'s defense by \((buff.defensePoints * -1).roundedDown).")
         case .ultimate:
             if !hasUsedUltimate {
                 print("\(name) uses ultimate attack \(attack.name).")
