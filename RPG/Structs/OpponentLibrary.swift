@@ -20,11 +20,10 @@ struct OpponentLibrary {
         return opponentFactories.randomElement()!()
     }
     
-    static func randomOpponents() -> [Opponent] {
-        let amountOfOpponents = Int.random(in: 1...3)
+    static func randomOpponents(amount: Int) -> [Opponent] {
         var opponents: [Opponent] = []
         let opponentFactory = opponentFactories.randomElement()!
-        for _ in 0..<amountOfOpponents {
+        for _ in 0..<amount {
             opponents.append(opponentFactory())
         }
         return opponents

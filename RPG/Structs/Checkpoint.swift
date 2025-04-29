@@ -17,7 +17,7 @@ struct Checkpoint {
         
         switch randomType {
         case .battle:
-            checkpoint = Checkpoint(type: .battle, details: .battle(opponent: OpponentLibrary.randomOpponent()))
+            checkpoint = Checkpoint(type: .battle, details: .battle(amount: Int.random(in: 1...3)))
         case .bossBattle:
             checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss()))
         case .shop:

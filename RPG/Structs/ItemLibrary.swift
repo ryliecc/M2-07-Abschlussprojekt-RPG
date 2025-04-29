@@ -20,7 +20,7 @@ struct ItemLibrary {
     
     static let cursedAmulet = Item(name: "Cursed Amulet", attackPoints: 3, defensePoints: 0, healthPoints: -5, manaPoints: 10, numberOfUsages: 2, isConsumable: false, isRare: true, infoText: "A dark talisman pulsing with forbidden magic, tempting the reckless.", actionText: "The hero feels dark power surge through them. +3 Attack and +10 MP, but 5 HP were lost.")
     
-    static let lightCloak = Item(name: "Light cloak", attackPoints: 0, defensePoints: 3, healthPoints: 0, manaPoints: 0, numberOfUsages: 5, isConsumable: false, isRare: false, infoText: "A cloak woven from enchanted silk, making the wearer swift and elusive.", actionText: "The hero moves with grace and speed. Defense increased by 3.")
+    static let lightCloak = Item(name: "Light Cloak", attackPoints: 0, defensePoints: 3, healthPoints: 0, manaPoints: 0, numberOfUsages: 5, isConsumable: false, isRare: false, infoText: "A cloak woven from enchanted silk, making the wearer swift and elusive.", actionText: "The hero moves with grace and speed. Defense increased by 3.")
     
     static let berserkerTonic = Item(name: "Berserker Tonic", attackPoints: 7, defensePoints: -3, healthPoints: 0, manaPoints: 0, numberOfUsages: 1, isConsumable: true, isRare: false, infoText: "A vicious brew that fills the drinker with unstoppable rage, at a terrible cost.", actionText: "The hero is overcome by a berserker rage. Attack increased by 7, but Defense decreased by 3.")
     

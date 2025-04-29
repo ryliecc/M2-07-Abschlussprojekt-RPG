@@ -36,16 +36,17 @@ class Game: BossDelegate {
     
     func generateCheckpoints() {
         let numberOfCheckpoints = Int.random(in: 3...5)
-        var checkpoints: [Checkpoint] = []
-        for _ in 0..<numberOfCheckpoints - 1 {
-            checkpoints.append(Checkpoint.generateRandomCheckpoint())
+        var randomCheckpoints: [Checkpoint] = []
+        for _ in 0..<numberOfCheckpoints {
+            randomCheckpoints.append(Checkpoint.generateRandomCheckpoint())
         }
-        if !checkpoints.contains(where: { $0.type == .bossBattle }) {
+        if !randomCheckpoints.contains(where: { $0.type == .bossBattle }) {
             let randomBossBattleCheckpoint: Checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss()))
-            checkpoints.append(randomBossBattleCheckpoint)
+            randomCheckpoints[numberOfCheckpoints - 1] = randomBossBattleCheckpoint
         } else {
-            checkpoints.append(Checkpoint.generateRandomCheckpoint())
+            randomCheckpoints.append(Checkpoint.generateRandomCheckpoint())
         }
+        nextCheckpoints = randomCheckpoints
     }
     
     func openTreasureBox(type: TreasureType, items: [Item], coins: Int) {
@@ -66,8 +67,9 @@ class Game: BossDelegate {
     func travel() {
         for checkpoint in nextCheckpoints {
             switch checkpoint.details {
-            case .battle(let opponent):
-                prepareRegularFight()
+            case .battle(var amount):
+                amount = Int.random(in: 1...3)
+                prepareRegularFight(amount)
                 fight()
             case .bossBattle(let boss):
                 prepareBossFight(boss)
@@ -157,22 +159,18 @@ class Game: BossDelegate {
         currentOpponents = currentOpponents.filter { $0.isAlive }
     }
     
-    func prepareBossFight(_ boss: Boss? = nil) {
-        if boss != nil {
-            currentBoss = boss!
-            currentOpponents = [currentBoss]
-        } else {
-            currentBoss = BossLibrary.randomBoss()
-            currentOpponents = [currentBoss]
-        }
+    func prepareBossFight(_ boss: Boss) {
+        currentBoss = boss
+        currentOpponents = [currentBoss]
+        print("\(currentBoss.name) appears! The fight begins!")
     }
     
-    func prepareRegularFight() {
-        currentOpponents = OpponentLibrary.randomOpponents()
+    func prepareRegularFight(_ amount: Int) {
+        currentOpponents = OpponentLibrary.randomOpponents(amount: amount)
+        print("\(currentOpponents.count) \(currentOpponents[0].name)\(currentOpponents.count > 1 ? "s appear" : " appears"). The fight begins!")
     }
     
     func fight() {
-        print("\(currentOpponents[0].name) appears. The fight begins!")
         var fightIsRunning: Bool = true
         var roundCounter: Int = 0
         while fightIsRunning {
@@ -217,8 +215,7 @@ class Game: BossDelegate {
     func run() {
         var gameIsRunning: Bool = true
         generateStarterItems()
-        prepareBossFight()
-        fight()
+        nextCheckpoints = [Checkpoint(type: .treasure, details: .treasure(type: .coins, items: [], coins: 50)), Checkpoint(type: .treasure, details: .treasure(type: .item, items: ItemLibrary.randomItems(amount: 3), coins: 0)), Checkpoint(type: .shop, details: .shop(type: .equippable)), Checkpoint(type: .battle, details: .battle(amount: 2))]
         while gameIsRunning {
             if currentTime == .day {
                 travel()

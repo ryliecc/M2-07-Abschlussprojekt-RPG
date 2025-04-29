@@ -28,7 +28,7 @@ enum CheckpointType: CaseIterable {
 }
 
 enum CheckpointDetails {
-    case battle(opponent: Opponent)
+    case battle(amount: Int)
     case bossBattle(boss: Boss)
     case treasure(type: TreasureType, items: [Item], coins: Int)
     case shop(type: ShopType)
