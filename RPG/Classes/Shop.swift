@@ -16,18 +16,22 @@ class Shop {
     private func generateItems() {
         switch type {
         case .consumable:
-            itemsForSale = ItemLibrary.consumableItems
+            itemsForSale = ItemLibrary.randomItems(amount: 5, type: type)
         case .equippable:
-            itemsForSale = ItemLibrary.equippableItems
+            itemsForSale = ItemLibrary.randomItems(amount: 5, type: type)
         case .rare:
-            itemsForSale = ItemLibrary.rareItems
+            itemsForSale = ItemLibrary.randomItems(amount: 5, type: type)
         }
-        for item in itemsForSale {
-            var itemPrice = ItemLibrary.itemPrices[item.name]
-            if hasSale {
-                itemPrice! = Int(Double(itemPrice!) / 100 * 70 .rounded())
+        for (index, item) in itemsForSale.enumerated() {
+            if var itemPrice = ItemLibrary.itemPrices[item.name] {
+                if hasSale {
+                    itemPrice = Int(Double(itemPrice) / 100 * 70 .rounded())
+                }
+                itemPrices[item.name] = itemPrice
+            } else {
+                print("+++++ DEBUG MESSAGE: ItemLibrary.itemPrices does not return a price for \(item.name). It was removed from the shop array to avoid any crashes. Add a price for the Item to get rid of this message and display the Shop correctly. +++++")
+                itemsForSale.remove(at: index)
             }
-            itemPrices[item.name] = itemPrice
         }
     }
     
@@ -37,6 +41,7 @@ class Shop {
             print("[\(index + 1)] \(item.name)\n\(item.infoText)\nPrice: \(itemPrices[item.name]!)) Coins")
         }
         print("[\(itemsForSale.count + 1)] Leave")
+        print("Available Coins: \(party.coins)")
         print("Please choose what you want to do.")
         let chosenIndex = enterInteger(min: 1, max: itemsForSale.count + 1) - 1
         if chosenIndex == itemsForSale.count {

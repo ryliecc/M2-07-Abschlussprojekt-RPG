@@ -53,8 +53,10 @@ class Party {
     func spendCoins(_ amount: Int) -> Bool {
         if coins >= amount {
             coins -= amount
+            print("\(amount) Coins spent. You have \(coins) left.")
             return true
         }
+        print("You don't have enough Coins to do that.")
         return false
     }
     
