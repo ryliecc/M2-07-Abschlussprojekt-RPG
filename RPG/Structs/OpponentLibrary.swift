@@ -19,4 +19,14 @@ struct OpponentLibrary {
     static func randomOpponent() -> Opponent {
         return opponentFactories.randomElement()!()
     }
+    
+    static func randomOpponents() -> [Opponent] {
+        let amountOfOpponents = Int.random(in: 1...3)
+        var opponents: [Opponent] = []
+        let opponentFactory = opponentFactories.randomElement()!
+        for _ in 0..<amountOfOpponents {
+            opponents.append(opponentFactory())
+        }
+        return opponents
+    }
 }

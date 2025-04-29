@@ -110,8 +110,4 @@ class Character: CustomStringConvertible, Equatable {
     static func == (lhs: Character, rhs: Character) -> Bool {
         return lhs.name == rhs.name
     }
-    
-    func copy() -> Character {
-        return Character(name: self.name, maxHealthPoints: self.maxHealthPoints, maxManaPoints: self.maxManaPoints, attacks: self.attacks, attackPower: self.attackPower, defense: self.defense)
-    }
 }

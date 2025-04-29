@@ -18,7 +18,10 @@ struct Item: CustomStringConvertible {
     var numberOfUsages: Int
     
     let isConsumable: Bool
-    let isEquippable: Bool
+    var isEquippable: Bool {
+        !isConsumable
+    }
+    let isRare: Bool
     
     let infoText: String
     let actionText: String

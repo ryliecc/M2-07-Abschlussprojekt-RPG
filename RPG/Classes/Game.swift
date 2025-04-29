@@ -42,6 +42,7 @@ class Game: BossDelegate {
         }
         if !checkpoints.contains(where: { $0.type == .bossBattle }) {
             let randomBossBattleCheckpoint: Checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss()))
+            checkpoints.append(randomBossBattleCheckpoint)
         } else {
             checkpoints.append(Checkpoint.generateRandomCheckpoint())
         }
@@ -66,7 +67,7 @@ class Game: BossDelegate {
         for checkpoint in nextCheckpoints {
             switch checkpoint.details {
             case .battle(let opponent):
-                prepareRegularFight(opponent)
+                prepareRegularFight()
                 fight()
             case .bossBattle(let boss):
                 prepareBossFight(boss)
@@ -75,7 +76,6 @@ class Game: BossDelegate {
                 openTreasureBox(type: type, items: items, coins: coins)
             case .shop(let type):
                 let shop = Shop(type: type)
-                shop.generateItems()
                 shop.menu(party)
             }
         }
@@ -167,18 +167,8 @@ class Game: BossDelegate {
         }
     }
     
-    func prepareRegularFight(_ opponent: Opponent? = nil) {
-        let amountOfOpponents = Int.random(in: 1...3)
-        currentOpponents = []
-        let newOpponent: Opponent
-        if opponent != nil {
-            newOpponent = opponent!
-        } else {
-            newOpponent = OpponentLibrary.randomOpponent()
-        }
-        for _ in 0..<amountOfOpponents {
-            currentOpponents.append(newOpponent.copy())
-        }
+    func prepareRegularFight() {
+        currentOpponents = OpponentLibrary.randomOpponents()
     }
     
     func fight() {
@@ -235,7 +225,9 @@ class Game: BossDelegate {
             } else {
                 //visitTavern()
             }
+            gameIsRunning = false
         }
+        print("Thank you for playing the test version.")
     }
     
     init() {

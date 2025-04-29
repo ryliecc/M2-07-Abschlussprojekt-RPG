@@ -13,7 +13,7 @@ class Shop {
     var itemPrices: [String: Int] = [:]
     var hasSale: Bool
     
-    func generateItems() {
+    private func generateItems() {
         switch type {
         case .consumable:
             itemsForSale = ItemLibrary.consumableItems
@@ -25,14 +25,14 @@ class Shop {
         for item in itemsForSale {
             var itemPrice = ItemLibrary.itemPrices[item.name]
             if hasSale {
-                itemPrice! /= 2
+                itemPrice! = Int(Double(itemPrice!) / 100 * 70 .rounded())
             }
             itemPrices[item.name] = itemPrice
         }
     }
     
     func menu(_ party: Party) {
-        print("Welcome to the shop.\(hasSale ? " Everything is 50% on sale today!" : "") The following items are available:")
+        print("Welcome to the shop.\(hasSale ? " Everything is 30% on sale today!" : "") The following items are available:")
         for (index, item) in itemsForSale.enumerated() {
             print("[\(index + 1)] \(item.name)\n\(item.infoText)\nPrice: \(String(describing: itemPrices[item.name])) Coins")
         }
@@ -57,5 +57,6 @@ class Shop {
     init(type: ShopType, hasSale: Bool = false) {
         self.type = type
         self.hasSale = hasSale
+        generateItems()
     }
 }
