@@ -8,6 +8,10 @@
 import Foundation
 
 extension Double {
+    var roundedUp: Int {
+        Int(ceil(self))
+    }
+    
     var roundedDown: Int {
         Int(floor(self))
     }

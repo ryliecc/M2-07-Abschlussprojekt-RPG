@@ -34,7 +34,7 @@ class Opponent: Character {
             let target: Character = targets.randomElement()!
             let healAmount = self.attackPower * attack.powerMultiplier
             target.healthPoints = min(target.maxHealthPoints, target.healthPoints + healAmount)
-            print("\(name) heals \(target.name) for \(healAmount.roundedDown) HP.")
+            print("\(name) heals \(target.name) for \(healAmount.roundedUp) HP.")
         default:
             if let target = targets.randomElement() {
                 let damage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)

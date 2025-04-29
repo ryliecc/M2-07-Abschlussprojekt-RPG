@@ -49,7 +49,7 @@ class Character: CustomStringConvertible, Equatable {
             print("\(name)'s trap is triggered and hurts \(attacker.name).")
             attacker.takeDamage(trapDamage, from: self)
         } else {
-            print("It deals \(amount.roundedDown) damage.")
+            print("It deals \(amount.roundedUp) damage.")
             if healthPoints - amount <= 0 {
                 print("\(name) died and cannot keep fighting.")
             }
@@ -68,11 +68,11 @@ class Character: CustomStringConvertible, Equatable {
         case .heal:
             let healAmount = self.attackPower * attack.powerMultiplier
             target.healthPoints = min(target.maxHealthPoints, target.healthPoints + healAmount)
-            print("\(name) heals \(self == target ? "themselves" : target.name) for \(healAmount.roundedDown) HP.")
+            print("\(name) heals \(self == target ? "themselves" : target.name) for \(healAmount.roundedUp) HP.")
         case .manaRestore:
             let manaAmount = self.attackPower * attack.powerMultiplier
             target.manaPoints = min(target.maxManaPoints, target.manaPoints + manaAmount)
-            print("\(name) restores \(manaAmount.roundedDown) MP to \(self == target ? "themselves" : target.name).")
+            print("\(name) restores \(manaAmount.roundedUp) MP to \(self == target ? "themselves" : target.name).")
         case .trap:
             target.hasTrap = true
             target.trapDamage = self.attackPower * attack.powerMultiplier
@@ -80,11 +80,11 @@ class Character: CustomStringConvertible, Equatable {
         case .buffAttack:
             let buffAmount = self.attackPower * attack.powerMultiplier
             target.attackPower += buffAmount
-            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") attack power by \(buffAmount.roundedDown).")
+            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") attack power by \(buffAmount.roundedUp).")
         case .buffDefense:
             let buffAmount = self.attackPower * attack.powerMultiplier
             target.defense += buffAmount
-            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") defense by \(buffAmount.roundedDown).")
+            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") defense by \(buffAmount.roundedUp).")
         case .debuffAttack:
             let buffAmount = self.attackPower * attack.powerMultiplier
             target.attackPower = max(0, target.attackPower - buffAmount)
