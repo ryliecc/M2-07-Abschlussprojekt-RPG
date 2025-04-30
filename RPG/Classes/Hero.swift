@@ -9,10 +9,12 @@ import Foundation
 
 class Hero: Character, Levelable {
     
+    let classDescription: String
+    
     var experiencePoints: Int = 0
     var level: Int = 1
     var experienceNeededForNextLevel: Int {
-        level * 100
+        level * 50
     }
     
     var equippedItem: Item? {
@@ -135,7 +137,8 @@ class Hero: Character, Levelable {
         }
     }
     
-    override init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double) {
+    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double, classDescription: String) {
+        self.classDescription = classDescription
         super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: attacks, attackPower: attackPower, defense: defense)
     }
 }

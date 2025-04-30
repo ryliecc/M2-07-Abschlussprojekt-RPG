@@ -14,7 +14,7 @@ class Assassin: Hero {
     let poisonedBlade: Attack = Attack(name: "Poisoned Blade", powerMultiplier: 0.7, manaCost: 4, type: .debuffDefense, infoText: "The blade is coated in a venomous poison, slowly weakening the enemy's defenses.")
     
     init() {
-        super.init(name: "Assassin", maxHealthPoints: 22, maxManaPoints: 12, attacks: [shadowJab, quietDeath, shadowFocus, poisonedBlade], attackPower: 8, defense: 12)
+        super.init(name: "Assassin", maxHealthPoints: 22, maxManaPoints: 12, attacks: [shadowJab, quietDeath, shadowFocus, poisonedBlade], attackPower: 8, defense: 12, classDescription: "A silent predator lurking in the shadows. The Assassin excels at precise strikes and weakening enemies before they even know what hit them. But once discovered, they can be easily overpowered.")
     }
     
     override func levelUp() {

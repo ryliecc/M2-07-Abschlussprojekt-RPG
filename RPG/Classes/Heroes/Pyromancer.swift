@@ -14,7 +14,7 @@ class Pyromancer: Hero {
     let manaSurge: Attack = Attack(name: "Mana Surge", powerMultiplier: 1.0, manaCost: 0, type: .manaRestore, infoText: "Draws in ambient magic to restore mana.")
 
     init() {
-        super.init(name: "Pyromancer", maxHealthPoints: 20, maxManaPoints: 20, attacks: [firebolt, ignite, flameAura, manaSurge], attackPower: 7, defense: 8)
+        super.init(name: "Pyromancer", maxHealthPoints: 20, maxManaPoints: 20, attacks: [firebolt, ignite, flameAura, manaSurge], attackPower: 7, defense: 8, classDescription: "A volatile flame-wielder who bends fire to their will. The Pyromancer excels at area damage and burns enemies over time, but can easily lose control and exhaust their mana.")
     }
 
     override func levelUp() {
