@@ -8,7 +8,7 @@
 import Foundation
 
 func enterInteger(min: Int, max: Int) -> Int {
-    print("Please enter the number of your choice.")
+    print("\nPlease enter the number of your choice.")
     var input: Int? = Int(readLine()!)
     while input == nil || input! < min || input! > max {
         print("Wrong input. Please try again.")

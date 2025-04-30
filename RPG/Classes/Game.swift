@@ -36,6 +36,33 @@ class Game: BossDelegate {
     var nextTavern: Tavern
     var dayCounter: Int = 0
     
+    func triggerRandomEvent() {
+        var time: EventTime
+        if currentTime == .day {
+            time = .day
+        } else {
+            time = .night
+        }
+        let matchingEvents = EventLibrary.allEvents.filter {
+            $0.time == time || $0.time == .both
+        }
+        
+        var weightedPool: [GameEvent] = []
+        for event in matchingEvents {
+            weightedPool += Array(repeating: event, count: event.rarity.rawValue)
+        }
+        
+        guard let selectedEvent = weightedPool.randomElement() else {
+            print("\n+++++ DEBUG MESSAGE: No event occurred. Check if Event Library contains events for all cases. +++++")
+            return
+        }
+        
+        print("\nEvent triggered: \(selectedEvent.name)")
+        print(selectedEvent.description)
+        selectedEvent.effect(&party)
+    }
+        
+    
     func generateCheckpoints() {
         let numberOfCheckpoints = Int.random(in: 3...5)
         var randomCheckpoints: [Checkpoint] = []
@@ -52,7 +79,7 @@ class Game: BossDelegate {
     }
     
     func openTreasureBox(type: TreasureType, items: [Item], coins: Int) {
-        print("You found a treasure box. Let's see what's in there...")
+        print("\nYou found a treasure box. Let's see what's in there...")
         switch type {
         case .item:
             for item in items {
@@ -67,9 +94,13 @@ class Game: BossDelegate {
     }
     
     func travel() {
-        for checkpoint in nextCheckpoints {
+        for (index, checkpoint) in nextCheckpoints.enumerated() {
             if currentTime == .night {
                 break
+            }
+            print("\nYou travel along the road ...")
+            if index == 2 {
+                triggerRandomEvent()
             }
             switch checkpoint.details {
             case .battle(var amount):
@@ -92,13 +123,14 @@ class Game: BossDelegate {
                 shop.menu(party)
             }
         }
-        print("That was a very long day! Time to relax at the local tavern.")
+        print("\nThat was a very long day! Time to find a place to sleep.")
         currentTime = .night
     }
     
     func visitTavern() {
         nextTavern.menu(party)
-        print("Everyone slept well that night and woke up refreshed and ready for new adventures.")
+        triggerRandomEvent()
+        print("\nEveryone slept well that night and woke up refreshed and ready for new adventures.")
         currentTime = .day
     }
     
@@ -111,7 +143,7 @@ class Game: BossDelegate {
     
     func bossCalledHenchman() {
         currentOpponents.append(currentHenchman!)
-        print("\(currentHenchman!.name) joined the fight.")
+        print("\n\(currentHenchman!.name) joined the fight.")
     }
     
     func checkIfBothSidesCanFight() -> Bool {
@@ -125,10 +157,10 @@ class Game: BossDelegate {
     func handleBattleEnd() {
         let heroesAlive = party.members.contains(where: { $0.isAlive })
         if !heroesAlive {
-            print("You lost! All your heroes went K.O. but a friendly spirit brought them to the next tavern to heal.")
+            print("\nYou lost! All your heroes went K.O. but a friendly spirit brought them to the next tavern to heal.")
             currentTime = .night
         } else {
-            print("Victory! Your heroes have defeated all enemies!")
+            print("\nVictory! Your heroes have defeated all enemies!")
             var totalExperiencePoints: Int = 0
             var totalCoins: Int = 0
             
@@ -181,10 +213,10 @@ class Game: BossDelegate {
     
     func printTurnMenu(_ hero: Hero) {
         if !hero.isAlive {
-            print("\(hero.name) is K.O. and cannot fight.")
+            print("\n\(hero.name) is K.O. and cannot fight.")
             return
         }
-        print("It is \(hero.name)'s turn. What should they do?\n[1] Attack\n[2] Use Item")
+        print("\nIt is \(hero.name)'s turn. What should they do?\n[1] Attack\n[2] Use Item")
         let choice: Int = enterInteger(min: 1, max: 2)
         if choice == 1 {
             let chosenAttack: Attack? = hero.chooseAttack()
@@ -226,7 +258,7 @@ class Game: BossDelegate {
         if hero.equippedItem != nil {
             hero.equippedRoundCounter -= 1
             if hero.equippedRoundCounter < 0 {
-                print("\(hero.equippedItem!.name) is used up. The temporary effects have ended.")
+                print("\n\(hero.equippedItem!.name) is used up. The temporary effects have ended.")
                 hero.equippedItem = nil
             }
         }
@@ -236,13 +268,13 @@ class Game: BossDelegate {
         defeatedOpponents = []
         currentBoss = boss
         currentOpponents = [currentBoss]
-        print("\(currentBoss.name) appears! The fight begins!")
+        print("\n\(currentBoss.name) appears! The fight begins!")
     }
     
     func prepareRegularFight(_ amount: Int) {
         defeatedOpponents = []
         currentOpponents = OpponentLibrary.randomOpponents(amount: amount)
-        print("\(currentOpponents.count) \(currentOpponents[0].name)\(currentOpponents.count > 1 ? "s appear" : " appears"). The fight begins!")
+        print("\n\(currentOpponents.count) \(currentOpponents[0].name)\(currentOpponents.count > 1 ? "s appear" : " appears"). The fight begins!")
     }
     
     func fight() {
@@ -251,7 +283,7 @@ class Game: BossDelegate {
         while fightIsRunning {
             if checkIfBothSidesCanFight() {
                 roundCounter += 1
-                print("Round \(roundCounter)".highlight())
+                print("\nRound \(roundCounter)".highlight())
                 party.members.shuffle()
                 printAllStatusInfos()
                 for hero in party.members {
@@ -305,7 +337,7 @@ class Game: BossDelegate {
                 }
             }
         }
-        print("Thank you for playing the test version.")
+        print("\nThank you for playing the test version.")
     }
     
     init() {

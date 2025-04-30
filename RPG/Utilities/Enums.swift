@@ -50,3 +50,15 @@ enum ShopType: CaseIterable {
     case rare
     case tavern
 }
+
+enum EventRarity: Int {
+    case common = 60
+    case uncommon = 30
+    case rare = 10
+}
+
+enum EventTime {
+    case day
+    case night
+    case both
+}

@@ -53,4 +53,14 @@ struct Bag: CustomStringConvertible {
     mutating func addItem(_ item: Item) {
         items.append(item)
     }
+    
+    mutating func loseRandomItem() {
+        if let item = items.randomElement() {
+            let index = items.firstIndex(where: { $0.name == item.name })
+            items.remove(at: index!)
+            print("You lost one \(item.name).")
+        } else {
+            print("Your bag was already completely empty, so you didn't lose anything. Lucky you!")
+        }
+    }
 }
