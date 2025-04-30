@@ -51,10 +51,8 @@ class Hero: Character, Levelable {
     func levelUp() {
         level += 1
         print("\(name) hase leveled up to level \(level)!")
-        baseAttackPower += 5
-        attackPower = baseAttackPower
-        baseDefense += 3
-        defense = baseDefense
+        attackPower += 5
+        defense += 3
         maxHealthPoints += 10
         healthPoints = maxHealthPoints
         maxManaPoints += 5

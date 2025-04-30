@@ -62,6 +62,7 @@ struct ItemLibrary {
     static var equippableItems: [Item] = allItems.filter { $0.isEquippable && !$0.isRare }
     static var consumableItems: [Item] = allItems.filter { $0.isConsumable && !$0.isRare }
     static var rareItems: [Item] = allItems.filter { $0.isRare }
+    static var tavernItems: [Item] = [healingPotion, manaElixir, vitalityHerb, energyBiscuit, turtleShellBrew, ironShield, sharpenedSword, lightCloak, steelGreaves, reinforcedBoots]
     
     static var itemPrices: [String:Int] = [
         healingPotion.name:10,
@@ -99,6 +100,8 @@ struct ItemLibrary {
             return equippableItems.randomElement()!
         case .rare:
             return rareItems.randomElement()!
+        case .tavern:
+            return tavernItems.randomElement()!
         case .none:
             return allItems.randomElement()!
         }
@@ -114,6 +117,8 @@ struct ItemLibrary {
             pool = equippableItems
         case .rare:
             pool = rareItems
+        case .tavern:
+            pool = tavernItems
         }
         if pool.count <= amount {
             print("+++++ DEBUG MESSAGE: Method ItemLibrary.randomItems() does not return an actual random Array, but instead just the whole copy of the specified type. Consider adding more Items to the Library to get rid of this warning. +++++")

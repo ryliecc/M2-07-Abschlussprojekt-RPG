@@ -48,4 +48,5 @@ enum ShopType: CaseIterable {
     case equippable
     case consumable
     case rare
+    case tavern
 }

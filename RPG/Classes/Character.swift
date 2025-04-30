@@ -48,6 +48,9 @@ class Character: CustomStringConvertible, Equatable {
                 removeBuff(buff)
             }
         }
+        hasTrap = false
+        trapDamage = 0
+        hasUsedUltimate = false
     }
     
     func healOverNight() {
@@ -61,7 +64,7 @@ class Character: CustomStringConvertible, Equatable {
         self.healthPoints += buff.healthPoints
         self.maxHealthPoints += buff.healthPoints
         self.manaPoints += buff.manaPoints
-        self.maxManaPoints += self.manaPoints
+        self.maxManaPoints += buff.manaPoints
         buffs.append(buff)
     }
     
@@ -69,10 +72,10 @@ class Character: CustomStringConvertible, Equatable {
         if let oldIndex = buffs.firstIndex(where: { $0.equalsBuff(oldBuff) }) {
             self.attackPower -= oldBuff.attackPoints
             self.defense -= oldBuff.defensePoints
-            self.maxHealthPoints -= self.healthPoints
-            self.healthPoints -= self.healthPoints
-            self.maxManaPoints -= self.manaPoints
-            self.manaPoints -= self.manaPoints
+            self.maxHealthPoints -= oldBuff.healthPoints
+            self.healthPoints -= oldBuff.healthPoints
+            self.maxManaPoints -= oldBuff.manaPoints
+            self.manaPoints -= oldBuff.manaPoints
             buffs.remove(at: oldIndex)
         }
     }

@@ -28,11 +28,13 @@ class Game: BossDelegate {
                 generateCheckpoints()
             }
             if currentTime == .day {
-                //generateTavern()
+                nextTavern = Tavern()
             }
         }
     }
     var nextCheckpoints: [Checkpoint] = []
+    var nextTavern: Tavern
+    var dayCounter: Int = 0
     
     func generateCheckpoints() {
         let numberOfCheckpoints = Int.random(in: 3...5)
@@ -91,6 +93,12 @@ class Game: BossDelegate {
         currentTime = .night
     }
     
+    func visitTavern() {
+        nextTavern.menu(party)
+        print("Everyone slept well that night and woke up refreshed and ready for new adventures.")
+        currentTime = .day
+    }
+    
     func generateStarterItems() {
         let starterItems = ItemLibrary.randomItems(amount: Int.random(in: 5...7))
         for item in starterItems {
@@ -112,12 +120,31 @@ class Game: BossDelegate {
     }
     
     func printAllStatusInfos() {
-        party.members.forEach {
-            print($0)
+        print(party)
+        print()
+        let splitLines = currentOpponents.map { $0.description.components(separatedBy: "\n") }
+        let columnWidths = splitLines.map { lines in lines.map { $0.count }.max() ?? 0 }
+        let maxLines = splitLines.map { $0.count }.max() ?? 0
+        var result = ""
+        for i in 0..<maxLines {
+            let line = zip(splitLines, columnWidths).map { (lines, width) in
+                if i < lines.count {
+                    let content = lines[i]
+                    if i == 0 {
+                        let padding = max(0, width - content.count)
+                        let leftPadding = padding / 2
+                        let rightPadding = padding - leftPadding
+                        return String(repeating: " ", count: leftPadding) + content + String(repeating: " ", count: rightPadding)
+                    } else {
+                        return content.padding(toLength: width, withPad: " ", startingAt: 0)
+                    }
+                } else {
+                    return String(repeating: " ", count: width)
+                }
+            }.joined(separator: "   ")
+            result += line + "\n"
         }
-        currentOpponents.forEach {
-            print($0)
-        }
+        print(result)
     }
     
     func printTurnMenu(_ hero: Hero) {
@@ -224,16 +251,20 @@ class Game: BossDelegate {
         nextCheckpoints = [Checkpoint(type: .treasure, details: .treasure(type: .coins, items: [], coins: 50)), Checkpoint(type: .treasure, details: .treasure(type: .item, items: ItemLibrary.randomItems(amount: 3), coins: 0)), Checkpoint(type: .shop, details: .shop(type: .equippable)), Checkpoint(type: .battle, details: .battle(amount: 2))]
         while gameIsRunning {
             if currentTime == .day {
+                dayCounter += 1
                 travel()
             } else {
-                //visitTavern()
+                visitTavern()
+                if dayCounter == 5 {
+                    gameIsRunning = false
+                }
             }
-            gameIsRunning = false
         }
         print("Thank you for playing the test version.")
     }
     
     init() {
         self.party = Party(initialHeroes: initalHeroes)
+        self.nextTavern = Tavern()
     }
 }

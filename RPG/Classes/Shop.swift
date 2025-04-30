@@ -21,6 +21,8 @@ class Shop {
             itemsForSale = ItemLibrary.randomItems(amount: 5, type: type)
         case .rare:
             itemsForSale = ItemLibrary.randomItems(amount: 5, type: type)
+        case .tavern:
+            itemsForSale = ItemLibrary.randomItems(amount: 5, type: type)
         }
         for (index, item) in itemsForSale.enumerated() {
             if var itemPrice = ItemLibrary.itemPrices[item.name] {
@@ -38,7 +40,7 @@ class Shop {
     func menu(_ party: Party) {
         print("Welcome to the shop.\(hasSale ? " Everything is 30% on sale today!" : "") The following items are available:")
         for (index, item) in itemsForSale.enumerated() {
-            print("[\(index + 1)] \(item.name)\n\(item.infoText)\nPrice: \(itemPrices[item.name]!)) Coins")
+            print("[\(index + 1)] \(item.name)\n\(item.infoText)\nPrice: \(itemPrices[item.name]!) Coins")
         }
         print("[\(itemsForSale.count + 1)] Leave")
         print("Available Coins: \(party.coins)")
