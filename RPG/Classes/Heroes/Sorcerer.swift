@@ -16,4 +16,10 @@ class Sorcerer: Hero {
     init() {
         super.init(name: "Sorcerer", maxHealthPoints: 22, maxManaPoints: 20, attacks: [spark, chaosBolt, arcaneHeal, curseOfWeakness], attackPower: 7, defense: 6)
     }
+    
+    override func levelUp() {
+        super.levelUp()
+        maxManaPoints += 10
+        manaPoints = maxManaPoints
+    }
 }

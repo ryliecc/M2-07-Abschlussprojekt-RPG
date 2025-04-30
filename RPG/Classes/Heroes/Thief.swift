@@ -16,4 +16,11 @@ class Thief: Hero {
     init() {
         super.init(name: "Thief", maxHealthPoints: 20, maxManaPoints: 14, attacks: [quickSlash, backStab, spikeTrap, smokeBomb], attackPower: 5, defense: 10)
     }
+    
+    override func levelUp() {
+        super.levelUp()
+        defense += 2
+        maxManaPoints += 2
+        manaPoints = maxManaPoints
+    }
 }

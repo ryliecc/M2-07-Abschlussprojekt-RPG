@@ -42,6 +42,7 @@ class Hero: Character, Levelable {
     
     func gainExperience(_ amount: Int) {
         experiencePoints += amount
+        print("\(name) gained \(amount) XP!")
         while experiencePoints >= experienceNeededForNextLevel {
             experiencePoints -= experienceNeededForNextLevel
             levelUp()
@@ -50,12 +51,18 @@ class Hero: Character, Levelable {
     
     func levelUp() {
         level += 1
-        print("\(name) hase leveled up to level \(level)!")
-        attackPower += 5
-        defense += 3
-        maxHealthPoints += 10
+        print("\(name) hase leveled up to Lvl. \(level)!")
+        
+        let healthBoost = 8 + Double(level) * 2
+        let manaBoost = 4 + Double(level) * 1.5
+        let attackBoost = 3 + Double(level) * 1.2
+        let defenseBoost = 2 + Double(level)
+        
+        attackPower += attackBoost
+        defense += defenseBoost
+        maxHealthPoints += healthBoost
         healthPoints = maxHealthPoints
-        maxManaPoints += 5
+        maxManaPoints += manaBoost
         manaPoints = maxManaPoints
     }
     
@@ -78,8 +85,22 @@ class Hero: Character, Levelable {
         }
     }
     
-    func chooseTarget(possibleTargets: [Character]) -> Character? {
-        print("Choose the target.")
+    func chooseTarget(possibleTargets: [Hero]) -> Hero? {
+        print("Choose a hero.")
+        for (index, possibleTarget) in possibleTargets.enumerated() {
+            print("[\(index + 1)] \(possibleTarget.name)")
+        }
+        print("[\(possibleTargets.count + 1)] Go back")
+        let chosenIndex: Int = enterInteger(min: 1, max: possibleTargets.count + 1) - 1
+        if chosenIndex == possibleTargets.count {
+            return nil
+        } else {
+            return possibleTargets[chosenIndex]
+        }
+    }
+    
+    func chooseTarget(possibleTargets: [Opponent]) -> Opponent? {
+        print("Choose an opponent.")
         for (index, possibleTarget) in possibleTargets.enumerated() {
             print("[\(index + 1)] \(possibleTarget.name)")
         }

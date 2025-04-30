@@ -21,6 +21,7 @@ class Game: BossDelegate {
         return currentBoss.henchman
     }
     var currentOpponents: [Opponent] = []
+    var defeatedOpponents: [Opponent] = []
     
     var currentTime: TimeOfDay = .day {
         didSet {
@@ -68,6 +69,9 @@ class Game: BossDelegate {
     
     func travel() {
         for checkpoint in nextCheckpoints {
+            if currentTime == .night {
+                break
+            }
             switch checkpoint.details {
             case .battle(var amount):
                 amount = Int.random(in: 1...3)
@@ -119,6 +123,28 @@ class Game: BossDelegate {
         }
     }
     
+    func handleBattleEnd() {
+        let heroesAlive = party.members.contains(where: { $0.isAlive })
+        if !heroesAlive {
+            print("You lost! All your heroes went K.O. but a friendly spirit brought them to the next tavern to heal.")
+            currentTime = .night
+        } else {
+            print("Victory! Your heroes have defeated all enemies!")
+            var totalExperiencePoints: Int = 0
+            var totalCoins: Int = 0
+            
+            for opponent in defeatedOpponents {
+                let experiencePoints: Int = Int(((opponent.maxHealthPoints * 0.2) + (opponent.attackPower * 0.5) + (opponent.defense * 0.3)).rounded())
+                let coins: Int = Int(((opponent.attackPower + opponent.defense) * 0.2).rounded())
+                totalExperiencePoints += experiencePoints
+                totalCoins += coins
+            }
+            print("You won \(totalCoins) coins.")
+            party.earnCoins(totalCoins)
+            party.distributeExperience(totalExperiencePoints)
+        }
+    }
+    
     func printAllStatusInfos() {
         print(party)
         print()
@@ -147,6 +173,13 @@ class Game: BossDelegate {
         print(result)
     }
     
+    func handleOpponentDeath(_ opponent: Opponent) {
+        defeatedOpponents.append(opponent)
+        if let index = currentOpponents.firstIndex(of: opponent) {
+            currentOpponents.remove(at: index)
+        }
+    }
+    
     func printTurnMenu(_ hero: Hero) {
         if !hero.isAlive {
             print("\(hero.name) is K.O. and cannot fight.")
@@ -162,10 +195,19 @@ class Game: BossDelegate {
                 switch chosenAttack!.type {
                 case .damage, .debuffAttack, .debuffDefense, .ultimate, .areaDamage:
                     if currentOpponents.count > 1 {
-                        let chosenOpponent: Character? = hero.chooseTarget(possibleTargets: currentOpponents)
-                        chosenOpponent == nil ? printTurnMenu(hero) : hero.attack(chosenAttack!, on: chosenOpponent!)
+                        if let chosenOpponent: Opponent = hero.chooseTarget(possibleTargets: currentOpponents) {
+                            hero.attack(chosenAttack!, on: chosenOpponent)
+                            if !chosenOpponent.isAlive {
+                                handleOpponentDeath(chosenOpponent)
+                            }
+                        } else {
+                            printTurnMenu(hero)
+                        }
                     } else {
                         hero.attack(chosenAttack!, on: currentOpponents[0])
+                        if !currentOpponents[0].isAlive {
+                            handleOpponentDeath(currentOpponents[0])
+                        }
                     }
                 case .buffAttack, .buffDefense, .heal, .manaRestore, .trap:
                     let chosenHero: Character? = hero.chooseTarget(possibleTargets: party.members)
@@ -189,16 +231,17 @@ class Game: BossDelegate {
                 hero.equippedItem = nil
             }
         }
-        currentOpponents = currentOpponents.filter { $0.isAlive }
     }
     
     func prepareBossFight(_ boss: Boss) {
+        defeatedOpponents = []
         currentBoss = boss
         currentOpponents = [currentBoss]
         print("\(currentBoss.name) appears! The fight begins!")
     }
     
     func prepareRegularFight(_ amount: Int) {
+        defeatedOpponents = []
         currentOpponents = OpponentLibrary.randomOpponents(amount: amount)
         print("\(currentOpponents.count) \(currentOpponents[0].name)\(currentOpponents.count > 1 ? "s appear" : " appears"). The fight begins!")
     }
@@ -232,17 +275,19 @@ class Game: BossDelegate {
                     case .trap:
                         opponent.attack(randomAttack, on: opponent)
                     }
+                    if !opponent.isAlive {
+                        handleOpponentDeath(opponent)
+                    }
                     if !checkIfBothSidesCanFight() {
                         fightIsRunning = false
                         break
                     }
-                    currentOpponents = currentOpponents.filter { $0.isAlive }
                 }
             } else {
                 fightIsRunning = false
             }
         }
-        party.isAbleToFight ? print("You won!") : print("You lost!")
+        handleBattleEnd()
     }
     
     func run() {

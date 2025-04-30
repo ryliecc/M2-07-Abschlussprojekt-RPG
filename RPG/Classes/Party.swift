@@ -132,4 +132,15 @@ class Party: CustomStringConvertible {
             }
         }
     }
+    
+    func distributeExperience(_ amount: Int) {
+        let livingHeroes = members.filter { $0.isAlive }
+        let inverseLevelSum = livingHeroes.reduce(0.0) { $0 + 1.0 / Double($1.level) }
+        
+        for hero in livingHeroes {
+            let levelWeight = (1.0 / Double(hero.level)) / inverseLevelSum
+            let experienceForHero = Int(round(Double(amount) * levelWeight))
+            hero.gainExperience(experienceForHero)
+        }
+    }
 }

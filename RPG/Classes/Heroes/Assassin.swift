@@ -16,4 +16,10 @@ class Assassin: Hero {
     init() {
         super.init(name: "Assassin", maxHealthPoints: 22, maxManaPoints: 12, attacks: [shadowJab, quietDeath, shadowFocus, poisonedBlade], attackPower: 8, defense: 12)
     }
+    
+    override func levelUp() {
+        super.levelUp()
+        attackPower += 2
+        defense += 2
+    }
 }

@@ -16,4 +16,11 @@ class Ranger: Hero {
     init() {
         super.init(name: "Ranger", maxHealthPoints: 20, maxManaPoints: 18, attacks: [arrowShot, rainOfThorns, eaglesEye, forestVeil], attackPower: 9, defense: 8)
     }
+    
+    override func levelUp() {
+        super.levelUp()
+        defense += 3
+        maxHealthPoints += 2
+        healthPoints = maxHealthPoints
+    }
 }

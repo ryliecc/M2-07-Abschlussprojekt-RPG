@@ -16,7 +16,6 @@ struct Tavern {
         print("[2] - Swap party members")
         print("[3] - Play with Gambling Machine")
         print("[4] - Go to sleep")
-        print("Please enter the number of your choice.")
         let chosenOption = enterInteger(min: 1, max: 4)
         if chosenOption == 1 {
             shop.menu(party)
