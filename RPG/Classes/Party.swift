@@ -10,13 +10,15 @@ import Foundation
 class Party: CustomStringConvertible {
     var members: [Hero]
     var reserve: [Hero]
+    var meetableHeroes: [Hero]
     var coins: Int = 0
     var bag: Bag = Bag(items: [])
     var isAbleToFight: Bool { members.contains { $0.isAlive }}
     
-    init(initialHeroes: [Hero], reserve: [Hero] = []) {
+    init(initialHeroes: [Hero] = [], reserve: [Hero] = [], meetableHeroes: [Hero] = []) {
         self.members = initialHeroes
         self.reserve = reserve
+        self.meetableHeroes = meetableHeroes
     }
     
     var description: String {
@@ -43,6 +45,39 @@ class Party: CustomStringConvertible {
             result += line + "\n"
         }
         return result
+    }
+    
+    func preparePartyAtStart() {
+        let allAvailableHeroes = HeroLibrary.heroFactories.map { $0() }
+        members = []
+        reserve = []
+        print("Choose 4 Heroes for your party!")
+        var selectedHeroes: [Hero] = []
+        var availableChoices = allAvailableHeroes
+        
+        while selectedHeroes.count < 4 {
+            print("Available Hero classes:")
+            for (index, hero) in availableChoices.enumerated() {
+                print("[\(index + 1)] - \(hero.name): \(hero.classDescription)")
+            }
+            
+            let choice = enterInteger(min: 1, max: availableChoices.count)
+            let chosenHero = availableChoices.remove(at: choice - 1)
+            selectedHeroes.append(chosenHero)
+            print("Added \(chosenHero.name) to your party.")
+        }
+        
+        members = selectedHeroes
+        meetableHeroes = availableChoices
+        
+        print("Your party is ready:")
+        for hero in members {
+            print("- \(hero.name)")
+        }
+        
+        if meetableHeroes.count >= 1 {
+            print("You will meet more heroes in the future!")
+        }
     }
     
     func addMember(_ hero: Hero) {

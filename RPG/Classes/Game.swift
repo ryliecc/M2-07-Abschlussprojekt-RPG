@@ -9,7 +9,6 @@ import Foundation
 
 class Game: BossDelegate {
     
-    let initalHeroes: [Hero] = [Assassin(), Ranger(), Sorcerer(), Thief()]
     var party: Party
     
     var currentBoss: Boss = BossLibrary.randomBoss() {
@@ -293,6 +292,7 @@ class Game: BossDelegate {
     func run() {
         var gameIsRunning: Bool = true
         generateStarterItems()
+        party.preparePartyAtStart()
         nextCheckpoints = [Checkpoint(type: .treasure, details: .treasure(type: .coins, items: [], coins: 50)), Checkpoint(type: .treasure, details: .treasure(type: .item, items: ItemLibrary.randomItems(amount: 3), coins: 0)), Checkpoint(type: .shop, details: .shop(type: .equippable)), Checkpoint(type: .battle, details: .battle(amount: 2))]
         while gameIsRunning {
             if currentTime == .day {
@@ -309,7 +309,7 @@ class Game: BossDelegate {
     }
     
     init() {
-        self.party = Party(initialHeroes: initalHeroes)
+        self.party = Party()
         self.nextTavern = Tavern()
     }
 }
