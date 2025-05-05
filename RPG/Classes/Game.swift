@@ -180,7 +180,10 @@ class Game: BossDelegate {
         print(party)
         print()
         let splitLines = currentOpponents.map { $0.description.components(separatedBy: "\n") }
-        let columnWidths = splitLines.map { lines in lines.map { $0.count }.max() ?? 0 }
+        let columnWidths = (0..<splitLines.count).map { columnIndex in
+            let columnLines = splitLines[columnIndex]
+            return columnLines.map { $0.visibleLength }.max() ?? 0
+        }
         let maxLines = splitLines.map { $0.count }.max() ?? 0
         var result = ""
         for i in 0..<maxLines {
@@ -188,12 +191,13 @@ class Game: BossDelegate {
                 if i < lines.count {
                     let content = lines[i]
                     if i == 0 {
-                        let padding = max(0, width - content.count)
+                        let padding = max(0, width - content.visibleLength)
                         let leftPadding = padding / 2
                         let rightPadding = padding - leftPadding
                         return String(repeating: " ", count: leftPadding) + content + String(repeating: " ", count: rightPadding)
                     } else {
-                        return content.padding(toLength: width, withPad: " ", startingAt: 0)
+                        let visiblePadding = max(0, width - content.visibleLength)
+                        return content + String(repeating: " ", count: visiblePadding)
                     }
                 } else {
                     return String(repeating: " ", count: width)
@@ -283,7 +287,7 @@ class Game: BossDelegate {
         while fightIsRunning {
             if checkIfBothSidesCanFight() {
                 roundCounter += 1
-                print("\nRound \(roundCounter)".highlight())
+                print("Round \(roundCounter)".highlight())
                 party.members.shuffle()
                 printAllStatusInfos()
                 for hero in party.members {

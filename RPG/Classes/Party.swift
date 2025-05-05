@@ -23,7 +23,10 @@ class Party: CustomStringConvertible {
     
     var description: String {
         let splitLines = members.map { $0.description.components(separatedBy: "\n") }
-        let columnWidths = splitLines.map { lines in lines.map { $0.count }.max() ?? 0 }
+        let columnWidths = (0..<splitLines.count).map { columnIndex in
+            let columnLines = splitLines[columnIndex]
+            return columnLines.map { $0.visibleLength }.max() ?? 0
+        }
         let maxLines = splitLines.map { $0.count }.max() ?? 0
         var result = ""
         for i in 0..<maxLines {
@@ -31,12 +34,13 @@ class Party: CustomStringConvertible {
                 if i < lines.count {
                     let content = lines[i]
                     if i == 0 {
-                        let padding = max(0, width - content.count)
+                        let padding = max(0, width - content.visibleLength)
                         let leftPadding = padding / 2
                         let rightPadding = padding - leftPadding
                         return String(repeating: " ", count: leftPadding) + content + String(repeating: " ", count: rightPadding)
                     } else {
-                        return content.padding(toLength: width, withPad: " ", startingAt: 0)
+                        let visiblePadding = max(0, width - content.visibleLength)
+                        return content + String(repeating: " ", count: visiblePadding)
                     }
                 } else {
                     return String(repeating: " ", count: width)
@@ -51,14 +55,14 @@ class Party: CustomStringConvertible {
         let allAvailableHeroes = HeroLibrary.heroFactories.map { $0() }
         members = []
         reserve = []
-        print("Choose 4 Heroes for your party!")
+        print("Choose 4 Heroes for your party!".applyConsoleStyles(.bold, .underlined))
         var selectedHeroes: [Hero] = []
         var availableChoices = allAvailableHeroes
         
         while selectedHeroes.count < 4 {
             print("\nAvailable Hero classes:")
             for (index, hero) in availableChoices.enumerated() {
-                print("[\(index + 1)] - \(hero.name): \(hero.classDescription)")
+                print("\n[\(String(index + 1).applyConsoleStyles(.bold))] - \(hero.name.applyConsoleStyles(.bold, .underlined)): \(hero.classDescription)")
             }
             
             let choice = enterInteger(max: availableChoices.count)

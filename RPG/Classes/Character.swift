@@ -39,7 +39,7 @@ class Character: CustomStringConvertible, Equatable {
     var description: String {
         let healthPointsBar = "HP".progressBar(for: healthPoints, maxValue: maxHealthPoints)
         let manaPointsBar = "MP".progressBar(for: manaPoints, maxValue: maxManaPoints)
-        return "\(name)\n\(healthPointsBar)\n\(manaPointsBar)"
+        return "\(name.applyConsoleStyles(.bold))\n\(healthPointsBar)\n\(manaPointsBar)"
     }
     
     func healAfterFight() {

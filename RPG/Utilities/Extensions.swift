@@ -23,11 +23,35 @@ extension String {
         let emptyLength = barLength - filledLength
         let filledPart = String(repeating: "█", count: filledLength)
         let emptyPart = String(repeating: "▒", count: emptyLength)
-        return "\(self): \(filledPart)\(emptyPart) \(Int(currentValue))/\(Int(maxValue))"
+        let percentage = currentValue / maxValue
+        
+        let color: ConsoleStyle
+        switch percentage {
+        case ..<0.3: color = .red
+        case ..<0.6: color = .yellow
+        default: color = .green
+        }
+        
+        let bothParts = (filledPart + emptyPart).applyConsoleStyles(color)
+        return "\(self): \(bothParts) " + "\(Int(currentValue))/\(Int(maxValue))".applyConsoleStyles(.bold)
     }
     
     func highlight() -> String {
-        return "~~~\(self)~~~"
+        return "\n~~~\(self)~~~"
+    }
+    
+    func applyConsoleStyles(_ styles: ConsoleStyle...) -> String {
+        let combined = styles.map { $0.rawValue }.joined()
+        return "\(combined)\(self)\(ConsoleStyle.reset.rawValue)"
+    }
+    
+    var visibleLength: Int {
+        let pattern = #"\u001B\[[0-9;]*m"#
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else {
+            return self.count
+        }
+        let range = NSRange(startIndex..., in: self)
+        return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: "").count
     }
 }
 
