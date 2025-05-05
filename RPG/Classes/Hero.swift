@@ -44,7 +44,7 @@ class Hero: Character, Levelable {
     
     func gainExperience(_ amount: Int) {
         experiencePoints += amount
-        print("\(name) gained \(amount) XP!")
+        print("\(name) gained " + "\(amount) XP".applyConsoleStyles(.bold) + "!")
         while experiencePoints >= experienceNeededForNextLevel {
             experiencePoints -= experienceNeededForNextLevel
             levelUp()
@@ -53,7 +53,7 @@ class Hero: Character, Levelable {
     
     func levelUp() {
         level += 1
-        print("\(name) hase leveled up to Lvl. \(level)!")
+        print("\(name) hase leveled up to " + "Lvl. \(level)".applyConsoleStyles(.italic, .bold) + "!")
         
         let healthBoost = 8 + Double(level) * 2
         let manaBoost = 4 + Double(level) * 1.5
@@ -69,11 +69,11 @@ class Hero: Character, Levelable {
     }
     
     func chooseAttack() -> Attack? {
-        print("Choose an attack:")
+        print("\nChoose an attack:")
         for (index, attack) in attacks.enumerated() {
-            print("[\(index + 1)] \(attack.name)\n\(attack.infoText)")
+            print("\n[\(String(index + 1).applyConsoleStyles(.bold))] \(attack.name)\n\(attack.infoText.applyConsoleStyles(.italic))")
         }
-        print("[\(attacks.count + 1)] Go back")
+        print("\n[\(String(attacks.count + 1).applyConsoleStyles(.bold))] " + "Go back".applyConsoleStyles(.italic))
         let chosenIndex: Int = enterInteger(max: attacks.count + 1) - 1
         if chosenIndex == attacks.count {
             return nil
@@ -88,11 +88,11 @@ class Hero: Character, Levelable {
     }
     
     func chooseTarget(possibleTargets: [Hero]) -> Hero? {
-        print("Choose a hero.")
+        print("\nChoose a hero.")
         for (index, possibleTarget) in possibleTargets.enumerated() {
-            print("[\(index + 1)] \(possibleTarget.name)")
+            print("\n[\(String(index + 1).applyConsoleStyles(.bold))] \(possibleTarget.name)")
         }
-        print("[\(possibleTargets.count + 1)] Go back")
+        print("\n[\(String(possibleTargets.count + 1).applyConsoleStyles(.bold))] " + "Go back".applyConsoleStyles(.italic))
         let chosenIndex: Int = enterInteger(max: possibleTargets.count + 1) - 1
         if chosenIndex == possibleTargets.count {
             return nil
@@ -102,11 +102,11 @@ class Hero: Character, Levelable {
     }
     
     func chooseTarget(possibleTargets: [Opponent]) -> Opponent? {
-        print("Choose an opponent.")
+        print("\nChoose an opponent.")
         for (index, possibleTarget) in possibleTargets.enumerated() {
-            print("[\(index + 1)] \(possibleTarget.name)")
+            print("\n[\(String(index + 1).applyConsoleStyles(.bold))] \(possibleTarget.name)")
         }
-        print("[\(possibleTargets.count + 1)] Go back")
+        print("\n[\(String(possibleTargets.count + 1).applyConsoleStyles(.bold))] " + "Go back".applyConsoleStyles(.italic))
         let chosenIndex: Int = enterInteger(max: possibleTargets.count + 1) - 1
         if chosenIndex == possibleTargets.count {
             return nil
@@ -117,21 +117,21 @@ class Hero: Character, Levelable {
     
     func useItem(_ item: Item) {
         if item.isConsumable {
-            print("\(name) consumes \(item.name).")
+            print("\(name) consumes \(item.styledName).")
             print(item.actionText)
             attackPower += item.attackPoints
             defense += item.defensePoints
             if healthPoints < maxHealthPoints && healthPoints + item.healthPoints >= maxHealthPoints {
-                print("HP of \(name) fully restored!")
+                print("HP of \(name) " + "fully restored".applyConsoleStyles(.green) + "!")
             }
             healthPoints = min(maxHealthPoints, healthPoints + item.healthPoints)
             if manaPoints < maxManaPoints && manaPoints + item.manaPoints >= maxManaPoints {
-                print("MP of \(name) fully restored!")
+                print("MP of \(name) " + "fully restored".applyConsoleStyles(.green) + "!")
             }
             manaPoints = min(maxManaPoints, manaPoints + item.manaPoints)
         }
         if item.isEquippable {
-            print("\(name) equips \(item.name).")
+            print("\(name) equips \(item.styledName).")
             print(item.actionText)
             equippedItem = item
         }

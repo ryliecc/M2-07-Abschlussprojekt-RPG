@@ -9,6 +9,9 @@ import Foundation
 
 struct Item: CustomStringConvertible {
     let name: String
+    var styledName: String {
+        name.applyConsoleStyles(.blue, .bold)
+    }
     
     let attackPoints: Double
     let defensePoints: Double
@@ -27,6 +30,6 @@ struct Item: CustomStringConvertible {
     let actionText: String
     
     var description: String {
-        "\(name)\(isEquippable ? " (lasts \(numberOfUsages) rounds)" : ""):\n\(infoText)"
+        "\(styledName)\(isEquippable ? " (lasts \(numberOfUsages) rounds)" : ""):\n\(infoText.applyConsoleStyles(.italic))"
     }
 }

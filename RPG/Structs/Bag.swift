@@ -20,6 +20,8 @@ struct Bag: CustomStringConvertible {
     mutating func menu(_ hero: Hero) -> Item? {
         if items.count == 0 {
             print("Your bag is empty.")
+            waitForPlayerContinue()
+            clearConsole()
             return nil
         }
         print("The following items are available:")
@@ -28,10 +30,10 @@ struct Bag: CustomStringConvertible {
         for (name, items) in groupedItems {
             options.append(name)
             let currentItem: Item = items.first!
-            print("[\(itemCounter)] \(items.count)x \(currentItem.description)")
+            print("\n[\(String(itemCounter).applyConsoleStyles(.bold))] \(items.count)x \(currentItem.description)")
             itemCounter += 1
         }
-        print("[\(itemCounter)] Go back")
+        print("\n[\(String(itemCounter).applyConsoleStyles(.bold))] " + "Go back".applyConsoleStyles(.italic))
         print("Which item should \(hero.name) use?")
         let chosenOption = enterInteger(max: itemCounter)
         if chosenOption == itemCounter {
@@ -39,7 +41,7 @@ struct Bag: CustomStringConvertible {
         }
         let chosenItem = items.first(where: { $0.name == options[chosenOption - 1] })
         if chosenItem!.isEquippable && hero.equippedItem != nil {
-            print("\(hero.name) already has \(hero.equippedItem!.name) equipped. Are you sure you want to equip \(chosenItem!.name) instead? The effects of \(hero.equippedItem!.name) are gonna last \(hero.equippedRoundCounter) more rounds if not.")
+            print("\(hero.name) already has \(hero.equippedItem!.styledName) equipped. Are you sure you want to equip \(chosenItem!.styledName) instead? The effects of \(hero.equippedItem!.styledName) are gonna last \(hero.equippedRoundCounter) more rounds if not.")
             if confirmation() {
                 hero.equippedItem = nil
                 return chosenItem
@@ -58,7 +60,7 @@ struct Bag: CustomStringConvertible {
         if let item = items.randomElement() {
             let index = items.firstIndex(where: { $0.name == item.name })
             items.remove(at: index!)
-            print("You lost one \(item.name).")
+            print("You lost one \(item.styledName).")
         } else {
             print("Your bag was already completely empty, so you didn't lose anything. Lucky you!")
         }

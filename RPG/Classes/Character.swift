@@ -96,7 +96,7 @@ class Character: CustomStringConvertible, Equatable {
     
     func attack(_ attack: Attack, on target: Character) {
         manaPoints -= attack.manaCost
-        print("\(name) uses \(attack.name) on \(self == target ? "themself" : target.name).")
+        print("\n\(name) uses \(attack.name) on \(self == target ? "themself" : target.name).")
         
         switch attack.type {
         case .damage:

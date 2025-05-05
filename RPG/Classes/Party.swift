@@ -68,6 +68,7 @@ class Party: CustomStringConvertible {
             let choice = enterInteger(max: availableChoices.count)
             let chosenHero = availableChoices.remove(at: choice - 1)
             selectedHeroes.append(chosenHero)
+            clearConsole()
             print("\nAdded \(chosenHero.name) to your party.")
         }
         
@@ -82,6 +83,8 @@ class Party: CustomStringConvertible {
         if meetableHeroes.count >= 1 {
             print("\nYou will meet more heroes in the future!")
         }
+        waitForPlayerContinue()
+        clearConsole()
     }
     
     func addMember(_ hero: Hero) {
@@ -101,7 +104,7 @@ class Party: CustomStringConvertible {
             let reserveHero = reserve[reserveMemberIndex]
             members[activeMemberIndex] = reserveHero
             reserve[reserveMemberIndex] = activeHero
-            print("\n\(activeName) was replaced by \(reserveName).")
+            print("\n\(activeName.applyConsoleStyles(.bold)) was replaced by \(reserveName.applyConsoleStyles(.bold)).")
         }
     }
     
@@ -110,9 +113,9 @@ class Party: CustomStringConvertible {
         let chosenMember: Hero
         print("\nThe following heroes can be swapped for one of your party members:")
         for (index, hero) in reserve.enumerated() {
-            print("[\(index + 1)] - \(hero.name) Lvl. \(hero.level)")
+            print("\n[\(String(index + 1).applyConsoleStyles(.bold))] - \(hero.name) " + "Lvl. \(hero.level)".applyConsoleStyles(.italic))
         }
-        print("[\(reserve.count + 1)] - Go back")
+        print("\n[\(String(reserve.count + 1).applyConsoleStyles(.bold))] - " + "Go back".applyConsoleStyles(.italic))
         let chosenReserveOption = enterInteger(max: reserve.count + 1) - 1
         if chosenReserveOption == reserve.count {
             return
@@ -120,15 +123,15 @@ class Party: CustomStringConvertible {
         chosenReserve = reserve[chosenReserveOption]
         print("\nYou have chosen \(chosenReserve.name).\nWho do you want them to swap places with?")
         for (index, hero) in members.enumerated() {
-            print("[\(index + 1)] - \(hero.name) Lvl. \(hero.level)")
+            print("\n[\(String(index + 1).applyConsoleStyles(.bold))] - \(hero.name) " + "Lvl. \(hero.level)".applyConsoleStyles(.italic))
         }
-        print("[\(members.count + 1)] - Go back")
+        print("\n[\(String(members.count + 1).applyConsoleStyles(.bold))] - " + "Go back".applyConsoleStyles(.italic))
         let chosenActiveOption = enterInteger(max: members.count + 1) - 1
         if chosenActiveOption == members.count {
             chooseSwapMenu()
         }
         chosenMember = members[chosenActiveOption]
-        print("\nYou are about to add \(chosenReserve.name) to your party in exchange for \(chosenMember.name). Are you sure you want to do that?")
+        print("\nYou are about to add \(chosenReserve.name.applyConsoleStyles(.bold)) to your party in exchange for \(chosenMember.name.applyConsoleStyles(.bold)). Are you sure you want to do that?")
         if confirmation() {
             swapMember(activeName: chosenMember.name, reserveName: chosenReserve.name)
         } else {
@@ -149,10 +152,10 @@ class Party: CustomStringConvertible {
     func spendCoins(_ amount: Int) -> Bool {
         if coins >= amount {
             coins -= amount
-            print("\n\(amount) Coins spent. You have \(coins) left.")
+            print("\n" + "\(amount) Coins".applyConsoleStyles(.yellow) + " spent. You have " + "\(coins) coins".applyConsoleStyles(.yellow) + " left.")
             return true
         }
-        print("\nYou don't have enough Coins to do that.")
+        print("\nYou don't have enough" + " Coins".applyConsoleStyles(.yellow) + " to do that.")
         return false
     }
     

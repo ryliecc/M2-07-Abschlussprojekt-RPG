@@ -53,13 +53,15 @@ class Game: BossDelegate {
         }
         
         guard let selectedEvent = weightedPool.randomElement() else {
-            print("\n+++++ DEBUG MESSAGE: No event occurred. Check if Event Library contains events for all cases. +++++")
+            print("\n+++++ DEBUG MESSAGE: No event occurred. Check if Event Library contains events for all cases. +++++".applyConsoleStyles(.bold, .red))
             return
         }
         
-        print("\nEvent triggered: \(selectedEvent.name)")
+        print("\nEvent triggered: \(selectedEvent.name)\n")
         print(selectedEvent.description)
         selectedEvent.effect(&party)
+        waitForPlayerContinue()
+        clearConsole()
     }
         
     
@@ -83,12 +85,12 @@ class Game: BossDelegate {
         switch type {
         case .item:
             for item in items {
-                print("You found \(item.name).")
+                print("\nYou found \(item.styledName).")
                 party.addItem(item)
-                print("\(item.name) was added to your bag.")
+                print("\(item.styledName) was added to your bag.")
             }
         case .coins:
-            print("You found \(coins) gold coins!")
+            print("You found " + "\(coins) gold coins".applyConsoleStyles(.yellow) + "!")
             party.earnCoins(coins)
         }
     }
@@ -122,6 +124,8 @@ class Game: BossDelegate {
                 let shop = Shop(type: type)
                 shop.menu(party)
             }
+            waitForPlayerContinue()
+            clearConsole()
         }
         print("\nThat was a very long day! Time to find a place to sleep.")
         currentTime = .night
@@ -132,6 +136,8 @@ class Game: BossDelegate {
         triggerRandomEvent()
         print("\nEveryone slept well that night and woke up refreshed and ready for new adventures.")
         currentTime = .day
+        waitForPlayerContinue()
+        clearConsole()
     }
     
     func generateStarterItems() {
@@ -159,6 +165,8 @@ class Game: BossDelegate {
         if !heroesAlive {
             print("\nYou lost! All your heroes went K.O. but a friendly spirit brought them to the next tavern to heal.")
             currentTime = .night
+            waitForPlayerContinue()
+            clearConsole()
         } else {
             print("\nVictory! Your heroes have defeated all enemies!")
             var totalExperiencePoints: Int = 0
@@ -170,7 +178,7 @@ class Game: BossDelegate {
                 totalExperiencePoints += experiencePoints
                 totalCoins += coins
             }
-            print("You won \(totalCoins) coins.")
+            print("You won " + "\(totalCoins) coins".applyConsoleStyles(.yellow) + ".")
             party.earnCoins(totalCoins)
             party.distributeExperience(totalExperiencePoints)
         }
@@ -216,15 +224,17 @@ class Game: BossDelegate {
     }
     
     func printTurnMenu(_ hero: Hero) {
+        printAllStatusInfos()
         if !hero.isAlive {
             print("\n\(hero.name) is K.O. and cannot fight.")
             return
         }
-        print("\nIt is \(hero.name)'s turn. What should they do?\n[1] Attack\n[2] Use Item")
+        print("\nIt is \(hero.name)'s turn. What should they do?\n[" + "1".applyConsoleStyles(.bold) + "] Attack\n[" + "2".applyConsoleStyles(.bold) + "] Use Item")
         let choice: Int = enterInteger(max: 2)
         if choice == 1 {
             let chosenAttack: Attack? = hero.chooseAttack()
             if chosenAttack == nil {
+                clearConsole()
                 printTurnMenu(hero)
             } else {
                 switch chosenAttack!.type {
@@ -236,6 +246,7 @@ class Game: BossDelegate {
                                 handleOpponentDeath(chosenOpponent)
                             }
                         } else {
+                            clearConsole()
                             printTurnMenu(hero)
                         }
                     } else {
@@ -246,13 +257,19 @@ class Game: BossDelegate {
                     }
                 case .buffAttack, .buffDefense, .heal, .manaRestore, .trap:
                     let chosenHero: Character? = hero.chooseTarget(possibleTargets: party.members)
-                    chosenHero == nil ? printTurnMenu(hero) : hero.attack(chosenAttack!, on: chosenHero!)
+                    if chosenHero == nil {
+                        clearConsole()
+                        printTurnMenu(hero)
+                    } else {
+                        hero.attack(chosenAttack!, on: chosenHero!)
+                    }
                 }
             }
         }
         if choice == 2 {
             let item: Item? = party.bag.menu(hero)
             if item == nil {
+                clearConsole()
                 printTurnMenu(hero)
             } else {
                 party.removeItem(item!)
@@ -273,12 +290,16 @@ class Game: BossDelegate {
         currentBoss = boss
         currentOpponents = [currentBoss]
         print("\n\(currentBoss.name) appears! The fight begins!")
+        waitForPlayerContinue()
+        clearConsole()
     }
     
     func prepareRegularFight(_ amount: Int) {
         defeatedOpponents = []
         currentOpponents = OpponentLibrary.randomOpponents(amount: amount)
         print("\n\(currentOpponents.count) \(currentOpponents[0].name)\(currentOpponents.count > 1 ? "s appear" : " appears"). The fight begins!")
+        waitForPlayerContinue()
+        clearConsole()
     }
     
     func fight() {
@@ -289,15 +310,19 @@ class Game: BossDelegate {
                 roundCounter += 1
                 print("Round \(roundCounter)".highlight())
                 party.members.shuffle()
-                printAllStatusInfos()
                 for hero in party.members {
                     printTurnMenu(hero)
                     if !checkIfBothSidesCanFight() {
                         fightIsRunning = false
+                        waitForPlayerContinue()
+                        clearConsole()
                         break
                     }
+                    waitForPlayerContinue()
+                    clearConsole()
                 }
                 for opponent in currentOpponents {
+                    printAllStatusInfos()
                     let availableTargets: [Hero] = party.members.filter { $0.isAlive }
                     let randomAttack = opponent.chooseRandomAttack()
                     switch randomAttack.type {
@@ -315,8 +340,12 @@ class Game: BossDelegate {
                     }
                     if !checkIfBothSidesCanFight() {
                         fightIsRunning = false
+                        waitForPlayerContinue()
+                        clearConsole()
                         break
                     }
+                    waitForPlayerContinue()
+                    clearConsole()
                 }
             } else {
                 fightIsRunning = false

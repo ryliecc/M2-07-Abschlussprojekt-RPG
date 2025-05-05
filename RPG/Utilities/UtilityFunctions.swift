@@ -30,3 +30,13 @@ func confirmation() -> Bool {
         return false
     }
 }
+
+func waitForPlayerContinue() {
+    print("\nPress [\("Enter".applyConsoleStyles(.bold))] to continue.")
+    _ = readLine()
+}
+
+func clearConsole() {
+    print("\u{001B}[2J")
+    print("\u{001B}[H")
+}

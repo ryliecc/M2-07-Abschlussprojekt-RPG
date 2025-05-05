@@ -31,7 +31,7 @@ class Shop {
                 }
                 itemPrices[item.name] = itemPrice
             } else {
-                print("+++++ DEBUG MESSAGE: ItemLibrary.itemPrices does not return a price for \(item.name). It was removed from the shop array to avoid any crashes. Add a price for the Item to get rid of this message and display the Shop correctly. +++++")
+                print("+++++ DEBUG MESSAGE: ItemLibrary.itemPrices does not return a price for \(item.name). It was removed from the shop array to avoid any crashes. Add a price for the Item to get rid of this message and display the Shop correctly. +++++".applyConsoleStyles(.bold, .red))
                 itemsForSale.remove(at: index)
             }
         }
@@ -40,11 +40,10 @@ class Shop {
     func menu(_ party: Party) {
         print("Welcome to the shop.\(hasSale ? " Everything is 30% on sale today!" : "") The following items are available:")
         for (index, item) in itemsForSale.enumerated() {
-            print("[\(index + 1)] \(item.name)\n\(item.infoText)\nPrice: \(itemPrices[item.name]!) Coins")
+            print("\n[\(String(index + 1).applyConsoleStyles(.bold))] \(item.styledName)\n\(item.infoText.applyConsoleStyles(.italic))\nPrice: \(itemPrices[item.name]!) Coins")
         }
-        print("[\(itemsForSale.count + 1)] Leave")
-        print("Available Coins: \(party.coins)")
-        print("Please choose what you want to do.")
+        print("\n[\(String(itemsForSale.count + 1).applyConsoleStyles(.bold))] " + "Leave".applyConsoleStyles(.italic))
+        print("\nAvailable Coins: \(String(party.coins).applyConsoleStyles(.yellow))")
         let chosenIndex = enterInteger(max: itemsForSale.count + 1) - 1
         if chosenIndex == itemsForSale.count {
             return
@@ -53,9 +52,13 @@ class Shop {
             if party.spendCoins(itemPrices[chosenItem.name]!) {
                 party.addItem(chosenItem)
                 print("Thank you! Can we help you with anything else?")
+                waitForPlayerContinue()
+                clearConsole()
                 menu(party)
             } else {
                 print("Oh, it looks like you don't have enough coins to purchase that. Can we help you with anything else?")
+                waitForPlayerContinue()
+                clearConsole()
                 menu(party)
             }
         }
