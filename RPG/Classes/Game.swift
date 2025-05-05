@@ -217,7 +217,7 @@ class Game: BossDelegate {
             return
         }
         print("\nIt is \(hero.name)'s turn. What should they do?\n[1] Attack\n[2] Use Item")
-        let choice: Int = enterInteger(min: 1, max: 2)
+        let choice: Int = enterInteger(max: 2)
         if choice == 1 {
             let chosenAttack: Attack? = hero.chooseAttack()
             if chosenAttack == nil {

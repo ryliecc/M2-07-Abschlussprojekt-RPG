@@ -74,7 +74,7 @@ class Hero: Character, Levelable {
             print("[\(index + 1)] \(attack.name)\n\(attack.infoText)")
         }
         print("[\(attacks.count + 1)] Go back")
-        let chosenIndex: Int = enterInteger(min: 1, max: attacks.count + 1) - 1
+        let chosenIndex: Int = enterInteger(max: attacks.count + 1) - 1
         if chosenIndex == attacks.count {
             return nil
         }
@@ -93,7 +93,7 @@ class Hero: Character, Levelable {
             print("[\(index + 1)] \(possibleTarget.name)")
         }
         print("[\(possibleTargets.count + 1)] Go back")
-        let chosenIndex: Int = enterInteger(min: 1, max: possibleTargets.count + 1) - 1
+        let chosenIndex: Int = enterInteger(max: possibleTargets.count + 1) - 1
         if chosenIndex == possibleTargets.count {
             return nil
         } else {
@@ -107,7 +107,7 @@ class Hero: Character, Levelable {
             print("[\(index + 1)] \(possibleTarget.name)")
         }
         print("[\(possibleTargets.count + 1)] Go back")
-        let chosenIndex: Int = enterInteger(min: 1, max: possibleTargets.count + 1) - 1
+        let chosenIndex: Int = enterInteger(max: possibleTargets.count + 1) - 1
         if chosenIndex == possibleTargets.count {
             return nil
         } else {

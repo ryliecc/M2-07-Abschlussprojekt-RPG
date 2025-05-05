@@ -7,10 +7,10 @@
 
 import Foundation
 
-func enterInteger(min: Int, max: Int) -> Int {
+func enterInteger(max: Int) -> Int {
     print("\nPlease enter the number of your choice.")
     var input: Int? = Int(readLine()!)
-    while input == nil || input! < min || input! > max {
+    while input == nil || input! < 1 || input! > max {
         print("Wrong input. Please try again.")
         input = Int(readLine()!)
     }

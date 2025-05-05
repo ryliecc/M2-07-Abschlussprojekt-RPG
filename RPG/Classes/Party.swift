@@ -61,7 +61,7 @@ class Party: CustomStringConvertible {
                 print("[\(index + 1)] - \(hero.name): \(hero.classDescription)")
             }
             
-            let choice = enterInteger(min: 1, max: availableChoices.count)
+            let choice = enterInteger(max: availableChoices.count)
             let chosenHero = availableChoices.remove(at: choice - 1)
             selectedHeroes.append(chosenHero)
             print("\nAdded \(chosenHero.name) to your party.")
@@ -109,7 +109,7 @@ class Party: CustomStringConvertible {
             print("[\(index + 1)] - \(hero.name) Lvl. \(hero.level)")
         }
         print("[\(reserve.count + 1)] - Go back")
-        let chosenReserveOption = enterInteger(min: 1, max: reserve.count + 1) - 1
+        let chosenReserveOption = enterInteger(max: reserve.count + 1) - 1
         if chosenReserveOption == reserve.count {
             return
         }
@@ -119,7 +119,7 @@ class Party: CustomStringConvertible {
             print("[\(index + 1)] - \(hero.name) Lvl. \(hero.level)")
         }
         print("[\(members.count + 1)] - Go back")
-        let chosenActiveOption = enterInteger(min: 1, max: members.count + 1) - 1
+        let chosenActiveOption = enterInteger(max: members.count + 1) - 1
         if chosenActiveOption == members.count {
             chooseSwapMenu()
         }

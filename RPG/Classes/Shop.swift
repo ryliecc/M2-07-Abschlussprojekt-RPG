@@ -45,7 +45,7 @@ class Shop {
         print("[\(itemsForSale.count + 1)] Leave")
         print("Available Coins: \(party.coins)")
         print("Please choose what you want to do.")
-        let chosenIndex = enterInteger(min: 1, max: itemsForSale.count + 1) - 1
+        let chosenIndex = enterInteger(max: itemsForSale.count + 1) - 1
         if chosenIndex == itemsForSale.count {
             return
         } else {

@@ -33,7 +33,7 @@ struct Bag: CustomStringConvertible {
         }
         print("[\(itemCounter)] Go back")
         print("Which item should \(hero.name) use?")
-        let chosenOption = enterInteger(min: 1, max: itemCounter)
+        let chosenOption = enterInteger(max: itemCounter)
         if chosenOption == itemCounter {
             return nil
         }
