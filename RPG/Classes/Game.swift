@@ -7,19 +7,25 @@
 
 import Foundation
 
-class Game: BossDelegate {
+class Game: BossDelegate, OpponentDelegate {
     
     var party: Party
     
     var currentBoss: Boss = BossLibrary.randomBoss() {
         didSet {
-            currentBoss.delegate = self
+            currentBoss.bossDelegate = self
         }
     }
     var currentHenchman: Henchman? {
         return currentBoss.henchman
     }
-    var currentOpponents: [Opponent] = []
+    var currentOpponents: [Opponent] = [] {
+        didSet {
+            for opponent in currentOpponents {
+                opponent.opponentDelegate = self
+            }
+        }
+    }
     var defeatedOpponents: [Opponent] = []
     
     var currentTime: TimeOfDay = .day {
@@ -173,8 +179,9 @@ class Game: BossDelegate {
             var totalCoins: Int = 0
             
             for opponent in defeatedOpponents {
-                let experiencePoints: Int = Int(((opponent.maxHealthPoints * 0.2) + (opponent.attackPower * 0.5) + (opponent.defense * 0.3)).rounded())
-                let coins: Int = Int(((opponent.attackPower + opponent.defense) * 0.2).rounded())
+                opponent.healAfterFight()
+                let experiencePoints: Int = Int(((opponent.maxHealthPoints * 1.1) + (opponent.attackPower * 2.5) + (opponent.defense * 1.7)).rounded())
+                let coins: Int = Int(((opponent.attackPower + opponent.defense) * 2.5).rounded())
                 totalExperiencePoints += experiencePoints
                 totalCoins += coins
             }
@@ -242,18 +249,12 @@ class Game: BossDelegate {
                     if currentOpponents.count > 1 {
                         if let chosenOpponent: Opponent = hero.chooseTarget(possibleTargets: currentOpponents) {
                             hero.attack(chosenAttack!, on: chosenOpponent)
-                            if !chosenOpponent.isAlive {
-                                handleOpponentDeath(chosenOpponent)
-                            }
                         } else {
                             clearConsole()
                             printTurnMenu(hero)
                         }
                     } else {
                         hero.attack(chosenAttack!, on: currentOpponents[0])
-                        if !currentOpponents[0].isAlive {
-                            handleOpponentDeath(currentOpponents[0])
-                        }
                     }
                 case .buffAttack, .buffDefense, .heal, .manaRestore, .trap:
                     let chosenHero: Character? = hero.chooseTarget(possibleTargets: party.members)
@@ -334,9 +335,6 @@ class Game: BossDelegate {
                         opponent.attack(randomAttack, on: currentOpponents.randomElement()!)
                     case .trap:
                         opponent.attack(randomAttack, on: opponent)
-                    }
-                    if !opponent.isAlive {
-                        handleOpponentDeath(opponent)
                     }
                     if !checkIfBothSidesCanFight() {
                         fightIsRunning = false

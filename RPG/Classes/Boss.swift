@@ -22,12 +22,13 @@ class Boss: Opponent {
     var henchman: Henchman?
     let dedicatedHenchman: Henchman
     
-    weak var delegate: BossDelegate?
+    weak var bossDelegate: BossDelegate?
     
     func callHenchman() {
         print("\(name) summons help. \(dedicatedHenchman.name) appears.")
         henchman = dedicatedHenchman
-        delegate?.bossCalledHenchman()
+        henchman?.opponentDelegate = self.opponentDelegate
+        bossDelegate?.bossCalledHenchman()
     }
     
     init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double, dedicatedHenchman: Henchman) {

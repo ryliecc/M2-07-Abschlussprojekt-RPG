@@ -117,7 +117,7 @@ class Hero: Character, Levelable {
     
     func useItem(_ item: Item) {
         if item.isConsumable {
-            print("\(name) consumes \(item.styledName).")
+            print("\n\(name) consumes \(item.styledName).")
             print(item.actionText)
             attackPower += item.attackPoints
             defense += item.defensePoints
@@ -131,7 +131,7 @@ class Hero: Character, Levelable {
             manaPoints = min(maxManaPoints, manaPoints + item.manaPoints)
         }
         if item.isEquippable {
-            print("\(name) equips \(item.styledName).")
+            print("\n\(name) equips \(item.styledName).")
             print(item.actionText)
             equippedItem = item
         }

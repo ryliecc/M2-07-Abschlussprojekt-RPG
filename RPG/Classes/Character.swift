@@ -59,23 +59,23 @@ class Character: CustomStringConvertible, Equatable {
     }
     
     func applyBuff(_ buff: Buff) {
-        self.attackPower += buff.attackPoints
-        self.defense += buff.defensePoints
-        self.healthPoints += buff.healthPoints
-        self.maxHealthPoints += buff.healthPoints
-        self.manaPoints += buff.manaPoints
-        self.maxManaPoints += buff.manaPoints
+        self.attackPower = max(0, self.attackPower + buff.attackPoints)
+        self.defense = max(0, self.defense + buff.defensePoints)
+        self.healthPoints = max(0, self.healthPoints + buff.healthPoints)
+        self.maxHealthPoints = max(0, self.maxHealthPoints + buff.healthPoints)
+        self.manaPoints = max(0, self.manaPoints + buff.manaPoints)
+        self.maxManaPoints = max(0, self.maxManaPoints + buff.manaPoints)
         buffs.append(buff)
     }
     
     func removeBuff(_ oldBuff: Buff) {
         if let oldIndex = buffs.firstIndex(where: { $0.equalsBuff(oldBuff) }) {
-            self.attackPower -= oldBuff.attackPoints
-            self.defense -= oldBuff.defensePoints
-            self.maxHealthPoints -= oldBuff.healthPoints
-            self.healthPoints -= oldBuff.healthPoints
-            self.maxManaPoints -= oldBuff.manaPoints
-            self.manaPoints -= oldBuff.manaPoints
+            self.attackPower = max(0, self.attackPower - oldBuff.attackPoints)
+            self.defense = max(0, self.defense - oldBuff.defensePoints)
+            self.maxHealthPoints = max(0, self.maxHealthPoints - oldBuff.healthPoints)
+            self.healthPoints = max(0, min(self.maxHealthPoints, self.healthPoints - oldBuff.healthPoints))
+            self.maxManaPoints = max(0, self.maxManaPoints - oldBuff.manaPoints)
+            self.manaPoints = max(0, min(self.maxManaPoints, self.manaPoints - oldBuff.manaPoints))
             buffs.remove(at: oldIndex)
         }
     }

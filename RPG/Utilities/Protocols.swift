@@ -19,3 +19,7 @@ protocol Levelable {
 protocol BossDelegate: AnyObject {
     func bossCalledHenchman()
 }
+
+protocol OpponentDelegate: AnyObject {
+    func handleOpponentDeath(_ opponent: Opponent)
+}
