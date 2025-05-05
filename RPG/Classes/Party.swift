@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFAudio
 
 class Party: CustomStringConvertible {
     var members: [Hero]
@@ -14,6 +15,8 @@ class Party: CustomStringConvertible {
     var coins: Int = 0
     var bag: Bag = Bag(items: [])
     var isAbleToFight: Bool { members.contains { $0.isAlive }}
+    
+    let soundManager = SoundManager()
     
     init(initialHeroes: [Hero] = [], reserve: [Hero] = [], meetableHeroes: [Hero] = []) {
         self.members = initialHeroes
@@ -161,6 +164,7 @@ class Party: CustomStringConvertible {
     
     func earnCoins(_ amount: Int) {
         coins += amount
+        soundManager.playSound(path: SoundLibrary.coinDrop)
     }
     
     func healMembers(overNight: Bool = true) {
