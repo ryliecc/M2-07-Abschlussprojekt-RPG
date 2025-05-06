@@ -8,8 +8,6 @@
 import Foundation
 
 struct SoundLibrary {
-    static let basePath: String = "/Users/rylie/Projekte/02-07-abschlussprojekt-rpg-ryliecc/RPG/Sounds"
-    
-    static let coinDrop: String = basePath + "/coin-drop.wav"
-    static let owMale: String = basePath + "/ow-male.mp3"
+    static let coinDrop: String = "/RPG/Sounds/coin-drop.wav"
+    static let owMale: String = "/RPG/Sounds/ow-male.mp3"
 }
