@@ -104,48 +104,49 @@ class Character: CustomStringConvertible, Equatable {
         }
     }
     
-    func attack(_ attack: Attack, on target: Character) {
+    func attack(_ attack: Attack, on target: Character?) {
+        let actualTarget: Character = attack.isSelfTargeting ? self : (target ?? self)
         manaPoints -= attack.manaCost
-        print("\n\(name) uses \(attack.name) on \(self == target ? "themself" : target.name).")
+        print("\n\(name) uses \(attack.name) on \(self == actualTarget ? "themself" : actualTarget.name).")
         
         switch attack.type {
         case .damage:
-            let totalDamage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)
-            target.takeDamage(totalDamage, from: self)
+            let totalDamage = max(1, (self.attackPower * attack.powerMultiplier) - actualTarget.defense)
+            actualTarget.takeDamage(totalDamage, from: self)
         case .heal:
             let healAmount = self.attackPower * attack.powerMultiplier
-            target.healthPoints = min(target.maxHealthPoints, target.healthPoints + healAmount)
-            print("\(name) heals \(self == target ? "themselves" : target.name) for \(healAmount.roundedUp) HP.")
+            actualTarget.healthPoints = min(actualTarget.maxHealthPoints, actualTarget.healthPoints + healAmount)
+            print("\(name) heals \(self == actualTarget ? "themselves" : actualTarget.name) for \(healAmount.roundedUp) HP.")
         case .manaRestore:
             let manaAmount = self.attackPower * attack.powerMultiplier
-            target.manaPoints = min(target.maxManaPoints, target.manaPoints + manaAmount)
-            print("\(name) restores \(manaAmount.roundedUp) MP to \(self == target ? "themselves" : target.name).")
+            actualTarget.manaPoints = min(actualTarget.maxManaPoints, actualTarget.manaPoints + manaAmount)
+            print("\(name) restores \(manaAmount.roundedUp) MP to \(self == actualTarget ? "themselves" : actualTarget.name).")
         case .trap:
-            target.hasTrap = true
-            target.trapDamage = self.attackPower * attack.powerMultiplier
-            print("\(name) sets a trap in front of \(self == target ? "themself" : target.name)!")
+            actualTarget.hasTrap = true
+            actualTarget.trapDamage = self.attackPower * attack.powerMultiplier
+            print("\(name) sets a trap in front of \(self == actualTarget ? "themself" : actualTarget.name)!")
         case .buffAttack:
             let buff = Buff(attackPoints: self.attackPower * attack.powerMultiplier, defensePoints: 0, healthPoints: 0, manaPoints: 0, isFromAttack: true)
-            target.applyBuff(buff)
-            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") attack power by \(buff.attackPoints.roundedUp).")
+            actualTarget.applyBuff(buff)
+            print("\(name) boosts \(self == actualTarget ? "their own" : "\(actualTarget.name)'s") attack power by \(buff.attackPoints.roundedUp).")
         case .buffDefense:
             let buff = Buff(attackPoints: 0, defensePoints: self.attackPower * attack.powerMultiplier, healthPoints: 0, manaPoints: 0, isFromAttack: true)
-            target.applyBuff(buff)
-            print("\(name) boosts \(self == target ? "their own" : "\(target.name)'s") defense by \(buff.defensePoints.roundedUp).")
+            actualTarget.applyBuff(buff)
+            print("\(name) boosts \(self == actualTarget ? "their own" : "\(actualTarget.name)'s") defense by \(buff.defensePoints.roundedUp).")
         case .debuffAttack:
             let buff = Buff(attackPoints: self.attackPower * attack.powerMultiplier * -1, defensePoints: 0, healthPoints: 0, manaPoints: 0, isFromAttack: true)
-            target.applyBuff(buff)
-            print("\(name) weakens \(target.name)'s attack power by \((buff.attackPoints * -1).roundedDown).")
+            actualTarget.applyBuff(buff)
+            print("\(name) weakens \(actualTarget.name)'s attack power by \((buff.attackPoints * -1).roundedDown).")
         case .debuffDefense:
             let buff = Buff(attackPoints: 0, defensePoints: self.attackPower * attack.powerMultiplier * -1, healthPoints: 0, manaPoints: 0, isFromAttack: true)
-            target.applyBuff(buff)
-            print("\(name) reduces \(target.name)'s defense by \((buff.defensePoints * -1).roundedDown).")
+            actualTarget.applyBuff(buff)
+            print("\(name) reduces \(actualTarget.name)'s defense by \((buff.defensePoints * -1).roundedDown).")
         case .ultimate:
             if !hasUsedUltimate {
                 print("\(name) uses ultimate attack \(attack.name).")
                 hasUsedUltimate = true
-                let totalDamage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)
-                target.takeDamage(totalDamage, from: self)
+                let totalDamage = max(1, (self.attackPower * attack.powerMultiplier) - actualTarget.defense)
+                actualTarget.takeDamage(totalDamage, from: self)
             } else {
                 print("\(name) tries to use ultimate attack again, but this attack can only be used once.")
             }

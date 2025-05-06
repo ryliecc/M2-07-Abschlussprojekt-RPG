@@ -8,8 +8,8 @@
 import Foundation
 
 class ForestWolf: Opponent {
-    let bite = Attack(name: "Bite", powerMultiplier: 1.0, manaCost: 0, type: .damage, infoText: "A vicious bite aimed at vulnerable spots.")
-    let howl = Attack(name: "Howl", powerMultiplier: 0.7, manaCost: 3, type: .buffAttack, infoText: "A chilling howl that boosts its attack.")
+    let bite = Attack(name: "Bite", powerMultiplier: 1.0, manaCost: 0, type: .damage, infoText: "A vicious bite aimed at vulnerable spots.", isSelfTargeting: false)
+    let howl = Attack(name: "Howl", powerMultiplier: 0.7, manaCost: 3, type: .buffAttack, infoText: "A chilling howl that boosts its attack.", isSelfTargeting: true)
     
     init() {
         super.init(name: "Forest Wolf", maxHealthPoints: 18, maxManaPoints: 4, attacks: [bite, howl], attackPower: 6, defense: 4)

@@ -8,10 +8,10 @@
 import Foundation
 
 class ThunderWyrm: Henchman {
-    let shockwave: Attack = Attack(name: "Shockwave", powerMultiplier: 1.0, manaCost: 0, type: .damage, infoText: "A quick burst of electricity that strikes a single target.")
-    let windGust: Attack = Attack(name: "Wind Gust", powerMultiplier: 1.2, manaCost: 3, type: .areaDamage, infoText: "A gust of wind that knocks back and damages all nearby enemies.")
-    let lightningLash: Attack = Attack(name: "Lightning Lash", powerMultiplier: 1.4, manaCost: 6, type: .damage, infoText: "The Thunder Wyrm lashes out with a whip of lightning, striking down its enemies.")
-    let thunderousRoar: Attack = Attack(name: "Thunderous Roar", powerMultiplier: 1.7, manaCost: 8, type: .areaDamage, infoText: "In a fit of rage, the Thunder Wyrm releases a deafening roar that damages all enemies.")
+    let shockwave: Attack = Attack(name: "Shockwave", powerMultiplier: 1.0, manaCost: 0, type: .damage, infoText: "A quick burst of electricity that strikes a single target.", isSelfTargeting: false)
+    let windGust: Attack = Attack(name: "Wind Gust", powerMultiplier: 1.2, manaCost: 3, type: .areaDamage, infoText: "A gust of wind that knocks back and damages all nearby enemies.", isSelfTargeting: false)
+    let lightningLash: Attack = Attack(name: "Lightning Lash", powerMultiplier: 1.4, manaCost: 6, type: .damage, infoText: "The Thunder Wyrm lashes out with a whip of lightning, striking down its enemies.", isSelfTargeting: false)
+    let thunderousRoar: Attack = Attack(name: "Thunderous Roar", powerMultiplier: 1.7, manaCost: 8, type: .areaDamage, infoText: "In a fit of rage, the Thunder Wyrm releases a deafening roar that damages all enemies.", isSelfTargeting: false)
     
     init() {
         super.init(name: "Thunder Wyrm", maxHealthPoints: 40, maxManaPoints: 15, standardAttacks: [shockwave, windGust, lightningLash], attackPower: 8, defense: 8, revengeAttack: thunderousRoar)

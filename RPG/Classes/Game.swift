@@ -244,27 +244,32 @@ class Game: BossDelegate, OpponentDelegate {
                 clearConsole()
                 printTurnMenu(hero)
             } else {
-                switch chosenAttack!.type {
-                case .damage, .debuffAttack, .debuffDefense, .ultimate, .areaDamage:
-                    if currentOpponents.count > 1 {
-                        if let chosenOpponent: Opponent = hero.chooseTarget(possibleTargets: currentOpponents) {
-                            hero.attack(chosenAttack!, on: chosenOpponent)
+                if !chosenAttack!.isSelfTargeting {
+                    switch chosenAttack!.type {
+                    case .damage, .debuffAttack, .debuffDefense, .ultimate, .areaDamage:
+                        if currentOpponents.count > 1 {
+                            if let chosenOpponent: Opponent = hero.chooseTarget(possibleTargets: currentOpponents) {
+                                hero.attack(chosenAttack!, on: chosenOpponent)
+                            } else {
+                                clearConsole()
+                                printTurnMenu(hero)
+                            }
                         } else {
+                            hero.attack(chosenAttack!, on: currentOpponents[0])
+                        }
+                    case .buffAttack, .buffDefense, .heal, .manaRestore, .trap:
+                        let chosenHero: Character? = hero.chooseTarget(possibleTargets: party.members)
+                        if chosenHero == nil {
                             clearConsole()
                             printTurnMenu(hero)
+                        } else {
+                            hero.attack(chosenAttack!, on: chosenHero!)
                         }
-                    } else {
-                        hero.attack(chosenAttack!, on: currentOpponents[0])
                     }
-                case .buffAttack, .buffDefense, .heal, .manaRestore, .trap:
-                    let chosenHero: Character? = hero.chooseTarget(possibleTargets: party.members)
-                    if chosenHero == nil {
-                        clearConsole()
-                        printTurnMenu(hero)
-                    } else {
-                        hero.attack(chosenAttack!, on: chosenHero!)
-                    }
+                } else {
+                    hero.attack(chosenAttack!, on: nil)
                 }
+                
             }
         }
         if choice == 2 {

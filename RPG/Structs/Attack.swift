@@ -13,6 +13,8 @@ struct Attack: CustomStringConvertible {
     let manaCost: Double
     let type: AttackType
     let infoText: String
+    let isSelfTargeting: Bool
+    
     var description: String {
         "\(name):\n\(infoText)\nMP Cost: \(manaCost)"
     }
