@@ -246,7 +246,7 @@ class Game: BossDelegate, OpponentDelegate {
             } else {
                 if !chosenAttack!.isSelfTargeting {
                     switch chosenAttack!.type {
-                    case .damage, .debuffAttack, .debuffDefense, .ultimate, .areaDamage:
+                    case .damage, .debuffAttack, .debuffDefense, .ultimate:
                         if currentOpponents.count > 1 {
                             if let chosenOpponent: Opponent = hero.chooseTarget(possibleTargets: currentOpponents) {
                                 hero.attack(chosenAttack!, on: chosenOpponent)
@@ -265,6 +265,8 @@ class Game: BossDelegate, OpponentDelegate {
                         } else {
                             hero.attack(chosenAttack!, on: chosenHero!)
                         }
+                    case .areaDamage:
+                        hero.attack(chosenAttack!, on: self.currentOpponents)
                     }
                 } else {
                     hero.attack(chosenAttack!, on: nil)
@@ -339,7 +341,7 @@ class Game: BossDelegate, OpponentDelegate {
                     case .buffAttack, .buffDefense, .heal, .manaRestore:
                         opponent.attack(randomAttack, on: currentOpponents.randomElement()!)
                     case .trap:
-                        opponent.attack(randomAttack, on: opponent)
+                        opponent.attack(randomAttack, on: nil)
                     }
                     if !checkIfBothSidesCanFight() {
                         fightIsRunning = false

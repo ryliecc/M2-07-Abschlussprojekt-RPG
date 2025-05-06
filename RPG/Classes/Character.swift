@@ -155,6 +155,32 @@ class Character: CustomStringConvertible, Equatable {
         }
     }
     
+    func attack(_ attack: Attack, on targets: [Character]) {
+        manaPoints -= attack.manaCost
+        
+        switch attack.type {
+        case .areaDamage:
+            print("\(name) uses \(attack.name).")
+            for target in targets {
+                let damage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)
+                print("\(attack.name) hits \(target.name).")
+                target.takeDamage(damage, from: self)
+            }
+        case .heal:
+            let healAmount = self.attackPower * attack.powerMultiplier
+            for target in targets {
+                target.healthPoints = min(target.maxHealthPoints, target.healthPoints + healAmount)
+                print("\(name) heals \(target.name) for \(healAmount.roundedUp) HP.")
+            }
+        default:
+            for target in targets {
+                let damage = max(1, (self.attackPower * attack.powerMultiplier) - target.defense)
+                print("\(name) hits \(target.name) with \(attack.name).")
+                target.takeDamage(damage, from: self)
+            }
+        }
+    }
+    
     static func == (lhs: Character, rhs: Character) -> Bool {
         return lhs.name == rhs.name
     }
