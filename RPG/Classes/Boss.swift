@@ -31,8 +31,8 @@ class Boss: Opponent {
         bossDelegate?.bossCalledHenchman()
     }
     
-    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double, level: Int, healthMultiplier: Double, manaMultiplier: Double, attackMultiplier: Double, defenseMultiplier: Double, dedicatedHenchman: Henchman) {
+    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double, tempo: Double, level: Int, healthMultiplier: Double, manaMultiplier: Double, attackMultiplier: Double, defenseMultiplier: Double, tempoMultiplier: Double, dedicatedHenchman: Henchman) {
         self.dedicatedHenchman = dedicatedHenchman
-        super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: attacks, attackPower: attackPower, defense: defense, level: level, healthMultiplier: healthMultiplier, manaMultiplier: manaMultiplier, attackMultiplier: attackMultiplier, defenseMultiplier: defenseMultiplier)
+        super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: attacks, attackPower: attackPower, defense: defense, tempo: tempo, level: level, healthMultiplier: healthMultiplier, manaMultiplier: manaMultiplier, attackMultiplier: attackMultiplier, defenseMultiplier: defenseMultiplier, tempoMultiplier: tempoMultiplier)
     }
 }

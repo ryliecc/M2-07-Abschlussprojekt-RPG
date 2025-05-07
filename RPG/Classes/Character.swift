@@ -20,12 +20,13 @@ class Character: CustomStringConvertible, Equatable {
     
     var attackPower: Double
     var defense: Double
+    var tempo: Double
     
     var hasTrap: Bool = false
     var trapDamage: Double = 0
     var hasUsedUltimate = false
     
-    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double) {
+    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double, tempo: Double) {
         self.name = name
         self.maxHealthPoints = maxHealthPoints
         self.healthPoints = maxHealthPoints
@@ -34,6 +35,7 @@ class Character: CustomStringConvertible, Equatable {
         self.attacks = attacks
         self.attackPower = attackPower
         self.defense = defense
+        self.tempo = tempo
     }
     
     var description: String {

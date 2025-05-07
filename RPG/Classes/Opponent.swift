@@ -38,13 +38,14 @@ class Opponent: Character {
         }
     }
     
-    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double, level: Int, opponentDelegate: OpponentDelegate? = nil, healthMultiplier: Double, manaMultiplier: Double, attackMultiplier: Double, defenseMultiplier: Double) {
+    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double, tempo: Double, level: Int, opponentDelegate: OpponentDelegate? = nil, healthMultiplier: Double, manaMultiplier: Double, attackMultiplier: Double, defenseMultiplier: Double, tempoMultiplier: Double) {
         self.level = level
         self.opponentDelegate = opponentDelegate
         let leveledHealthPoints = maxHealthPoints + (Double(level - 1) * healthMultiplier)
         let leveledManaPoints = maxManaPoints + (Double(level - 1) * manaMultiplier)
         let leveledAttackPower = attackPower + (Double(level - 1) * attackMultiplier)
         let leveledDefense = defense + (Double(level - 1) * defenseMultiplier)
-        super.init(name: name, maxHealthPoints: leveledHealthPoints, maxManaPoints: leveledManaPoints, attacks: attacks, attackPower: leveledAttackPower, defense: leveledDefense)
+        let leveledTempo = tempo + (Double(level - 1) * tempoMultiplier)
+        super.init(name: name, maxHealthPoints: leveledHealthPoints, maxManaPoints: leveledManaPoints, attacks: attacks, attackPower: leveledAttackPower, defense: leveledDefense, tempo: leveledTempo)
     }
 }

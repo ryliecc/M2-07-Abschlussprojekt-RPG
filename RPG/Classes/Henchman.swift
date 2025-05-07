@@ -25,8 +25,8 @@ class Henchman: Opponent {
         print("\(name) is fueled by revenge! Their power surges!")
     }
     
-    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, standardAttacks: [Attack], attackPower: Double, defense: Double, level: Int, healthMultiplier: Double, manaMultiplier: Double, attackMultiplier: Double, defenseMultiplier: Double, revengeAttack: Attack) {
+    init(name: String, maxHealthPoints: Double, maxManaPoints: Double, standardAttacks: [Attack], attackPower: Double, defense: Double, tempo: Double, level: Int, healthMultiplier: Double, manaMultiplier: Double, attackMultiplier: Double, defenseMultiplier: Double, tempoMultiplier: Double, revengeAttack: Attack) {
         self.revengeAttack = revengeAttack
-        super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: standardAttacks, attackPower: attackPower, defense: defense, level: level, healthMultiplier: healthMultiplier, manaMultiplier: manaMultiplier, attackMultiplier: attackMultiplier, defenseMultiplier: defenseMultiplier)
+        super.init(name: name, maxHealthPoints: maxHealthPoints, maxManaPoints: maxManaPoints, attacks: standardAttacks, attackPower: attackPower, defense: defense, tempo: tempo, level: level, healthMultiplier: healthMultiplier, manaMultiplier: manaMultiplier, attackMultiplier: attackMultiplier, defenseMultiplier: defenseMultiplier, tempoMultiplier: tempoMultiplier)
     }
 }
