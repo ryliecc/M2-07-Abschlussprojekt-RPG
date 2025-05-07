@@ -37,9 +37,8 @@ struct Tavern {
             }
         }
         if chosenOption == 3 {
-            print("\nThere is a little sign dangling on the gambling machine: OUT OF ORDER!")
-            waitForPlayerContinue()
-            clearConsole()
+            var gamblingMachine = GamblingMachine()
+            gamblingMachine.menu(party)
             menu(party)
         }
         if chosenOption == 4 {

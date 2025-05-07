@@ -98,3 +98,33 @@ enum ConsoleStyle: String {
     case inverse = "\u{001B}[7m"
     case dim = "\u{001B}[2m"
 }
+
+enum GameMove: String, CaseIterable {
+    case rock = "Rock"
+    case paper = "Paper"
+    case scissors = "Scissors"
+    
+    var beats: GameMove {
+        switch self {
+        case .rock: return .scissors
+        case .paper: return .rock
+        case .scissors: return .paper
+        }
+    }
+    
+    func outcome(against opponent: GameMove) -> GameResult {
+        if self == opponent {
+            return .draw
+        } else if self.beats == opponent {
+            return .win
+        } else {
+            return .lose
+        }
+    }
+}
+
+enum GameResult {
+    case draw
+    case win
+    case lose
+}
