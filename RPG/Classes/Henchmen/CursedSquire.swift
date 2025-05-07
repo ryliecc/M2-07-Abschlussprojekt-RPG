@@ -13,7 +13,7 @@ class CursedSquire: Henchman {
     let vengefulCharge: Attack = Attack(name: "Vengeful Charge", powerMultiplier: 1.5, manaCost: 3, type: .damage, infoText: "The Cursed Squire charges into battle with a savage swing of his sword, dealing more damage when enraged.", isSelfTargeting: false)
     let wrathfulFury: Attack = Attack(name: "Wrathful Fury", powerMultiplier: 2.0, manaCost: 5, type: .damage, infoText: "When consumed by rage, the Cursed Squire strikes with an unstoppable fury, dealing devastating damage.", isSelfTargeting: false)
     
-    init() {
-        super.init(name: "Cursed Squire", maxHealthPoints: 20, maxManaPoints: 5, standardAttacks: [cursedSlash, squiresDefense, vengefulCharge], attackPower: 6, defense: 4, revengeAttack: wrathfulFury)
+    init(level: Int) {
+        super.init(name: "Cursed Squire", maxHealthPoints: 20, maxManaPoints: 5, standardAttacks: [cursedSlash, squiresDefense, vengefulCharge], attackPower: 6, defense: 4, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, revengeAttack: wrathfulFury)
     }
 }

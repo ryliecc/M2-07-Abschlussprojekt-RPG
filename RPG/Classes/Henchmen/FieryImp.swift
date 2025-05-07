@@ -13,7 +13,7 @@ class FieryImp: Henchman {
     let fieryDash: Attack = Attack(name: "Fiery Dash", powerMultiplier: 1.5, manaCost: 3, type: .damage, infoText: "The Fiery Imp dashes forward, leaving a trail of fire in his wake.", isSelfTargeting: false)
     let wrathOfTheInferno: Attack = Attack(name: "Wrath of the Inferno", powerMultiplier: 1.8, manaCost: 5, type: .damage, infoText: "Fueled by the Infernal Demon’s power, the Fiery Imp strikes with intense fury.", isSelfTargeting: false)
     
-    init() {
-        super.init(name: "Fiery Imp", maxHealthPoints: 20, maxManaPoints: 5, standardAttacks: [fireball, flameShield, fieryDash], attackPower: 5, defense: 2, revengeAttack: wrathOfTheInferno)
+    init(level: Int) {
+        super.init(name: "Fiery Imp", maxHealthPoints: 20, maxManaPoints: 5, standardAttacks: [fireball, flameShield, fieryDash], attackPower: 5, defense: 2, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, revengeAttack: wrathOfTheInferno)
     }
 }

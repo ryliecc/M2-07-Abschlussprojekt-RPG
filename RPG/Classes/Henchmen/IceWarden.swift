@@ -13,7 +13,7 @@ class IceWarden: Henchman {
     let freezingCharge: Attack = Attack(name: "Freezing Charge", powerMultiplier: 1.5, manaCost: 5, type: .damage, infoText: "The Warden charges forward, freezing everything in his path.", isSelfTargeting: false)
     let iceboundVengeance: Attack = Attack(name: "Icebound Vengeance", powerMultiplier: 1.8, manaCost: 7, type: .areaDamage, infoText: "Fueled by vengeance, the Warden releases a deadly burst of freezing energy.", isSelfTargeting: false)
     
-    init() {
-        super.init(name: "Ice Warden", maxHealthPoints: 30, maxManaPoints: 10, standardAttacks: [icyStrike, frostAura, freezingCharge], attackPower: 6, defense: 6, revengeAttack: iceboundVengeance)
+    init(level: Int) {
+        super.init(name: "Ice Warden", maxHealthPoints: 30, maxManaPoints: 10, standardAttacks: [icyStrike, frostAura, freezingCharge], attackPower: 6, defense: 6, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, revengeAttack: iceboundVengeance)
     }
 }

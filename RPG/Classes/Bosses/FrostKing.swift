@@ -13,7 +13,7 @@ class FrostKing: Boss {
     let iceShield: Attack = Attack(name: "Ice Shield", powerMultiplier: 1.0, manaCost: 5, type: .buffDefense, infoText: "The King envelops himself in a protective shield of ice, increasing his defense.", isSelfTargeting: true)
     let glacialWrath: Attack = Attack(name: "Glacial Wrath", powerMultiplier: 2.0, manaCost: 25, type: .ultimate, infoText: "The Frost King unleashes his ultimate power, summoning a wave of ice and frost to obliterate his enemies.", isSelfTargeting: false)
     
-    init() {
-        super.init(name: "Frost King", maxHealthPoints: 100, maxManaPoints: 40, attacks: [blizzard, frostbite, iceShield, glacialWrath], attackPower: 12, defense: 14, dedicatedHenchman: IceWarden())
+    init(level: Int, henchmanLevel: Int) {
+        super.init(name: "Frost King", maxHealthPoints: 100, maxManaPoints: 40, attacks: [blizzard, frostbite, iceShield, glacialWrath], attackPower: 12, defense: 14, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, dedicatedHenchman: IceWarden(level: henchmanLevel))
     }
 }
