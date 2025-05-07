@@ -77,13 +77,13 @@ class Game: BossDelegate, OpponentDelegate {
         let numberOfCheckpoints = Int.random(in: 3...5)
         var randomCheckpoints: [Checkpoint] = []
         for _ in 0..<numberOfCheckpoints {
-            randomCheckpoints.append(Checkpoint.generateRandomCheckpoint())
+            randomCheckpoints.append(Checkpoint.generateRandomCheckpoint(difficultyLevel: difficultyLevel))
         }
         if !randomCheckpoints.contains(where: { $0.type == .bossBattle }) {
             let randomBossBattleCheckpoint: Checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss(difficultyLevel: difficultyLevel)))
             randomCheckpoints[numberOfCheckpoints - 1] = randomBossBattleCheckpoint
         } else {
-            randomCheckpoints.append(Checkpoint.generateRandomCheckpoint())
+            randomCheckpoints.append(Checkpoint.generateRandomCheckpoint(difficultyLevel: difficultyLevel))
         }
         nextCheckpoints = randomCheckpoints
     }

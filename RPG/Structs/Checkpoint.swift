@@ -11,7 +11,7 @@ struct Checkpoint {
     var type: CheckpointType
     var details: CheckpointDetails
     
-    static func generateRandomCheckpoint() -> Checkpoint {
+    static func generateRandomCheckpoint(difficultyLevel: Int) -> Checkpoint {
         let randomType = CheckpointType.allCases.randomElement()!
         let checkpoint: Checkpoint
         
@@ -19,7 +19,7 @@ struct Checkpoint {
         case .battle:
             checkpoint = Checkpoint(type: .battle, details: .battle(amount: Int.random(in: 1...3)))
         case .bossBattle:
-            checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss()))
+            checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss(difficultyLevel: difficultyLevel)))
         case .shop:
             let shoptype: ShopType = ShopType.allCases.randomElement()!
             checkpoint = Checkpoint(type: .shop, details: .shop(type: shoptype))

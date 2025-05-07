@@ -73,8 +73,8 @@ struct GamblingMachine {
     
     func calculateResult(_ roundBanner: String) -> GameResult {
         print(roundBanner)
-        var playerMove = chooseMove()
-        var machineMove = GameMove.allCases.randomElement()!
+        let playerMove = chooseMove()
+        let machineMove = GameMove.allCases.randomElement()!
         print("Rock ...")
         sleep(1)
         print("... Paper ...")
