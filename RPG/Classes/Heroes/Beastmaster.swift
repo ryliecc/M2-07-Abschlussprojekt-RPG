@@ -19,7 +19,10 @@ class Beastmaster: Hero {
 
     override func levelUp() {
         super.levelUp()
-        attackPower += 1.5
-        defense += 2.5
+        maxHealthPoints += 2
+        healthPoints = maxHealthPoints
+        attackPower += 1
+        defense += 1
+        tempo += 0.1
     }
 }

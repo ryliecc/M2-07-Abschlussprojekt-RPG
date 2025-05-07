@@ -14,12 +14,17 @@ class Ronin: Hero {
     let shadowStep: Attack = Attack(name: "Shadow Step", powerMultiplier: 0.8, manaCost: 4, type: .trap, infoText: "Steps out of sight, preparing a counterattack.", isSelfTargeting: true)
 
     init() {
-        super.init(name: "Ronin", maxHealthPoints: 24, maxManaPoints: 12, attacks: [quickSlash, focusedStrike, innerCalm, shadowStep], attackPower: 9, defense: 10, tempo: 1, classDescription: "A wandering swordsman who fights with honor and precision. The Ronin excels at counterattacks and devastating finishers, but must manage their energy carefully and fight alone.")
+        super.init(name: "Ronin", maxHealthPoints: 24, maxManaPoints: 12, attacks: [quickSlash, focusedStrike, innerCalm, shadowStep], attackPower: 9, defense: 10, tempo: 0.5, classDescription: "A wandering swordsman who fights with honor and precision. The Ronin excels at counterattacks and devastating finishers, but must manage their energy carefully and fight alone.")
     }
 
     override func levelUp() {
         super.levelUp()
-        attackPower += 2.5
-        maxHealthPoints += 1
+        attackPower += 2
+        defense += 1
+        maxHealthPoints += 2
+        healthPoints = maxHealthPoints
+        maxManaPoints += 1
+        manaPoints = maxManaPoints
+        tempo += 0.2
     }
 }

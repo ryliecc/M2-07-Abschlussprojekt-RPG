@@ -19,8 +19,9 @@ class Henchman: Opponent {
     let revengeAttack: Attack
     
     func takeRevenge() {
-        attackPower += 15
-        defense += 15
+        attackPower += 5
+        defense += 5
+        tempo += 0.5
         attacks.append(revengeAttack)
         print("\(name) is fueled by revenge! Their power surges!")
     }

@@ -20,8 +20,7 @@ class Druid: Hero {
     override func levelUp() {
         super.levelUp()
         maxManaPoints += 5
-        attackPower += 1
-        defense += 2
         manaPoints = maxManaPoints
+        defense += 1
     }
 }

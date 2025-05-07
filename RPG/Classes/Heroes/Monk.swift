@@ -18,10 +18,13 @@ class Monk: Hero {
         }
     
     override func levelUp() {
-            super.levelUp()
-            attackPower += 2
-            defense += 2
-            maxManaPoints += 3
-            manaPoints = maxManaPoints
-        }
+        super.levelUp()
+        maxHealthPoints += 3
+        healthPoints = maxHealthPoints
+        attackPower += 2
+        defense += 1
+        maxManaPoints -= 1
+        manaPoints = maxManaPoints
+        tempo += 0.1
+    }
 }

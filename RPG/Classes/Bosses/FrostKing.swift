@@ -14,6 +14,6 @@ class FrostKing: Boss {
     let glacialWrath: Attack = Attack(name: "Glacial Wrath", powerMultiplier: 2.0, manaCost: 25, type: .ultimate, infoText: "The Frost King unleashes his ultimate power, summoning a wave of ice and frost to obliterate his enemies.", isSelfTargeting: false)
     
     init(level: Int, henchmanLevel: Int) {
-        super.init(name: "Frost King", maxHealthPoints: 100, maxManaPoints: 40, attacks: [blizzard, frostbite, iceShield, glacialWrath], attackPower: 12, defense: 14, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, tempoMultiplier: 1, dedicatedHenchman: IceWarden(level: henchmanLevel))
+        super.init(name: "Frost King", maxHealthPoints: 80, maxManaPoints: 30, attacks: [blizzard, frostbite, iceShield, glacialWrath], attackPower: 10, defense: 12, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 2, attackMultiplier: 2, defenseMultiplier: 2, tempoMultiplier: 0.1, dedicatedHenchman: IceWarden(level: henchmanLevel))
     }
 }

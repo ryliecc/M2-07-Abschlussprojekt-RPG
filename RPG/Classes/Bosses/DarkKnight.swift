@@ -14,6 +14,6 @@ class DarkKnight: Boss {
     let soulDrain: Attack = Attack(name: "Soul Drain", powerMultiplier: 1.5, manaCost: 5, type: .heal, infoText: "The Dark Knight drains the soul of his enemies, restoring his own health by absorbing their life force.", isSelfTargeting: true)
     
     init(level: Int, henchmanLevel: Int) {
-        super.init(name: "Dark Knight", maxHealthPoints: 40, maxManaPoints: 15, attacks: [shadowSlash, darkShield, reapersWrath, soulDrain], attackPower: 12, defense: 8, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, tempoMultiplier: 1, dedicatedHenchman: CursedSquire(level: henchmanLevel))
+        super.init(name: "Dark Knight", maxHealthPoints: 60, maxManaPoints: 18, attacks: [shadowSlash, darkShield, reapersWrath, soulDrain], attackPower: 10, defense: 6, tempo: 1.5, level: level, healthMultiplier: 2, manaMultiplier: 2, attackMultiplier: 2, defenseMultiplier: 2, tempoMultiplier: 0.2, dedicatedHenchman: CursedSquire(level: henchmanLevel))
     }
 }

@@ -14,6 +14,6 @@ class StormDragon: Boss {
     let stormsFury: Attack = Attack(name: "Storm's Fury", powerMultiplier: 2.5, manaCost: 35, type: .ultimate, infoText: "The Storm Dragon unleashes a powerful storm, causing massive damage to all enemies.", isSelfTargeting: false)
     
     init(level: Int, henchmanLevel: Int) {
-        super.init(name: "Storm Dragon", maxHealthPoints: 120, maxManaPoints: 50, attacks: [thunderstrike, windSlash, lightningShield, stormsFury], attackPower: 18, defense: 12, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, tempoMultiplier: 1, dedicatedHenchman: ThunderWyrm(level: henchmanLevel))
+        super.init(name: "Storm Dragon", maxHealthPoints: 90, maxManaPoints: 35, attacks: [thunderstrike, windSlash, lightningShield, stormsFury], attackPower: 14, defense: 10, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 2, attackMultiplier: 2, defenseMultiplier: 2, tempoMultiplier: 0.1, dedicatedHenchman: ThunderWyrm(level: henchmanLevel))
     }
 }

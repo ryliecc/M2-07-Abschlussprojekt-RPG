@@ -53,15 +53,17 @@ class Hero: Character, Levelable {
     
     func levelUp() {
         level += 1
-        print("\(name) hase leveled up to " + "Lvl. \(level)".applyConsoleStyles(.italic, .bold) + "!")
+        print("\(name) has leveled up to " + "Lvl. \(level)".applyConsoleStyles(.italic, .bold) + "!")
         
-        let healthBoost = 8 + Double(level) * 2
-        let manaBoost = 4 + Double(level) * 1.5
-        let attackBoost = 3 + Double(level) * 1.2
+        let healthBoost = 4 + Double(level) * 2
+        let manaBoost = 2 + Double(level) * 1.5
+        let attackBoost = 2 + Double(level) * 1.2
         let defenseBoost = 2 + Double(level)
+        let tempoBoost = 0.1 + Double(level) * 0.02
         
         attackPower += attackBoost
         defense += defenseBoost
+        tempo += tempoBoost
         maxHealthPoints += healthBoost
         healthPoints = maxHealthPoints
         maxManaPoints += manaBoost

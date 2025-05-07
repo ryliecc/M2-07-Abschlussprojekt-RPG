@@ -19,7 +19,8 @@ class Pyromancer: Hero {
 
     override func levelUp() {
         super.levelUp()
-        maxManaPoints += 6
+        maxManaPoints += 4
+        manaPoints = maxManaPoints
         attackPower += 2
     }
 }

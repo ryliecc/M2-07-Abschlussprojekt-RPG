@@ -14,12 +14,16 @@ class Paladin: Hero {
     let judgment: Attack = Attack(name: "Judgment", powerMultiplier: 2.0, manaCost: 8, type: .ultimate, infoText: "Unleashes divine wrath in a devastating attack.", isSelfTargeting: false)
 
     init() {
-        super.init(name: "Paladin", maxHealthPoints: 28, maxManaPoints: 14, attacks: [smite, divineShield, healingLight, judgment], attackPower: 6, defense: 16, tempo: 1, classDescription: "A holy knight whose strength lies in unwavering defense. The Paladin protects the party, heals wounds, and strikes with divine justice. However, their offensive capabilities are limited.")
+        super.init(name: "Paladin", maxHealthPoints: 28, maxManaPoints: 14, attacks: [smite, divineShield, healingLight, judgment], attackPower: 6, defense: 16, tempo: 0.5, classDescription: "A holy knight whose strength lies in unwavering defense. The Paladin protects the party, heals wounds, and strikes with divine justice. However, their offensive capabilities are limited.")
     }
 
     override func levelUp() {
         super.levelUp()
-        defense += 3
-        maxHealthPoints += 2
+        defense += 2
+        maxHealthPoints += 4
+        healthPoints = maxHealthPoints
+        maxManaPoints += 1
+        manaPoints = maxManaPoints
+        attackPower += 1
     }
 }
