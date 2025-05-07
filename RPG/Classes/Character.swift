@@ -6,19 +6,12 @@
 //
 
 import Foundation
-import AVFAudio
 
 class Character: CustomStringConvertible, Equatable {
     let name: String
     
     var maxHealthPoints: Double
-    var healthPoints: Double {
-        didSet {
-            if healthPoints < oldValue {
-                soundManager.playSound(path: damageSoundPath)
-            }
-        }
-    }
+    var healthPoints: Double
     var maxManaPoints: Double
     var manaPoints: Double
     
@@ -31,9 +24,6 @@ class Character: CustomStringConvertible, Equatable {
     var hasTrap: Bool = false
     var trapDamage: Double = 0
     var hasUsedUltimate = false
-    
-    let soundManager = SoundManager()
-    let damageSoundPath = SoundLibrary.owMale
     
     init(name: String, maxHealthPoints: Double, maxManaPoints: Double, attacks: [Attack], attackPower: Double, defense: Double) {
         self.name = name
