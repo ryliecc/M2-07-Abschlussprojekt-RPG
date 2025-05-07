@@ -11,7 +11,9 @@ class Game: BossDelegate, OpponentDelegate {
     
     var party: Party
     
-    var currentBoss: Boss = BossLibrary.randomBoss() {
+    var difficultyLevel: Int = 1
+    
+    var currentBoss: Boss {
         didSet {
             currentBoss.bossDelegate = self
         }
@@ -78,7 +80,7 @@ class Game: BossDelegate, OpponentDelegate {
             randomCheckpoints.append(Checkpoint.generateRandomCheckpoint())
         }
         if !randomCheckpoints.contains(where: { $0.type == .bossBattle }) {
-            let randomBossBattleCheckpoint: Checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss()))
+            let randomBossBattleCheckpoint: Checkpoint = Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss(difficultyLevel: difficultyLevel)))
             randomCheckpoints[numberOfCheckpoints - 1] = randomBossBattleCheckpoint
         } else {
             randomCheckpoints.append(Checkpoint.generateRandomCheckpoint())
@@ -304,7 +306,7 @@ class Game: BossDelegate, OpponentDelegate {
     
     func prepareRegularFight(_ amount: Int) {
         defeatedOpponents = []
-        currentOpponents = OpponentLibrary.randomOpponents(amount: amount)
+        currentOpponents = OpponentLibrary.randomOpponents(amount: amount, difficultyLevel: difficultyLevel)
         print("\n\(currentOpponents.count) \(currentOpponents[0].name)\(currentOpponents.count > 1 ? "s appear" : " appears"). The fight begins!")
         waitForPlayerContinue()
         clearConsole()
@@ -380,6 +382,7 @@ class Game: BossDelegate, OpponentDelegate {
     
     init() {
         self.party = Party()
+        self.currentBoss = BossLibrary.randomBoss(difficultyLevel: difficultyLevel)
         self.nextTavern = Tavern()
     }
 }
