@@ -33,7 +33,7 @@ extension String {
         }
         
         let bothParts = (filledPart + emptyPart).applyConsoleStyles(color)
-        return "\(self): \(bothParts) " + "\(Int(currentValue))/\(Int(maxValue))".applyConsoleStyles(.bold)
+        return "\(self): \(bothParts) " + "\(Int(currentValue.roundedUp))/\(Int(maxValue.roundedUp))".applyConsoleStyles(.bold)
     }
     
     func highlight() -> String {

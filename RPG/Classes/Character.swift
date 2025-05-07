@@ -134,14 +134,10 @@ class Character: CustomStringConvertible, Equatable {
             actualTarget.applyBuff(buff)
             print("\(name) reduces \(actualTarget.name)'s defense by \((buff.defensePoints * -1).roundedDown).")
         case .ultimate:
-            if !hasUsedUltimate {
                 print("\(name) uses ultimate attack \(attack.name).")
                 hasUsedUltimate = true
                 let totalDamage = max(1, (self.attackPower * attack.powerMultiplier) - actualTarget.defense)
                 actualTarget.takeDamage(totalDamage, from: self)
-            } else {
-                print("\(name) tries to use ultimate attack again, but this attack can only be used once.")
-            }
         default:
             return
         }
