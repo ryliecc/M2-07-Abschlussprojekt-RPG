@@ -12,6 +12,6 @@ class CaveSpider: Opponent {
     let webTrap = Attack(name: "Web Trap", powerMultiplier: 0.7, manaCost: 3, type: .debuffAttack, infoText: "Spins a web to slow and weaken the enemy's strikes.", isSelfTargeting: false)
     
     init(level: Int) {
-        super.init(name: "Cave Spider", maxHealthPoints: 16, maxManaPoints: 6, attacks: [bite, webTrap], attackPower: 5, defense: 6, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2)
+        super.init(name: "Cave Spider", maxHealthPoints: 16, maxManaPoints: 6, attacks: [bite, webTrap], attackPower: 5, defense: 6, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, tempoMultiplier: 1)
     }
 }

@@ -12,6 +12,6 @@ class SkeletalMinion: Opponent {
     let eeriePresence = Attack(name: "Eerie Presence", powerMultiplier: 0.7, manaCost: 2, type: .debuffDefense, infoText: "A chilling aura that weakens the enemy's defense.", isSelfTargeting: false)
     
     init(level: Int) {
-        super.init(name: "Skeletal Minion", maxHealthPoints: 17, maxManaPoints: 5, attacks: [boneStrike, eeriePresence], attackPower: 6, defense: 5, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2)
+        super.init(name: "Skeletal Minion", maxHealthPoints: 17, maxManaPoints: 5, attacks: [boneStrike, eeriePresence], attackPower: 6, defense: 5, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, tempoMultiplier: 1)
     }
 }

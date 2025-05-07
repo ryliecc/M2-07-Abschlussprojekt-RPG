@@ -14,7 +14,7 @@ class Berserker: Hero {
     let roarOfWrath = Attack(name: "Roar of Wrath", powerMultiplier: 0.6, manaCost: 4, type: .areaDamage, infoText: "Unleashes a deafening roar that rattles all nearby foes.", isSelfTargeting: false)
 
     init() {
-        super.init(name: "Berserker", maxHealthPoints: 35, maxManaPoints: 8, attacks: [recklessSwing, bloodRage, crushingBlow, roarOfWrath], attackPower: 10, defense: 6, classDescription: "A raging warrior who thrives in the chaos of battle. The Berserker becomes more dangerous the longer the fight lasts, but struggles to defend against precision strikes.")
+        super.init(name: "Berserker", maxHealthPoints: 35, maxManaPoints: 8, attacks: [recklessSwing, bloodRage, crushingBlow, roarOfWrath], attackPower: 10, defense: 6, tempo: 1, classDescription: "A raging warrior who thrives in the chaos of battle. The Berserker becomes more dangerous the longer the fight lasts, but struggles to defend against precision strikes.")
     }
 
     override func levelUp() {

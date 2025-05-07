@@ -14,7 +14,7 @@ class Ranger: Hero {
     let forestVeil: Attack = Attack(name: "Forest Veil", powerMultiplier: 0.8, manaCost: 3, type: .buffDefense, infoText: "The ranger calls upon nature to protect them, boosting their defense for a while.", isSelfTargeting: true)
     
     init() {
-        super.init(name: "Ranger", maxHealthPoints: 20, maxManaPoints: 18, attacks: [arrowShot, rainOfThorns, eaglesEye, forestVeil], attackPower: 9, defense: 8, classDescription: "A silent hunter who strikes from afar. The Ranger prefers precise shots, uses the environment to their advantage, and can weaken enemies before they get close. But in melee combat, they’re quickly overwhelmed.")
+        super.init(name: "Ranger", maxHealthPoints: 20, maxManaPoints: 18, attacks: [arrowShot, rainOfThorns, eaglesEye, forestVeil], attackPower: 9, defense: 8, tempo: 1, classDescription: "A silent hunter who strikes from afar. The Ranger prefers precise shots, uses the environment to their advantage, and can weaken enemies before they get close. But in melee combat, they’re quickly overwhelmed.")
     }
     
     override func levelUp() {

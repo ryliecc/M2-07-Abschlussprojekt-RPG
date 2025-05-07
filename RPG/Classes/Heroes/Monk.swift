@@ -14,7 +14,7 @@ class Monk: Hero {
     let chiBurst = Attack(name: "Chi Burst", powerMultiplier: 1.4, manaCost: 6, type: .areaDamage, infoText: "Unleashes a wave of spiritual force against all enemies.", isSelfTargeting: false)
 
     init() {
-        super.init(name: "Monk", maxHealthPoints: 28, maxManaPoints: 10, attacks: [innerStrike, meditation, counterStance, chiBurst], attackPower: 7, defense: 11, classDescription: "A disciplined fighter who combines martial arts with inner balance. The Monk uses meditation, rapid strikes, and counterattacks. But their strength depends on rhythm and timing.")
+        super.init(name: "Monk", maxHealthPoints: 28, maxManaPoints: 10, attacks: [innerStrike, meditation, counterStance, chiBurst], attackPower: 7, defense: 11, tempo: 1, classDescription: "A disciplined fighter who combines martial arts with inner balance. The Monk uses meditation, rapid strikes, and counterattacks. But their strength depends on rhythm and timing.")
         }
     
     override func levelUp() {

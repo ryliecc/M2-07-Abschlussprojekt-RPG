@@ -14,7 +14,7 @@ class Sorcerer: Hero {
     let curseOfWeakness: Attack = Attack(name: "Curse of Weakness", powerMultiplier: 0.9, manaCost: 4, type: .debuffAttack, infoText: "A dark curse that weakens the enemy, lowering their attack power.", isSelfTargeting: false)
     
     init() {
-        super.init(name: "Sorcerer", maxHealthPoints: 22, maxManaPoints: 20, attacks: [spark, chaosBolt, arcaneHeal, curseOfWeakness], attackPower: 7, defense: 6, classDescription: "A mysterious spellcaster whose powers stem from ancient runes. The Sorcerer manipulates the battlefield with curses, teleportation, and arcane buffs. But their fragile body requires protection from allies.")
+        super.init(name: "Sorcerer", maxHealthPoints: 22, maxManaPoints: 20, attacks: [spark, chaosBolt, arcaneHeal, curseOfWeakness], attackPower: 7, defense: 6, tempo: 1, classDescription: "A mysterious spellcaster whose powers stem from ancient runes. The Sorcerer manipulates the battlefield with curses, teleportation, and arcane buffs. But their fragile body requires protection from allies.")
     }
     
     override func levelUp() {

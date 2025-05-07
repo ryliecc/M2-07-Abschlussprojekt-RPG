@@ -14,6 +14,6 @@ class InfernalDemon: Boss {
     let infernoFury: Attack = Attack(name: "Inferno Fury", powerMultiplier: 2.0, manaCost: 20, type: .ultimate, infoText: "The Demon unleashes his full fury, causing an explosive eruption of flame.", isSelfTargeting: false)
     
     init(level: Int, henchmanLevel: Int) {
-        super.init(name: "Infernal Demon", maxHealthPoints: 80, maxManaPoints: 30, attacks: [hellfire, flameWave, demonicRoar, infernoFury], attackPower: 15, defense: 10, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, dedicatedHenchman: FieryImp(level: henchmanLevel))
+        super.init(name: "Infernal Demon", maxHealthPoints: 80, maxManaPoints: 30, attacks: [hellfire, flameWave, demonicRoar, infernoFury], attackPower: 15, defense: 10, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, tempoMultiplier: 1, dedicatedHenchman: FieryImp(level: henchmanLevel))
     }
 }

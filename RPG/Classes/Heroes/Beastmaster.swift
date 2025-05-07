@@ -14,7 +14,7 @@ class Beastmaster: Hero {
     let snareTrap: Attack = Attack(name: "Snare Trap", powerMultiplier: 1.1, manaCost: 4, type: .trap, infoText: "Lays a hidden trap to punish attackers.", isSelfTargeting: true)
 
     init() {
-        super.init(name: "Beastmaster", maxHealthPoints: 26, maxManaPoints: 10, attacks: [fangStrike, animalCompanion, sharpenSenses, snareTrap], attackPower: 7, defense: 12, classDescription: "A wild-hearted warrior who fights alongside their loyal beasts. The Beastmaster overwhelms foes with brute strength and animal instincts. But without their companions, they’re far less threatening.")
+        super.init(name: "Beastmaster", maxHealthPoints: 26, maxManaPoints: 10, attacks: [fangStrike, animalCompanion, sharpenSenses, snareTrap], attackPower: 7, defense: 12, tempo: 1, classDescription: "A wild-hearted warrior who fights alongside their loyal beasts. The Beastmaster overwhelms foes with brute strength and animal instincts. But without their companions, they’re far less threatening.")
     }
 
     override func levelUp() {

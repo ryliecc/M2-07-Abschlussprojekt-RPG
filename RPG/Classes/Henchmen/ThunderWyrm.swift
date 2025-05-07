@@ -14,6 +14,6 @@ class ThunderWyrm: Henchman {
     let thunderousRoar: Attack = Attack(name: "Thunderous Roar", powerMultiplier: 1.7, manaCost: 8, type: .areaDamage, infoText: "In a fit of rage, the Thunder Wyrm releases a deafening roar that damages all enemies.", isSelfTargeting: false)
     
     init(level: Int) {
-        super.init(name: "Thunder Wyrm", maxHealthPoints: 40, maxManaPoints: 15, standardAttacks: [shockwave, windGust, lightningLash], attackPower: 8, defense: 8, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, revengeAttack: thunderousRoar)
+        super.init(name: "Thunder Wyrm", maxHealthPoints: 40, maxManaPoints: 15, standardAttacks: [shockwave, windGust, lightningLash], attackPower: 8, defense: 8, tempo: 1, level: level, healthMultiplier: 2, manaMultiplier: 3, attackMultiplier: 3, defenseMultiplier: 2, tempoMultiplier: 1, revengeAttack: thunderousRoar)
     }
 }

@@ -14,7 +14,7 @@ class Thief: Hero {
     let smokeBomb: Attack = Attack(name: "Smoke Bomb", powerMultiplier: 0.7, manaCost: 3, type: .debuffAttack, infoText: "Throws a smoke bomb that disorients the enemy, reducing their attack accuracy.", isSelfTargeting: false)
     
     init() {
-        super.init(name: "Thief", maxHealthPoints: 20, maxManaPoints: 14, attacks: [quickSlash, backStab, spikeTrap, smokeBomb], attackPower: 5, defense: 10, classDescription: "A cunning trickster who strikes with speed and deception. The Thief steals resources, sets traps, and weakens enemies with dirty tricks. But if a plan goes wrong, they’re left dangerously exposed.")
+        super.init(name: "Thief", maxHealthPoints: 20, maxManaPoints: 14, attacks: [quickSlash, backStab, spikeTrap, smokeBomb], attackPower: 5, defense: 10, tempo: 1, classDescription: "A cunning trickster who strikes with speed and deception. The Thief steals resources, sets traps, and weakens enemies with dirty tricks. But if a plan goes wrong, they’re left dangerously exposed.")
     }
     
     override func levelUp() {
