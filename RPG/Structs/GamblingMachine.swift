@@ -86,7 +86,7 @@ struct GamblingMachine {
         waitForPlayerContinue()
         clearConsole()
         print("\nMachine: \(machineMove.rawValue.applyConsoleStyles(.cyan))\nYou: \(playerMove.rawValue.applyConsoleStyles(.green))")
-        let result = machineMove.outcome(against: playerMove)
+        let result = playerMove.outcome(against: machineMove)
         if result == .draw {
             print("\nDraw!\nTry again!")
             waitForPlayerContinue()
