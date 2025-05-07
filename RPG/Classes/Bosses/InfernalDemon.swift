@@ -10,7 +10,7 @@ import Foundation
 class InfernalDemon: Boss {
     let hellfire: Attack = Attack(name: "Hellfire", powerMultiplier: 1.5, manaCost: 10, type: .damage, infoText: "The Infernal Demon summons a wave of hellfire, incinerating anything in its path.", isSelfTargeting: false)
     let flameWave: Attack = Attack(name: "Flame Wave", powerMultiplier: 1.2, manaCost: 5, type: .areaDamage, infoText: "A large wave of fire spreads across the battlefield, scorching enemies in its path.", isSelfTargeting: false)
-    let demonicRoar: Attack = Attack(name: "Demonic Roar", powerMultiplier: 1.0, manaCost: 0, type: .buffAttack, infoText: "The Demon lets out a fearsome roar, bolstering his own strength.", isSelfTargeting: true)
+    let demonicRoar: Attack = Attack(name: "Demonic Roar", powerMultiplier: 0.6, manaCost: 0, type: .buffAttack, infoText: "The Demon lets out a fearsome roar, bolstering his own strength.", isSelfTargeting: true)
     let infernoFury: Attack = Attack(name: "Inferno Fury", powerMultiplier: 2.0, manaCost: 20, type: .ultimate, infoText: "The Demon unleashes his full fury, causing an explosive eruption of flame.", isSelfTargeting: false)
     
     init(level: Int, henchmanLevel: Int) {
