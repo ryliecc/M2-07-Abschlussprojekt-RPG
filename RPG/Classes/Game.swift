@@ -371,10 +371,6 @@ class Game: BossDelegate, OpponentDelegate {
         var gameIsRunning: Bool = true
         generateStarterItems()
         party.preparePartyAtStart()
-        for member in party.members {
-            member.levelUp()
-        }
-        clearConsole()
         nextCheckpoints = [Checkpoint(type: .treasure, details: .treasure(type: .coins, items: [], coins: 50)), Checkpoint(type: .treasure, details: .treasure(type: .item, items: ItemLibrary.randomItems(amount: 3), coins: 0)), Checkpoint(type: .shop, details: .shop(type: .equippable)), Checkpoint(type: .bossBattle, details: .bossBattle(boss: BossLibrary.randomBoss(difficultyLevel: 1)))]
         while gameIsRunning {
             if currentTime == .day {
