@@ -32,6 +32,7 @@ class Game: BossDelegate, OpponentDelegate {
     
     var currentTime: TimeOfDay = .day {
         didSet {
+            statusBar.dayTime = currentTime
             if currentTime == .night {
                 generateCheckpoints()
             }
@@ -40,6 +41,7 @@ class Game: BossDelegate, OpponentDelegate {
             }
         }
     }
+    var statusBar: StatusBar
     var nextCheckpoints: [Checkpoint] = []
     var nextTavern: Tavern
     var dayCounter: Int = 0
@@ -108,9 +110,11 @@ class Game: BossDelegate, OpponentDelegate {
             if currentTime == .night {
                 break
             }
+            print(statusBar)
             print("\nYou travel along the road ...")
             if index == 2 {
                 triggerRandomEvent()
+                print(statusBar)
             }
             switch checkpoint.details {
             case .battle(var amount):
@@ -130,7 +134,10 @@ class Game: BossDelegate, OpponentDelegate {
                 openTreasureBox(type: type, items: items, coins: coins)
             case .shop(let type):
                 let shop = Shop(type: type)
-                shop.menu(party)
+                print("A shop appears! Looks like they sell \(shop.type.rawValue) items..")
+                waitForPlayerContinue()
+                clearConsole()
+                shop.menu(party, statusBar: statusBar)
             }
             waitForPlayerContinue()
             clearConsole()
@@ -140,7 +147,7 @@ class Game: BossDelegate, OpponentDelegate {
     }
     
     func visitTavern() {
-        nextTavern.menu(party)
+        nextTavern.menu(party, statusBar: statusBar)
         triggerRandomEvent()
         print("\nEveryone slept well that night and woke up refreshed and ready for new adventures.")
         currentTime = .day
@@ -390,5 +397,6 @@ class Game: BossDelegate, OpponentDelegate {
         self.party = Party()
         self.currentBoss = BossLibrary.randomBoss(difficultyLevel: difficultyLevel)
         self.nextTavern = Tavern()
+        self.statusBar = StatusBar(dayTime: self.currentTime, party: self.party)
     }
 }

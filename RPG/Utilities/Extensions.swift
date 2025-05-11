@@ -53,6 +53,15 @@ extension String {
         let range = NSRange(startIndex..., in: self)
         return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: "").count
     }
+    
+    func frame(padding: Int) -> String {
+        let content = String(repeating: " ", count: padding) + self + String(repeating: " ", count: padding)
+        let visibleWidth = content.visibleLength
+        let top = "╔" + String(repeating: "═", count: visibleWidth) + "╗"
+        let middle = "║" + content + "║"
+        let bottom = "╚" + String(repeating: "═", count: visibleWidth) + "╝"
+        return [top, middle, bottom].joined(separator: "\n")
+    }
 }
 
 extension Character {

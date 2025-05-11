@@ -10,7 +10,8 @@ import Foundation
 struct Tavern {
     let shop: Shop = Shop(type: .tavern)
     
-    func menu(_ party: Party) {
+    func menu(_ party: Party, statusBar: StatusBar) {
+        print(statusBar)
         print("\nWelcome to the Tavern. What do you want to do?")
         print("\n[" + "1".applyConsoleStyles(.bold) + "] - Visit Tavern Shop")
         print("\n[" + "2".applyConsoleStyles(.bold) + "] - Swap party members")
@@ -19,27 +20,27 @@ struct Tavern {
         let chosenOption = enterInteger(max: 4)
         clearConsole()
         if chosenOption == 1 {
-            shop.menu(party)
+            shop.menu(party, statusBar: statusBar)
             clearConsole()
-            menu(party)
+            menu(party, statusBar: statusBar)
         }
         if chosenOption == 2 {
             if party.reserve.count == 0 {
                 print("\nThere are no heroes to swap the party members with yet. Keep exploring the world to meet them!")
                 waitForPlayerContinue()
                 clearConsole()
-                menu(party)
+                menu(party, statusBar: statusBar)
             } else {
                 party.chooseSwapMenu()
                 waitForPlayerContinue()
                 clearConsole()
-                menu(party)
+                menu(party, statusBar: statusBar)
             }
         }
         if chosenOption == 3 {
             var gamblingMachine = GamblingMachine()
             gamblingMachine.menu(party)
-            menu(party)
+            menu(party, statusBar: statusBar)
         }
         if chosenOption == 4 {
             party.healMembers()

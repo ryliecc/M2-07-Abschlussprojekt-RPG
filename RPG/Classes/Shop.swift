@@ -37,13 +37,13 @@ class Shop {
         }
     }
     
-    func menu(_ party: Party) {
+    func menu(_ party: Party, statusBar: StatusBar) {
+        print(statusBar)
         print("Welcome to the shop.\(hasSale ? " Everything is 30% on sale today!" : "") The following items are available:")
         for (index, item) in itemsForSale.enumerated() {
             print("\n[\(String(index + 1).applyConsoleStyles(.bold))] \(item.styledName)\n\(item.infoText.applyConsoleStyles(.italic))\nPrice: \(itemPrices[item.name]!) Coins")
         }
         print("\n[\(String(itemsForSale.count + 1).applyConsoleStyles(.bold))] " + "Leave".applyConsoleStyles(.italic))
-        print("\nAvailable Coins: \(String(party.coins).applyConsoleStyles(.yellow))")
         let chosenIndex = enterInteger(max: itemsForSale.count + 1) - 1
         if chosenIndex == itemsForSale.count {
             return
@@ -54,12 +54,12 @@ class Shop {
                 print("Thank you! Can we help you with anything else?")
                 waitForPlayerContinue()
                 clearConsole()
-                menu(party)
+                menu(party, statusBar: statusBar)
             } else {
                 print("Oh, it looks like you don't have enough coins to purchase that. Can we help you with anything else?")
                 waitForPlayerContinue()
                 clearConsole()
-                menu(party)
+                menu(party, statusBar: statusBar)
             }
         }
     }
