@@ -128,3 +128,10 @@ enum GameResult {
     case win
     case lose
 }
+
+enum HealthStatus {
+    case healthy
+    case injured
+    case critical
+    case dead
+}
