@@ -18,7 +18,7 @@ func enterInteger(max: Int) -> Int {
 }
 
 func confirmation() -> Bool {
-    print("(y/n)")
+    print("\n(y/n)")
     var input = readLine()!
     while input != "y" && input != "n" {
         print("Wrong input. Please try again.")

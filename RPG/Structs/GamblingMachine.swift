@@ -10,7 +10,8 @@ import Foundation
 struct GamblingMachine {
     var currentJackpot: Int = 100
     
-    mutating func menu(_ party: Party) {
+    mutating func menu(_ party: Party, statusBar: StatusBar) {
+        print(statusBar)
         print("There is a gambling machine in the corner of the room. You can play Rock, Paper, Scissors there to win money!\nOne game costs " + "50 coins".applyConsoleStyles(.yellow) + ". You can win " + "100 coins".applyConsoleStyles(.yellow) + ".\nDo you want to play?")
         if confirmation() {
             if party.spendCoins(50) {
@@ -18,7 +19,7 @@ struct GamblingMachine {
                 clearConsole()
                 play(party)
                 currentJackpot = 100
-                menu(party)
+                menu(party, statusBar: statusBar)
             } else {
                 waitForPlayerContinue()
                 clearConsole()

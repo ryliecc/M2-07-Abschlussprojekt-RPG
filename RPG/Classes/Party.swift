@@ -108,7 +108,8 @@ class Party: CustomStringConvertible {
         }
     }
     
-    func chooseSwapMenu() {
+    func chooseSwapMenu(statusBar: StatusBar) {
+        print(statusBar)
         let chosenReserve: Hero
         let chosenMember: Hero
         print("\nThe following heroes can be swapped for one of your party members:")
@@ -128,14 +129,14 @@ class Party: CustomStringConvertible {
         print("\n[\(String(members.count + 1).applyConsoleStyles(.bold))] - " + "Go back".applyConsoleStyles(.italic))
         let chosenActiveOption = enterInteger(max: members.count + 1) - 1
         if chosenActiveOption == members.count {
-            chooseSwapMenu()
+            chooseSwapMenu(statusBar: statusBar)
         }
         chosenMember = members[chosenActiveOption]
         print("\nYou are about to add \(chosenReserve.name.applyConsoleStyles(.bold)) to your party in exchange for \(chosenMember.name.applyConsoleStyles(.bold)). Are you sure you want to do that?")
         if confirmation() {
             swapMember(activeName: chosenMember.name, reserveName: chosenReserve.name)
         } else {
-            chooseSwapMenu()
+            chooseSwapMenu(statusBar: statusBar)
         }
     }
     

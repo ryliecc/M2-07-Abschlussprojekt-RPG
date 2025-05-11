@@ -151,7 +151,9 @@ class Game: BossDelegate, OpponentDelegate {
     
     func visitTavern() {
         nextTavern.menu(party, statusBar: statusBar)
+        print(statusBar)
         triggerRandomEvent()
+        print(statusBar)
         print("\nEveryone slept well that night and woke up refreshed and ready for new adventures.")
         currentTime = .day
         waitForPlayerContinue()
@@ -347,27 +349,29 @@ class Game: BossDelegate, OpponentDelegate {
                         waitForPlayerContinue()
                         clearConsole()
                     } else if let opponent = participant as? Opponent {
-                        printAllStatusInfos()
-                        let availableTargets: [Hero] = party.members.filter { $0.isAlive }
-                        let randomAttack = opponent.chooseRandomAttack()
-                        switch randomAttack.type {
-                        case .areaDamage:
-                            opponent.attack(randomAttack, on: availableTargets)
-                        case .damage, .debuffAttack, .debuffDefense, .ultimate:
-                            opponent.attack(randomAttack, on: availableTargets.randomElement()!)
-                        case .buffAttack, .buffDefense, .heal, .manaRestore:
-                            opponent.attack(randomAttack, on: currentOpponents.randomElement()!)
-                        case .trap:
-                            opponent.attack(randomAttack, on: nil)
-                        }
-                        if !checkIfBothSidesCanFight() {
-                            fightIsRunning = false
+                        if opponent.isAlive {
+                            printAllStatusInfos()
+                            let availableTargets: [Hero] = party.members.filter { $0.isAlive }
+                            let randomAttack = opponent.chooseRandomAttack()
+                            switch randomAttack.type {
+                            case .areaDamage:
+                                opponent.attack(randomAttack, on: availableTargets)
+                            case .damage, .debuffAttack, .debuffDefense, .ultimate:
+                                opponent.attack(randomAttack, on: availableTargets.randomElement()!)
+                            case .buffAttack, .buffDefense, .heal, .manaRestore:
+                                opponent.attack(randomAttack, on: currentOpponents.randomElement()!)
+                            case .trap:
+                                opponent.attack(randomAttack, on: nil)
+                            }
+                            if !checkIfBothSidesCanFight() {
+                                fightIsRunning = false
+                                waitForPlayerContinue()
+                                clearConsole()
+                                break
+                            }
                             waitForPlayerContinue()
                             clearConsole()
-                            break
                         }
-                        waitForPlayerContinue()
-                        clearConsole()
                     }
                 }
             } else {
