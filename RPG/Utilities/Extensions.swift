@@ -36,10 +36,6 @@ extension String {
         return "\(self): \(bothParts) " + "\(Int(currentValue.roundedUp))/\(Int(maxValue.roundedUp))".applyConsoleStyles(.bold)
     }
     
-    func highlight() -> String {
-        return "\n~~~\(self)~~~"
-    }
-    
     func applyConsoleStyles(_ styles: ConsoleStyle...) -> String {
         let combined = styles.map { $0.rawValue }.joined()
         return "\(combined)\(self)\(ConsoleStyle.reset.rawValue)"
@@ -53,6 +49,11 @@ extension String {
         let range = NSRange(startIndex..., in: self)
         return regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: "").count
     }
+    
+    var visibleFirstLineLength: Int {
+            let firstLine = self.components(separatedBy: "\n").first ?? ""
+            return firstLine.visibleLength
+        }
     
     func frame(padding: Int) -> String {
         let content = String(repeating: " ", count: padding) + self + String(repeating: " ", count: padding)

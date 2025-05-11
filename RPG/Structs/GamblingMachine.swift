@@ -34,7 +34,8 @@ struct GamblingMachine {
         var gameIsRunning = true
         while gameIsRunning {
             gameRound += 1
-            let roundBanner = "Round \(gameRound)".highlight()
+            let roundString = "Round \(gameRound)".applyConsoleStyles(.bold)
+            let roundBanner = roundString.frame(padding: 10)
             let result = calculateResult(roundBanner)
             if result == .win {
                 print("\n" + "Win!".applyConsoleStyles(.bold) + " You won " + "\(currentJackpot) coins".applyConsoleStyles(.yellow) + ".\n\nDo you want to play again and double the jackpot and win " + "\(currentJackpot * 2) coins".applyConsoleStyles(.yellow) + "?\nIf you lose you will lose all previously won coins, but you can stop anytime.")

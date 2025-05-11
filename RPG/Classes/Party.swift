@@ -51,6 +51,7 @@ class Party: CustomStringConvertible {
         return result
     }
     
+    
     func preparePartyAtStart() {
         let allAvailableHeroes = HeroLibrary.heroFactories.map { $0() }
         members = []
