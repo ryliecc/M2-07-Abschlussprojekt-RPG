@@ -26,12 +26,13 @@ struct Tavern {
         }
         if chosenOption == 2 {
             if party.reserve.count == 0 {
+                print(statusBar)
                 print("\nThere are no heroes to swap the party members with yet. Keep exploring the world to meet them!")
                 waitForPlayerContinue()
                 clearConsole()
                 menu(party, statusBar: statusBar)
             } else {
-                party.chooseSwapMenu()
+                party.chooseSwapMenu(statusBar: statusBar)
                 waitForPlayerContinue()
                 clearConsole()
                 menu(party, statusBar: statusBar)
@@ -39,7 +40,7 @@ struct Tavern {
         }
         if chosenOption == 3 {
             var gamblingMachine = GamblingMachine()
-            gamblingMachine.menu(party)
+            gamblingMachine.menu(party, statusBar: statusBar)
             menu(party, statusBar: statusBar)
         }
         if chosenOption == 4 {

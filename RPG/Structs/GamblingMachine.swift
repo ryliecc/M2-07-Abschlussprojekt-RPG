@@ -10,7 +10,8 @@ import Foundation
 struct GamblingMachine {
     var currentJackpot: Int = 100
     
-    mutating func menu(_ party: Party) {
+    mutating func menu(_ party: Party, statusBar: StatusBar) {
+        print(statusBar)
         print("There is a gambling machine in the corner of the room. You can play Rock, Paper, Scissors there to win money!\nOne game costs " + "50 coins".applyConsoleStyles(.yellow) + ". You can win " + "100 coins".applyConsoleStyles(.yellow) + ".\nDo you want to play?")
         if confirmation() {
             if party.spendCoins(50) {
@@ -18,7 +19,7 @@ struct GamblingMachine {
                 clearConsole()
                 play(party)
                 currentJackpot = 100
-                menu(party)
+                menu(party, statusBar: statusBar)
             } else {
                 waitForPlayerContinue()
                 clearConsole()
@@ -33,7 +34,8 @@ struct GamblingMachine {
         var gameIsRunning = true
         while gameIsRunning {
             gameRound += 1
-            let roundBanner = "Round \(gameRound)".highlight()
+            let roundString = "Round \(gameRound)".applyConsoleStyles(.bold)
+            let roundBanner = roundString.frame(padding: 10)
             let result = calculateResult(roundBanner)
             if result == .win {
                 print("\n" + "Win!".applyConsoleStyles(.bold) + " You won " + "\(currentJackpot) coins".applyConsoleStyles(.yellow) + ".\n\nDo you want to play again and double the jackpot and win " + "\(currentJackpot * 2) coins".applyConsoleStyles(.yellow) + "?\nIf you lose you will lose all previously won coins, but you can stop anytime.")

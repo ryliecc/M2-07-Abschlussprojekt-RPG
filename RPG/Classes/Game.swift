@@ -13,6 +13,7 @@ class Game: BossDelegate, OpponentDelegate {
     
     var difficultyLevel: Int = 1
     
+    var roundCounter: Int = 0
     var currentBoss: Boss {
         didSet {
             currentBoss.bossDelegate = self
@@ -151,7 +152,9 @@ class Game: BossDelegate, OpponentDelegate {
     
     func visitTavern() {
         nextTavern.menu(party, statusBar: statusBar)
+        print(statusBar)
         triggerRandomEvent()
+        print(statusBar)
         print("\nEveryone slept well that night and woke up refreshed and ready for new adventures.")
         currentTime = .day
         waitForPlayerContinue()
@@ -204,8 +207,6 @@ class Game: BossDelegate, OpponentDelegate {
     }
     
     func printAllStatusInfos() {
-        print(party)
-        print()
         let splitLines = currentOpponents.map { $0.description.components(separatedBy: "\n") }
         let columnWidths = (0..<splitLines.count).map { columnIndex in
             let columnLines = splitLines[columnIndex]
@@ -232,6 +233,11 @@ class Game: BossDelegate, OpponentDelegate {
             }.joined(separator: "   ")
             result += line + "\n"
         }
+        let roundString = "Round \(roundCounter)".applyConsoleStyles(.bold)
+        let roundPadding = Int((max(party.description.visibleFirstLineLength, result.visibleFirstLineLength) - roundString.visibleLength) / 2)
+        print(roundString.frame(padding: roundPadding))
+        print(party)
+        print()
         print(result)
     }
     
@@ -329,11 +335,10 @@ class Game: BossDelegate, OpponentDelegate {
     
     func fight() {
         var fightIsRunning: Bool = true
-        var roundCounter: Int = 0
+        roundCounter = 0
         while fightIsRunning {
             if checkIfBothSidesCanFight() {
                 roundCounter += 1
-                print("Round \(roundCounter)".highlight())
                 let participants = getTurnOrder()
                 for participant in participants {
                     if let hero = participant as? Hero {
@@ -347,27 +352,29 @@ class Game: BossDelegate, OpponentDelegate {
                         waitForPlayerContinue()
                         clearConsole()
                     } else if let opponent = participant as? Opponent {
-                        printAllStatusInfos()
-                        let availableTargets: [Hero] = party.members.filter { $0.isAlive }
-                        let randomAttack = opponent.chooseRandomAttack()
-                        switch randomAttack.type {
-                        case .areaDamage:
-                            opponent.attack(randomAttack, on: availableTargets)
-                        case .damage, .debuffAttack, .debuffDefense, .ultimate:
-                            opponent.attack(randomAttack, on: availableTargets.randomElement()!)
-                        case .buffAttack, .buffDefense, .heal, .manaRestore:
-                            opponent.attack(randomAttack, on: currentOpponents.randomElement()!)
-                        case .trap:
-                            opponent.attack(randomAttack, on: nil)
-                        }
-                        if !checkIfBothSidesCanFight() {
-                            fightIsRunning = false
+                        if opponent.isAlive {
+                            printAllStatusInfos()
+                            let availableTargets: [Hero] = party.members.filter { $0.isAlive }
+                            let randomAttack = opponent.chooseRandomAttack()
+                            switch randomAttack.type {
+                            case .areaDamage:
+                                opponent.attack(randomAttack, on: availableTargets)
+                            case .damage, .debuffAttack, .debuffDefense, .ultimate:
+                                opponent.attack(randomAttack, on: availableTargets.randomElement()!)
+                            case .buffAttack, .buffDefense, .heal, .manaRestore:
+                                opponent.attack(randomAttack, on: currentOpponents.randomElement()!)
+                            case .trap:
+                                opponent.attack(randomAttack, on: nil)
+                            }
+                            if !checkIfBothSidesCanFight() {
+                                fightIsRunning = false
+                                waitForPlayerContinue()
+                                clearConsole()
+                                break
+                            }
                             waitForPlayerContinue()
                             clearConsole()
-                            break
                         }
-                        waitForPlayerContinue()
-                        clearConsole()
                     }
                 }
             } else {
