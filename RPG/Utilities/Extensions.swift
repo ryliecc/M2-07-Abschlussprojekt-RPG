@@ -64,11 +64,11 @@ extension String {
         return [top, middle, bottom].joined(separator: "\n")
     }
     
-    func printSlowlyByLine() {
+    func printSlowlyByLine(delay: useconds_t = 600000) {
         let lines = self.components(separatedBy: .newlines)
         for line in lines {
             print(line)
-            usleep(600000)
+            usleep(delay)
         }
     }
 }
