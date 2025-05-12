@@ -9,6 +9,8 @@ import Foundation
 
 class Game: BossDelegate, OpponentDelegate {
     
+    let gameIntro: GameIntro = GameIntro()
+    
     var party: Party
     
     var difficultyLevel: Int = 1
@@ -386,6 +388,7 @@ class Game: BossDelegate, OpponentDelegate {
     
     func run() {
         var gameIsRunning: Bool = true
+        gameIntro.play()
         generateStarterItems()
         party.preparePartyAtStart()
         generateCheckpoints()

@@ -63,6 +63,14 @@ extension String {
         let bottom = "╚" + String(repeating: "═", count: visibleWidth) + "╝"
         return [top, middle, bottom].joined(separator: "\n")
     }
+    
+    func printSlowlyByLine(delay: useconds_t = 600000) {
+        let lines = self.components(separatedBy: .newlines)
+        for line in lines {
+            print(line)
+            usleep(delay)
+        }
+    }
 }
 
 extension Character {
